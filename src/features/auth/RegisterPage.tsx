@@ -57,12 +57,12 @@ function PageHeadline() {
 
 function GuardianSection() {
   return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-5 text-sm font-semibold uppercase tracking-wider text-[#172033]">
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
+      <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#172033]">
         Guardian Information
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
           <label htmlFor="guardian-name" className="block text-xs font-medium text-[#5B6472]">
             Full name
@@ -71,7 +71,7 @@ function GuardianSection() {
             id="guardian-name"
             type="text"
             defaultValue="Anna Müller"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
         </div>
 
@@ -83,7 +83,7 @@ function GuardianSection() {
             id="guardian-email"
             type="email"
             defaultValue="anna.mueller@example.de"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
         </div>
 
@@ -95,9 +95,9 @@ function GuardianSection() {
             id="guardian-password"
             type="password"
             defaultValue="password123"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
-          <p className="mt-1 text-xs text-[#8A8F98]">At least 10 characters with one number</p>
+          <p className="mt-1.5 text-xs text-[#8A8F98]">At least 10 characters with one number</p>
         </div>
 
         <div>
@@ -108,7 +108,7 @@ function GuardianSection() {
             id="guardian-region"
             type="text"
             defaultValue="Kassel, Hessen"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
         </div>
       </div>
@@ -118,13 +118,13 @@ function GuardianSection() {
 
 function ChildSection() {
   return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
       <p className="mb-1 text-sm font-semibold uppercase tracking-wider text-[#172033]">
         Child Information
       </p>
-      <p className="mb-5 text-xs text-[#8A8F98]">One child per account</p>
+      <p className="mb-6 text-xs text-[#8A8F98]">One child per account</p>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
           <label htmlFor="child-name" className="block text-xs font-medium text-[#5B6472]">
             Child name
@@ -133,7 +133,7 @@ function ChildSection() {
             id="child-name"
             type="text"
             defaultValue="Lukas Müller"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
         </div>
 
@@ -145,11 +145,11 @@ function ChildSection() {
             id="child-birthdate"
             type="date"
             defaultValue="2017-03-15"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
-          <p className="mt-2 rounded-lg bg-[#DDEBDD] px-3 py-2 text-xs text-[#26483E]">
+          <div className="mt-3 rounded-xl bg-[#DDEBDD] px-4 py-3 text-xs text-[#26483E]">
             Your child is currently 9 years old — eligible for Tiny, Baby, and Junior level projects.
-          </p>
+          </div>
         </div>
       </div>
     </div>
@@ -172,11 +172,11 @@ function CategorySelection() {
   }
 
   return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
       <p className="mb-1 text-sm font-semibold uppercase tracking-wider text-[#172033]">
         Choose at least 2 career categories
       </p>
-      <p className="mb-5 text-xs text-[#8A8F98]">
+      <p className="mb-6 text-xs text-[#8A8F98]">
         {selected.size} of 9 selected · You can change these later.
       </p>
 
@@ -188,15 +188,20 @@ function CategorySelection() {
               key={cat.id}
               type="button"
               onClick={() => toggle(cat.id)}
-              className={`flex items-center gap-2 rounded-xl border px-3 py-3 text-left text-sm font-medium transition-all ${
+              className={`relative flex items-center gap-3 rounded-xl border px-4 py-3.5 text-left text-sm font-medium transition-all ${
                 isActive
-                  ? 'border-[#26483E] ring-1 ring-[#26483E]'
+                  ? 'border-[#26483E] ring-1 ring-[#26483E] shadow-sm'
                   : 'border-[#E8E1D8] hover:border-[#D8D3CA]'
               }`}
               style={{ background: isActive ? cat.bg : '#FFFDF8' }}
             >
+              {isActive && (
+                <span className="absolute right-2 top-2 text-[10px] text-[#26483E]">✓</span>
+              )}
               <span className="text-lg">{cat.icon}</span>
-              <span style={{ color: isActive ? cat.accent : '#5B6472' }}>{cat.label}</span>
+              <span className="font-medium" style={{ color: isActive ? cat.accent : '#5B6472' }}>
+                {cat.label}
+              </span>
             </button>
           )
         })}
@@ -221,12 +226,12 @@ function ConsentSection() {
     'h-4 w-4 mt-0.5 shrink-0 cursor-pointer rounded border-[#D8D3CA] accent-[#26483E]'
 
   return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-5 text-sm font-semibold uppercase tracking-wider text-[#172033]">
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
+      <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#172033]">
         Parental Consent &amp; Privacy
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-5">
         <label className="flex items-start gap-3 text-sm leading-relaxed text-[#172033]">
           <input
             type="checkbox"
@@ -236,10 +241,11 @@ function ConsentSection() {
           />
           <span>
             I consent to data processing for my child&apos;s account in accordance with{' '}
-            <a href="#" className="underline underline-offset-2">
+            <a href="#" className="underline underline-offset-2 hover:text-[#26483E]">
               Datenschutzerklärung
             </a>{' '}
-            (GDPR-compliant).
+            (GDPR-compliant).{' '}
+            <span className="text-xs font-semibold text-[#C96B5A]">* Required</span>
           </span>
         </label>
 
@@ -252,7 +258,8 @@ function ConsentSection() {
           />
           <span>
             I confirm I am the legal guardian and accept responsibility for project supervision and
-            safety.
+            safety.{' '}
+            <span className="text-xs font-semibold text-[#C96B5A]">* Required</span>
           </span>
         </label>
 
@@ -265,22 +272,27 @@ function ConsentSection() {
           />
           <span>
             I understand the late-submission fee policy (€0.50 per missed deadline, capped at
-            €2/month).
+            €2/month).{' '}
+            <span className="text-xs font-semibold text-[#C96B5A]">* Required</span>
           </span>
         </label>
 
-        <label className="flex items-start gap-3 text-sm leading-relaxed text-[#5B6472]">
-          <input
-            type="checkbox"
-            checked={checked.publicSharing}
-            onChange={() => toggle('publicSharing')}
-            className={checkClass}
-          />
-          <span>
-            I optionally allow public sharing of my child&apos;s project videos.{' '}
-            <span className="font-semibold text-[#8A8F98]">Default: PRIVATE</span>
-          </span>
-        </label>
+        <div className="border-t border-[#E8E1D8] pt-4">
+          <label className="flex items-start gap-3 text-sm leading-relaxed text-[#5B6472]">
+            <input
+              type="checkbox"
+              checked={checked.publicSharing}
+              onChange={() => toggle('publicSharing')}
+              className={checkClass}
+            />
+            <span>
+              I optionally allow public sharing of my child&apos;s project videos.{' '}
+              <span className="inline-block rounded-md bg-[#F4EFE7] px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#8A8F98]">
+                Default: Private
+              </span>
+            </span>
+          </label>
+        </div>
       </div>
     </div>
   )
@@ -291,17 +303,17 @@ function SubmitSection() {
     <div>
       <button
         type="button"
-        className="w-full rounded-full bg-[#26483E] px-8 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#1F3D35]"
+        className="w-full rounded-full bg-[#26483E] px-8 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#1F3D35] hover:shadow-md"
       >
         Create Account &amp; Continue →
       </button>
       <p className="mt-4 text-center text-xs text-[#8A8F98]">
         By creating an account, you agree to our{' '}
-        <a href="#" className="underline underline-offset-2">
+        <a href="#" className="underline underline-offset-2 hover:text-[#26483E]">
           Terms
         </a>{' '}
         and{' '}
-        <a href="#" className="underline underline-offset-2">
+        <a href="#" className="underline underline-offset-2 hover:text-[#26483E]">
           Privacy Policy
         </a>
         .
@@ -316,7 +328,7 @@ export function RegisterPage() {
       <MobileValueBanner />
       <PageHeadline />
 
-      <div className="space-y-6">
+      <div className="space-y-7">
         <GuardianSection />
         <ChildSection />
         <CategorySelection />

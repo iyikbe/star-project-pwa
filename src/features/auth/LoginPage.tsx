@@ -26,7 +26,7 @@ function Headline() {
 
 function LoginForm() {
   return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm md:p-8">
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
       <div className="space-y-5">
         <div>
           <label htmlFor="login-email" className="block text-xs font-medium text-[#5B6472]">
@@ -36,7 +36,7 @@ function LoginForm() {
             id="login-email"
             type="email"
             placeholder="anna.mueller@example.de"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
         </div>
 
@@ -48,7 +48,7 @@ function LoginForm() {
             id="login-password"
             type="password"
             placeholder="Enter your password"
-            className="mt-1 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
           />
         </div>
 
@@ -60,31 +60,37 @@ function LoginForm() {
             />
             Remember me
           </label>
-          <a href="#" className="text-sm font-medium text-[#26483E] underline underline-offset-2">
+          <a
+            href="#"
+            className="text-sm font-medium text-[#26483E] underline underline-offset-2 transition-colors hover:text-[#547C6A]"
+          >
             Forgot password?
           </a>
         </div>
 
         <button
           type="button"
-          className="w-full rounded-full bg-[#26483E] px-8 py-3 text-sm font-bold text-white transition-colors hover:bg-[#1F3D35]"
+          className="w-full rounded-full bg-[#26483E] px-8 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#1F3D35] hover:shadow-md"
         >
           Log In
         </button>
       </div>
 
-      <div className="mt-6 space-y-2 text-center text-sm">
+      <div className="mt-6 space-y-2.5 border-t border-[#E8E1D8] pt-6 text-center text-sm">
         <p className="text-[#5B6472]">
           New to Star Project?{' '}
           <Link
             to="/register"
-            className="font-semibold text-[#26483E] underline underline-offset-2"
+            className="font-semibold text-[#26483E] underline underline-offset-2 transition-colors hover:text-[#547C6A]"
           >
             Create account
           </Link>
         </p>
         <p>
-          <Link to="/" className="text-sm text-[#8A8F98] underline underline-offset-2">
+          <Link
+            to="/"
+            className="text-sm text-[#8A8F98] underline underline-offset-2 transition-colors hover:text-[#5B6472]"
+          >
             Back to Home
           </Link>
         </p>
