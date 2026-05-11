@@ -1,132 +1,141 @@
-﻿import { Link } from 'react-router-dom'
+﻿import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
-function MobileValueBanner() {
-  return (
-    <div className="mb-8 rounded-2xl border border-[#E8E1D8] bg-[#26483E] p-6 text-white lg:hidden">
-      <p className="text-lg font-bold">★ Star Project</p>
-      <p className="mt-3 text-sm leading-relaxed text-white/80">
-        Parent-managed, private by default, and designed for safe project-based career discovery.
-      </p>
-    </div>
-  )
-}
+export function LoginPage() {
+  const navigate = useNavigate()
 
-function Headline() {
-  return (
-    <div className="mb-8">
-      <h1 className="text-2xl font-bold tracking-tight text-[#172033] md:text-3xl">
-        Welcome back
-      </h1>
-      <p className="mt-2 text-sm text-[#5B6472]">
-        Continue your child&apos;s project-based career discovery journey.
-      </p>
-    </div>
-  )
-}
+  const [email, setEmail] = useState('anna.mueller@example.de')
+  const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(true)
 
-function LoginForm() {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Login submitted', { email, rememberMe })
+    navigate('/account')
+  }
+
   return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
-      <div className="space-y-5">
+    <div className="mx-auto w-full max-w-md">
+      {/* Header */}
+      <div className="mb-8">
+        <h1 className="font-serif text-3xl font-semibold tracking-normal text-sp-primary md:text-4xl">
+          Welcome back
+        </h1>
+        <p className="mt-2 text-sm text-sp-text-muted">
+          Continue your child&apos;s project-based career discovery journey.
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* Email */}
         <div>
-          <label htmlFor="login-email" className="block text-xs font-medium text-[#5B6472]">
+          <label htmlFor="email" className="mb-1 block text-sm font-medium text-sp-text-primary">
             Email address
           </label>
           <input
-            id="login-email"
+            id="email"
             type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             placeholder="anna.mueller@example.de"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            autoComplete="email"
+            required
+            className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
           />
         </div>
 
+        {/* Password */}
         <div>
-          <label htmlFor="login-password" className="block text-xs font-medium text-[#5B6472]">
-            Password
-          </label>
+          <div className="mb-1 flex items-center justify-between">
+            <label htmlFor="password" className="block text-sm font-medium text-sp-text-primary">
+              Password
+            </label>
+            <a href="#" className="text-xs font-semibold text-sp-coral hover:underline">
+              Forgot password?
+            </a>
+          </div>
           <input
-            id="login-password"
+            id="password"
             type="password"
-            placeholder="Enter your password"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+            className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
           />
         </div>
 
-        <div className="flex items-center justify-between">
-          <label className="flex cursor-pointer items-center gap-2 text-sm text-[#5B6472]">
-            <input
-              type="checkbox"
-              className="h-4 w-4 rounded border-[#D8D3CA] accent-[#26483E]"
-            />
-            Remember me
-          </label>
-          <a
-            href="#"
-            className="text-sm font-medium text-[#26483E] underline underline-offset-2 transition-colors hover:text-[#547C6A]"
-          >
-            Forgot password?
-          </a>
+        {/* Remember me */}
+        <label className="flex cursor-pointer items-center gap-2">
+          <input
+            type="checkbox"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            className="h-4 w-4 accent-sp-accent-green"
+          />
+          <span className="text-sm text-sp-text-primary">Remember me on this device</span>
+        </label>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-sp-primary px-5 py-3.5 font-semibold text-white transition-colors hover:bg-sp-primary-hover"
+        >
+          Log In →
+        </button>
+      </form>
+
+      {/* Footer */}
+      <div className="mt-8 space-y-4">
+        <div className="flex items-center gap-4">
+          <hr className="flex-1 border-sp-border-soft" />
+          <span className="text-xs text-sp-text-muted">or</span>
+          <hr className="flex-1 border-sp-border-soft" />
         </div>
 
-        <button
-          type="button"
-          className="w-full rounded-full bg-[#26483E] px-8 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#1F3D35] hover:shadow-md"
-        >
-          Log In
-        </button>
-      </div>
-
-      <div className="mt-6 space-y-2.5 border-t border-[#E8E1D8] pt-6 text-center text-sm">
-        <p className="text-[#5B6472]">
+        <p className="text-center text-sm text-sp-text-muted">
           New to Star Project?{' '}
           <Link
             to="/register"
-            className="font-semibold text-[#26483E] underline underline-offset-2 transition-colors hover:text-[#547C6A]"
+            className="font-semibold text-sp-coral underline hover:text-sp-coral-hover"
           >
-            Create account
+            Create a family account
           </Link>
         </p>
-        <p>
-          <Link
-            to="/"
-            className="text-sm text-[#8A8F98] underline underline-offset-2 transition-colors hover:text-[#5B6472]"
-          >
-            Back to Home
+
+        {/* Safety note */}
+        <div className="mt-6 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted p-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-sp-text-muted">
+            STAR PROJECT SAFETY
+          </p>
+          <ul className="mt-2 space-y-1.5 text-xs text-sp-text-primary">
+            <li className="flex items-start gap-2">
+              <span className="mt-0.5 text-sp-accent-green">✓</span>
+              <span>Parent-managed account — guardian stays in control</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-0.5 text-sp-accent-green">✓</span>
+              <span>Private-by-default child media</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="mt-0.5 text-sp-accent-green">✓</span>
+              <span>System messages only — no free-form child chat in MVP</span>
+            </li>
+          </ul>
+        </div>
+
+        {/* MVP note */}
+        <p className="text-center text-[11px] italic text-sp-text-muted">
+          MVP prototype screen — authentication will be connected in the Supabase phase.
+        </p>
+
+        {/* Back link */}
+        <p className="text-center">
+          <Link to="/" className="text-sm text-sp-text-muted hover:text-sp-primary">
+            ← Back to Home
           </Link>
         </p>
       </div>
-    </div>
-  )
-}
-
-function TrustSection() {
-  return (
-    <div className="mt-6 rounded-xl border border-[#E8E1D8] bg-[#F4EFE7] p-4">
-      <div className="space-y-1.5 text-xs text-[#5B6472]">
-        <p>✓ Parent-managed account</p>
-        <p>✓ Private-by-default child media</p>
-        <p>✓ System messages only, no free-form child chat in MVP</p>
-      </div>
-    </div>
-  )
-}
-
-function PrototypeNote() {
-  return (
-    <p className="mt-6 text-center text-xs italic text-[#8A8F98]">
-      MVP prototype screen only. Authentication will be connected in the Supabase phase.
-    </p>
-  )
-}
-
-export function LoginPage() {
-  return (
-    <div>
-      <MobileValueBanner />
-      <Headline />
-      <LoginForm />
-      <TrustSection />
-      <PrototypeNote />
     </div>
   )
 }
