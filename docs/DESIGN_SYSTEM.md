@@ -37,107 +37,126 @@ The UI mockups use:
 
 ## Core Colors
 
-### Background
+> **Source of truth**: These tokens are defined as Tailwind v4 `@theme` tokens in `src/index.css` and are also available as CSS custom properties via `var(--color-name)`.
+> Tailwind utility classes available: `bg-sp-primary`, `text-sp-coral`, `border-sp-border-soft`, `bg-category-chef-bg`, etc.
+> The hex values below are canonical — extracted from the actual UI mockup. If any code uses different inline hex values (`bg-[#...]`), it should be migrated to use these tokens over time.
 
-- Warm Cream: #FAF7F2
-- Soft Cream: #F4EFE7
-- Light Surface: #FFFDF8
+### Page & Surface
 
-### Primary
+| Token | Hex | Use |
+|---|---|---|
+| `sp-bg-page` / `--color-bg-page` | #FAF7F2 | Warm cream background, all logged-in + public pages |
+| `sp-bg-auth` / `--color-bg-auth` | #4A5D4E | Muted forest green, AuthLayout left panel |
+| `sp-bg-card-muted` / `--color-bg-card-muted` | #F5EFE4 | Warm beige inset (info boxes, late-fee panels) |
+| `sp-border-soft` / `--color-border-soft` | #EFE7D9 | 1px card border, hairline dividers |
+| `sp-border-input` / `--color-border-input` | #D9D0BE | Form input border |
 
-- Deep Green: #26483E
-- Dark Forest: #1F3D35
-- Active Green: #547C6A
+### Brand Greens
 
-### Accent
+| Token | Hex | Use |
+|---|---|---|
+| `sp-primary` / `--color-primary` | #1F3D2E | Deep forest green — sidebar, dark panels, primary buttons, H1 titles |
+| `sp-primary-hover` / `--color-primary-hover` | #2A4F3D | Primary button/panel hover state |
+| `sp-accent-green` / `--color-accent-green` | #2E6B4A | Success pill text (ACTIVE, PAID, JOINED, DONE), checkmarks (✓) |
+| `sp-accent-green-bg` / `--color-accent-green-bg` | #E6F0E8 | Success pill background |
 
-- Coral: #F29B7F
-- Soft Orange: #F7B98D
-- Star Yellow: #F4C542
+### Brand Coral (CTA)
+
+| Token | Hex | Use |
+|---|---|---|
+| `sp-coral` / `--color-coral` | #D26B4A | Primary CTA buttons (Create Account, Send Invitation, Browse Mythical) |
+| `sp-coral-hover` / `--color-coral-hover` | #B85839 | Coral button hover state |
+| `sp-coral-bg-soft` / `--color-coral-bg-soft` | #F4D9CC | Pending/warning pill background (PENDING, WAITING) |
+
+### Brand Gold
+
+| Token | Hex | Use |
+|---|---|---|
+| `sp-gold` / `--color-gold` | #C9A063 | Stars, progress bar fill, Mythical accents |
+| `sp-gold-bg-soft` / `--color-gold-bg-soft` | #F2E6CC | Level pill background (BABY, JUNIOR, etc.) |
 
 ### Text
 
-- Primary Text: #172033
-- Secondary Text: #5B6472
-- Muted Text: #8A8F98
-- Inverse Text: #FFFFFF
-
-### Border
-
-- Soft Beige Border: #D8D3CA
-- Light Border: #E8E1D8
+| Token | Hex | Use |
+|---|---|---|
+| `sp-text-primary` / `--color-text-primary` | #3A3A36 | Body text |
+| `sp-text-muted` / `--color-text-muted` | #8A8275 | Labels, metadata, eyebrow uppercase |
+| `sp-text-on-dark` / `--color-text-on-dark` | #FAF7F2 | Text on dark green / coral backgrounds |
 
 ### Status
 
-- Success: #5F8F72
-- Warning: #D9A441
-- Danger: #C96B5A
-- Info: #6A8CAF
-- Locked: #9CA3AF
+| Token | Hex | Use |
+|---|---|---|
+| `sp-danger` / `--color-danger` | #B85450 | Destructive actions only (Reject, Cancel Subscription text) |
+| `sp-info` / `--color-info` | #5A7AA0 | Informational |
 
 ## Category Colors
 
 Use category colors as soft card headers or badges, not full-page dominant colors.
+Each category has a background token (`category-{name}-bg`) and an accent token (`category-{name}`).
 
-### Chef
+| Category | Background Token | Background Hex | Accent Token | Accent Hex | Icon |
+|---|---|---|---|---|---|
+| Chef | `category-chef-bg` | #F4D9CC | `category-chef` | #D26B4A | 🍳 or 🍦 or 🥨 |
+| Farm | `category-farm-bg` | #E0E8D4 | `category-farm` | #6B8E4E | 🌱 or 🌻 or 🍅 |
+| Robotics | `category-robotics-bg` | #D9E0E8 | `category-robotics` | #4A6B8E | 🤖 |
+| Community | `category-community-bg` | #EBE3D4 | `category-community` | #8A7548 | 🤝 or 🎨 or 📦 |
+| Automotive | `category-automotive-bg` | #E8D9D4 | `category-automotive` | #A0524A | 🚗 |
+| Media Creator | `category-media-bg` | #E0D9E8 | `category-media` | #6E5A8E | 🎬 or 🎤 |
+| Software Creator | `category-software-bg` | #D4E0E0 | `category-software` | #4A8E8A | 💻 |
+| Fashion | `category-fashion-bg` | #E8D4DE | `category-fashion` | #A04A6E | 👗 |
+| Music | `category-music-bg` | #D4DCE8 | `category-music` | #5A7AA0 | 🎵 |
+| Mythical | — | gradient from `#F4D9CC` to `#D26B4A` | `sp-gold` | #C9A063 | ✨ |
 
-- Background: #FCE1D8
-- Accent: #E98A6A
-- Icon: 🍳 or 🍦 or 🥨
+## Spacing & Radii
 
-### Automotive
+| Rule | Value | Tailwind |
+|---|---|---|
+| Card radius | 12px | `rounded-xl` |
+| Pill radius | 9999px | `rounded-full` |
+| Card padding desktop | 24px | `p-6` |
+| Card padding mobile | 20px | `p-5` |
+| Section gap desktop | 32px | `gap-8` |
+| Section gap mobile | 24px | `gap-6` |
+| Card-grid gap desktop | 24px | `gap-6` |
+| Card-grid gap tablet | 16px | `gap-4` |
 
-- Background: #DDE7F2
-- Accent: #5A7FA3
-- Icon: 🚗
+## Tailwind Token Mapping
 
-### Farm
+All hex values are available as Tailwind utility classes via the `@theme` directive in `src/index.css`.
+They follow the pattern `{property}-sp-{token}` for brand colors and `{property}-category-{name}{-bg}` for category colors.
 
-- Background: #DDEBDD
-- Accent: #6C9A63
-- Icon: 🌱 or 🌻 or 🍅
+| Use case | Tailwind class |
+|---|---|
+| Page background | `bg-sp-bg-page` |
+| Auth left panel | `bg-sp-bg-auth` |
+| Muted card inset | `bg-sp-bg-card-muted` |
+| Card border | `border-sp-border-soft` |
+| Input border | `border-sp-border-input` |
+| Primary text / bg | `text-sp-primary` / `bg-sp-primary` |
+| Primary hover | `hover:bg-sp-primary-hover` |
+| Accent green text | `text-sp-accent-green` |
+| Accent green bg | `bg-sp-accent-green-bg` |
+| Coral CTA | `bg-sp-coral` |
+| Coral hover | `hover:bg-sp-coral-hover` |
+| Pending/warning pill bg | `bg-sp-coral-bg-soft` |
+| Gold accent | `text-sp-gold` |
+| Level pill bg | `bg-sp-gold-bg-soft` |
+| Body text | `text-sp-text-primary` |
+| Muted text | `text-sp-text-muted` |
+| Text on dark BG | `text-sp-text-on-dark` |
+| Danger text | `text-sp-danger` |
+| Info text | `text-sp-info` |
+| Chef card top | `bg-category-chef-bg` |
+| Chef badge text | `text-category-chef` |
+| (same pattern for all 9 categories) | `bg-category-{name}-bg` / `text-category-{name}` |
 
-### Robotics
-
-- Background: #DCEAF2
-- Accent: #5D8AA8
-- Icon: 🤖
-
-### Media Creator
-
-- Background: #E8E1F2
-- Accent: #7E6BA8
-- Icon: 🎬 or 🎤
-
-### Community Builder
-
-- Background: #F2E2B8
-- Accent: #B88A3A
-- Icon: 🤝 or 🎨 or 📦
-
-### Software Creator
-
-- Background: #DDE9F4
-- Accent: #4F7EA8
-- Icon: 💻
-
-### Fashion
-
-- Background: #F1DDE8
-- Accent: #A85F86
-- Icon: 👗
-
-### Music
-
-- Background: #E6DDF4
-- Accent: #7B61A8
-- Icon: 🎵
-
-### Mythical
-
-- Background: gradient from #26483E to #C9785A
-- Accent: #F4C542
-- Icon: ✨
+**CSS variable fallback**: When you need to use a token in an inline `style` prop, gradient, or complex value where Tailwind classes don't reach, use the CSS custom property:
+```tsx
+style={{ background: 'var(--color-coral)' }}
+style={{ background: 'linear-gradient(135deg, var(--color-primary), var(--color-coral))' }}
+style={{ borderColor: 'var(--color-border-soft)' }}
+```
 
 ## Typography
 

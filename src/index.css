@@ -1,9 +1,69 @@
 @import "tailwindcss";
 
+@theme {
+  --color-sp-bg-page: #FAF7F2;
+  --color-sp-bg-auth: #4A5D4E;
+  --color-sp-bg-card-muted: #F5EFE4;
+  --color-sp-border-soft: #EFE7D9;
+  --color-sp-border-input: #D9D0BE;
+  --color-sp-primary: #1F3D2E;
+  --color-sp-primary-hover: #2A4F3D;
+  --color-sp-accent-green: #2E6B4A;
+  --color-sp-accent-green-bg: #E6F0E8;
+  --color-sp-coral: #D26B4A;
+  --color-sp-coral-hover: #B85839;
+  --color-sp-coral-bg-soft: #F4D9CC;
+  --color-sp-gold: #C9A063;
+  --color-sp-gold-bg-soft: #F2E6CC;
+  --color-sp-text-primary: #3A3A36;
+  --color-sp-text-muted: #8A8275;
+  --color-sp-text-on-dark: #FAF7F2;
+  --color-sp-danger: #B85450;
+  --color-sp-info: #5A7AA0;
+  --color-category-chef-bg: #F4D9CC;
+  --color-category-chef: #D26B4A;
+  --color-category-farm-bg: #E0E8D4;
+  --color-category-farm: #6B8E4E;
+  --color-category-robotics-bg: #D9E0E8;
+  --color-category-robotics: #4A6B8E;
+  --color-category-community-bg: #EBE3D4;
+  --color-category-community: #8A7548;
+  --color-category-automotive-bg: #E8D9D4;
+  --color-category-automotive: #A0524A;
+  --color-category-media-bg: #E0D9E8;
+  --color-category-media: #6E5A8E;
+  --color-category-software-bg: #D4E0E0;
+  --color-category-software: #4A8E8A;
+  --color-category-fashion-bg: #E8D4DE;
+  --color-category-fashion: #A04A6E;
+  --color-category-music-bg: #D4DCE8;
+  --color-category-music: #5A7AA0;
+}
+
 :root {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #172033;
-  background: #faf7f2;
+  color: var(--color-text-primary);
+  background: var(--color-bg-page);
+
+  --color-bg-page: #FAF7F2;
+  --color-bg-auth: #4A5D4E;
+  --color-bg-card-muted: #F5EFE4;
+  --color-border-soft: #EFE7D9;
+  --color-border-input: #D9D0BE;
+  --color-primary: #1F3D2E;
+  --color-primary-hover: #2A4F3D;
+  --color-accent-green: #2E6B4A;
+  --color-accent-green-bg: #E6F0E8;
+  --color-coral: #D26B4A;
+  --color-coral-hover: #B85839;
+  --color-coral-bg-soft: #F4D9CC;
+  --color-gold: #C9A063;
+  --color-gold-bg-soft: #F2E6CC;
+  --color-text-primary: #3A3A36;
+  --color-text-muted: #8A8275;
+  --color-text-on-dark: #FAF7F2;
+  --color-danger: #B85450;
+  --color-info: #5A7AA0;
 }
 
 * {
@@ -18,7 +78,7 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #faf7f2;
+  background: var(--color-bg-page);
 }
 
 button,
