@@ -1,340 +1,311 @@
 ﻿import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { CATEGORY_LIST } from '../../lib/constants/categories'
 
-type Category = {
-  id: string
-  label: string
-  icon: string
-  bg: string
-  accent: string
-}
+export function RegisterPage() {
+  const navigate = useNavigate()
 
-const CAREER_CATEGORIES: Category[] = [
-  { id: 'chef', label: 'Chef', icon: '🍳', bg: '#FCE1D8', accent: '#E98A6A' },
-  { id: 'automotive', label: 'Automotive', icon: '🚗', bg: '#DDE7F2', accent: '#5A7FA3' },
-  { id: 'farm', label: 'Farm', icon: '🌱', bg: '#DDEBDD', accent: '#6C9A63' },
-  { id: 'robotics', label: 'Robotics', icon: '🤖', bg: '#DCEAF2', accent: '#5D8AA8' },
-  { id: 'media', label: 'Media Creator', icon: '🎬', bg: '#E8E1F2', accent: '#7E6BA8' },
-  { id: 'community', label: 'Community', icon: '🤝', bg: '#F2E2B8', accent: '#B88A3A' },
-  { id: 'software', label: 'Software', icon: '💻', bg: '#DDE9F4', accent: '#4F7EA8' },
-  { id: 'fashion', label: 'Fashion', icon: '👗', bg: '#F1DDE8', accent: '#A85F86' },
-  { id: 'music', label: 'Music', icon: '🎵', bg: '#E6DDF4', accent: '#7B61A8' },
-]
+  const [guardianName, setGuardianName] = useState('Anna Müller')
+  const [email, setEmail] = useState('anna.mueller@example.de')
+  const [password, setPassword] = useState('••••••••••••')
+  const [region, setRegion] = useState('kassel-hessen')
+  const [childName, setChildName] = useState('Lukas Müller')
+  const [birthdate, setBirthdate] = useState('2017-03-15')
 
-const INITIAL_SELECTED = new Set(['chef', 'farm', 'community'])
-
-function MobileValueBanner() {
-  return (
-    <div className="mb-8 rounded-2xl border border-[#E8E1D8] bg-[#26483E] p-6 text-white lg:hidden">
-      <p className="text-lg font-bold">★ Star Project</p>
-      <p className="mt-3 text-sm leading-relaxed text-white/80">
-        Parent-managed, private by default, and designed for safe project-based career discovery.
-      </p>
-      <div className="mt-4 space-y-1.5 text-xs text-white/70">
-        <p>✓ One guardian + one child account</p>
-        <p>✓ GDPR-ready direction</p>
-        <p>✓ No free-form child chat in MVP</p>
-      </div>
-    </div>
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set(['chef', 'farm', 'community']),
   )
-}
 
-function PageHeadline() {
-  return (
-    <div className="mb-8">
-      <h1 className="text-2xl font-bold tracking-tight text-[#172033] md:text-3xl">
-        Create your family account
-      </h1>
-      <p className="mt-2 text-sm text-[#5B6472]">
-        Already have one?{' '}
-        <Link to="/login" className="font-semibold text-[#26483E] underline underline-offset-2">
-          Log in here
-        </Link>
-      </p>
-    </div>
-  )
-}
+  const [consent1, setConsent1] = useState(true)
+  const [consent2, setConsent2] = useState(true)
+  const [consent3, setConsent3] = useState(true)
+  const [consentPublic, setConsentPublic] = useState(false)
 
-function GuardianSection() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
-      <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#172033]">
-        Guardian Information
-      </p>
-
-      <div className="space-y-5">
-        <div>
-          <label htmlFor="guardian-name" className="block text-xs font-medium text-[#5B6472]">
-            Full name
-          </label>
-          <input
-            id="guardian-name"
-            type="text"
-            defaultValue="Anna Müller"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="guardian-email" className="block text-xs font-medium text-[#5B6472]">
-            Email address
-          </label>
-          <input
-            id="guardian-email"
-            type="email"
-            defaultValue="anna.mueller@example.de"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="guardian-password" className="block text-xs font-medium text-[#5B6472]">
-            Password
-          </label>
-          <input
-            id="guardian-password"
-            type="password"
-            defaultValue="password123"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-          />
-          <p className="mt-1.5 text-xs text-[#8A8F98]">At least 10 characters with one number</p>
-        </div>
-
-        <div>
-          <label htmlFor="guardian-region" className="block text-xs font-medium text-[#5B6472]">
-            Region
-          </label>
-          <input
-            id="guardian-region"
-            type="text"
-            defaultValue="Kassel, Hessen"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-          />
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function ChildSection() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
-      <p className="mb-1 text-sm font-semibold uppercase tracking-wider text-[#172033]">
-        Child Information
-      </p>
-      <p className="mb-6 text-xs text-[#8A8F98]">One child per account</p>
-
-      <div className="space-y-5">
-        <div>
-          <label htmlFor="child-name" className="block text-xs font-medium text-[#5B6472]">
-            Child name
-          </label>
-          <input
-            id="child-name"
-            type="text"
-            defaultValue="Lukas Müller"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="child-birthdate" className="block text-xs font-medium text-[#5B6472]">
-            Birthdate
-          </label>
-          <input
-            id="child-birthdate"
-            type="date"
-            defaultValue="2017-03-15"
-            className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-          />
-          <div className="mt-3 rounded-xl bg-[#DDEBDD] px-4 py-3 text-xs text-[#26483E]">
-            Your child is currently 9 years old — eligible for Tiny, Baby, and Junior level projects.
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function CategorySelection() {
-  const [selected, setSelected] = useState<Set<string>>(INITIAL_SELECTED)
-
-  function toggle(id: string) {
-    setSelected((prev) => {
+  const toggleCategory = (slug: string) => {
+    setSelectedCategories((prev) => {
       const next = new Set(prev)
-      if (next.has(id)) {
-        next.delete(id)
-      } else {
-        next.add(id)
-      }
+      if (next.has(slug)) next.delete(slug)
+      else next.add(slug)
       return next
     })
   }
 
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
-      <p className="mb-1 text-sm font-semibold uppercase tracking-wider text-[#172033]">
-        Choose at least 2 career categories
-      </p>
-      <p className="mb-6 text-xs text-[#8A8F98]">
-        {selected.size} of 9 selected · You can change these later.
-      </p>
+  const canSubmit = selectedCategories.size >= 2 && consent1 && consent2 && consent3
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-        {CAREER_CATEGORIES.map((cat) => {
-          const isActive = selected.has(cat.id)
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              onClick={() => toggle(cat.id)}
-              className={`relative flex items-center gap-3 rounded-xl border px-4 py-3.5 text-left text-sm font-medium transition-all ${
-                isActive
-                  ? 'border-[#26483E] ring-1 ring-[#26483E] shadow-sm'
-                  : 'border-[#E8E1D8] hover:border-[#D8D3CA]'
-              }`}
-              style={{ background: isActive ? cat.bg : '#FFFDF8' }}
-            >
-              {isActive && (
-                <span className="absolute right-2 top-2 text-[10px] text-[#26483E]">✓</span>
-              )}
-              <span className="text-lg">{cat.icon}</span>
-              <span className="font-medium" style={{ color: isActive ? cat.accent : '#5B6472' }}>
-                {cat.label}
-              </span>
-            </button>
-          )
-        })}
-      </div>
-    </div>
-  )
-}
-
-function ConsentSection() {
-  const [checked, setChecked] = useState({
-    dataProcessing: false,
-    guardian: false,
-    lateFee: false,
-    publicSharing: false,
-  })
-
-  function toggle(key: keyof typeof checked) {
-    setChecked((prev) => ({ ...prev, [key]: !prev[key] }))
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Register form submitted', {
+      guardianName,
+      email,
+      region,
+      childName,
+      birthdate,
+      selectedCategories: Array.from(selectedCategories),
+      consents: { consent1, consent2, consent3, consentPublic },
+    })
+    navigate('/account')
   }
 
-  const checkClass =
-    'h-4 w-4 mt-0.5 shrink-0 cursor-pointer rounded border-[#D8D3CA] accent-[#26483E]'
-
   return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
-      <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#172033]">
-        Parental Consent &amp; Privacy
-      </p>
+    <div className="mx-auto w-full max-w-2xl">
+      <div className="mb-8">
+        <h1 className="font-serif text-3xl font-semibold tracking-normal text-sp-primary md:text-4xl">
+          Create your family account
+        </h1>
+        <p className="mt-2 text-sm text-sp-text-muted">
+          Already have one?{' '}
+          <Link to="/login" className="font-semibold text-sp-coral underline hover:text-sp-coral-hover">
+            Log in here
+          </Link>
+        </p>
+      </div>
 
-      <div className="space-y-5">
-        <label className="flex items-start gap-3 text-sm leading-relaxed text-[#172033]">
-          <input
-            type="checkbox"
-            checked={checked.dataProcessing}
-            onChange={() => toggle('dataProcessing')}
-            className={checkClass}
-          />
-          <span>
-            I consent to data processing for my child&apos;s account in accordance with{' '}
-            <a href="#" className="underline underline-offset-2 hover:text-[#26483E]">
-              Datenschutzerklärung
-            </a>{' '}
-            (GDPR-compliant).{' '}
-            <span className="text-xs font-semibold text-[#C96B5A]">* Required</span>
-          </span>
-        </label>
+      <form onSubmit={handleSubmit} className="space-y-8">
+        {/* GUARDIAN INFORMATION */}
+        <section>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-sp-text-muted">
+            GUARDIAN INFORMATION
+          </p>
+          <hr className="mb-5 mt-2 border-sp-border-soft" />
 
-        <label className="flex items-start gap-3 text-sm leading-relaxed text-[#172033]">
-          <input
-            type="checkbox"
-            checked={checked.guardian}
-            onChange={() => toggle('guardian')}
-            className={checkClass}
-          />
-          <span>
-            I confirm I am the legal guardian and accept responsibility for project supervision and
-            safety.{' '}
-            <span className="text-xs font-semibold text-[#C96B5A]">* Required</span>
-          </span>
-        </label>
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label htmlFor="guardian-name" className="mb-1 block text-sm font-medium text-sp-text-primary">
+                Full name
+              </label>
+              <input
+                id="guardian-name"
+                type="text"
+                value={guardianName}
+                onChange={(e) => setGuardianName(e.target.value)}
+                placeholder="Anna Müller"
+                className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+              />
+            </div>
+            <div>
+              <label htmlFor="email" className="mb-1 block text-sm font-medium text-sp-text-primary">
+                Email address
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="anna.mueller@example.de"
+                className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+              />
+            </div>
+          </div>
 
-        <label className="flex items-start gap-3 text-sm leading-relaxed text-[#172033]">
-          <input
-            type="checkbox"
-            checked={checked.lateFee}
-            onChange={() => toggle('lateFee')}
-            className={checkClass}
-          />
-          <span>
-            I understand the late-submission fee policy (€0.50 per missed deadline, capped at
-            €2/month).{' '}
-            <span className="text-xs font-semibold text-[#C96B5A]">* Required</span>
-          </span>
-        </label>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <div>
+              <label htmlFor="password" className="mb-1 block text-sm font-medium text-sp-text-primary">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+              />
+              <p className="mt-1 text-xs text-sp-text-muted">At least 10 characters with one number</p>
+            </div>
+            <div>
+              <label htmlFor="region" className="mb-1 block text-sm font-medium text-sp-text-primary">
+                Region
+              </label>
+              <select
+                id="region"
+                value={region}
+                onChange={(e) => setRegion(e.target.value)}
+                className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+              >
+                <option value="kassel-hessen">Kassel, Hessen 🇩🇪</option>
+                <option value="other-hessen">Other Hessen</option>
+                <option value="other-de">Other Germany</option>
+                <option value="other-eu">Other EU</option>
+              </select>
+            </div>
+          </div>
+        </section>
 
-        <div className="border-t border-[#E8E1D8] pt-4">
-          <label className="flex items-start gap-3 text-sm leading-relaxed text-[#5B6472]">
-            <input
-              type="checkbox"
-              checked={checked.publicSharing}
-              onChange={() => toggle('publicSharing')}
-              className={checkClass}
-            />
-            <span>
-              I optionally allow public sharing of my child&apos;s project videos.{' '}
-              <span className="inline-block rounded-md bg-[#F4EFE7] px-2 py-0.5 text-xs font-semibold uppercase tracking-wider text-[#8A8F98]">
-                Default: Private
+        {/* CHILD INFORMATION */}
+        <section>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-sp-text-muted">
+            CHILD INFORMATION (ONE CHILD PER ACCOUNT)
+          </p>
+          <hr className="mb-5 mt-2 border-sp-border-soft" />
+
+          <div className="grid gap-4 md:grid-cols-2">
+            <div>
+              <label htmlFor="child-name" className="mb-1 block text-sm font-medium text-sp-text-primary">
+                Child&apos;s name{' '}
+                <span className="font-normal text-sp-text-muted">(used on certificates)</span>
+              </label>
+              <input
+                id="child-name"
+                type="text"
+                value={childName}
+                onChange={(e) => setChildName(e.target.value)}
+                placeholder="Lukas Müller"
+                className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+              />
+            </div>
+            <div>
+              <label htmlFor="birthdate" className="mb-1 block text-sm font-medium text-sp-text-primary">
+                Birthdate
+              </label>
+              <input
+                id="birthdate"
+                type="date"
+                value={birthdate}
+                onChange={(e) => setBirthdate(e.target.value)}
+                className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+              />
+            </div>
+          </div>
+
+          <div className="mt-4 flex items-start gap-2 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted px-4 py-3">
+            <span aria-hidden="true">ℹ️</span>
+            <p className="text-sm leading-relaxed text-sp-text-primary">
+              Your child is currently <span className="font-semibold">9 years old</span> — eligible
+              for Tiny, Baby, and Junior level projects.
+            </p>
+          </div>
+        </section>
+
+        {/* CAREER CATEGORIES */}
+        <section>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-sp-text-muted">
+            CHOOSE AT LEAST 2 CAREER CATEGORIES
+          </p>
+          <hr className="mb-5 mt-2 border-sp-border-soft" />
+
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+            {CATEGORY_LIST.map((cat) => {
+              const isSelected = selectedCategories.has(cat.slug)
+              return (
+                <button
+                  key={cat.slug}
+                  type="button"
+                  role="checkbox"
+                  aria-checked={isSelected}
+                  onClick={() => toggleCategory(cat.slug)}
+                  className={`relative flex flex-col items-center justify-center gap-2 rounded-lg border-2 px-3 py-4 transition-all ${
+                    isSelected
+                      ? 'border-sp-accent-green bg-sp-accent-green-bg'
+                      : 'border-sp-border-soft bg-white hover:border-sp-primary/30'
+                  }`}
+                >
+                  {isSelected && (
+                    <span
+                      className="absolute right-1.5 top-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-sp-accent-green text-[10px] font-bold text-white"
+                      aria-hidden="true"
+                    >
+                      ✓
+                    </span>
+                  )}
+                  <span className="text-3xl" aria-hidden="true">{cat.emoji}</span>
+                  <span className="text-sm font-semibold text-sp-primary">{cat.label}</span>
+                </button>
+              )
+            })}
+          </div>
+
+          <p className="mt-3 text-sm text-sp-text-muted">
+            <span className="font-semibold text-sp-primary">{selectedCategories.size} of 9 selected</span>
+            {' · You can change these later.'}
+          </p>
+        </section>
+
+        {/* CONSENT */}
+        <section>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-sp-text-muted">
+            PARENTAL CONSENT &amp; PRIVACY
+          </p>
+          <hr className="mb-5 mt-2 border-sp-border-soft" />
+
+          <div className="space-y-3">
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={consent1}
+                onChange={(e) => setConsent1(e.target.checked)}
+                className="mt-1 h-4 w-4 accent-sp-accent-green"
+              />
+              <span className="text-sm leading-relaxed text-sp-text-primary">
+                I consent to data processing for my child&apos;s account in accordance with{' '}
+                <a href="#" className="text-sp-coral underline">
+                  Datenschutzerklärung
+                </a>{' '}
+                (GDPR-compliant).
               </span>
-            </span>
-          </label>
+            </label>
+
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={consent2}
+                onChange={(e) => setConsent2(e.target.checked)}
+                className="mt-1 h-4 w-4 accent-sp-accent-green"
+              />
+              <span className="text-sm leading-relaxed text-sp-text-primary">
+                I confirm I am the legal guardian and accept responsibility for project supervision
+                and safety.
+              </span>
+            </label>
+
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={consent3}
+                onChange={(e) => setConsent3(e.target.checked)}
+                className="mt-1 h-4 w-4 accent-sp-accent-green"
+              />
+              <span className="text-sm leading-relaxed text-sp-text-primary">
+                I understand the late-submission fee policy (€0.50 per missed deadline, capped at
+                €2/month).
+              </span>
+            </label>
+
+            <label className="flex cursor-pointer items-start gap-3">
+              <input
+                type="checkbox"
+                checked={consentPublic}
+                onChange={(e) => setConsentPublic(e.target.checked)}
+                className="mt-1 h-4 w-4 accent-sp-accent-green"
+              />
+              <span className="text-sm leading-relaxed text-sp-text-primary">
+                I optionally allow public sharing of my child&apos;s project videos (e.g., for
+                testimonials). <span className="font-semibold">Default: PRIVATE.</span>
+              </span>
+            </label>
+          </div>
+        </section>
+
+        {/* SUBMIT */}
+        <div className="pt-2">
+          <button
+            type="submit"
+            disabled={!canSubmit}
+            className="w-full rounded-lg bg-sp-primary px-5 py-3.5 font-semibold text-white transition-colors hover:bg-sp-primary-hover disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Create Account &amp; Continue →
+          </button>
+          <p className="mt-3 text-center text-xs text-sp-text-muted">
+            By creating an account, you agree to our{' '}
+            <a href="#" className="underline hover:text-sp-primary">
+              Terms
+            </a>{' '}
+            and{' '}
+            <a href="#" className="underline hover:text-sp-primary">
+              Privacy Policy
+            </a>
+            .
+          </p>
         </div>
-      </div>
-    </div>
-  )
-}
-
-function SubmitSection() {
-  return (
-    <div>
-      <button
-        type="button"
-        className="w-full rounded-full bg-[#26483E] px-8 py-3.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#1F3D35] hover:shadow-md"
-      >
-        Create Account &amp; Continue →
-      </button>
-      <p className="mt-4 text-center text-xs text-[#8A8F98]">
-        By creating an account, you agree to our{' '}
-        <a href="#" className="underline underline-offset-2 hover:text-[#26483E]">
-          Terms
-        </a>{' '}
-        and{' '}
-        <a href="#" className="underline underline-offset-2 hover:text-[#26483E]">
-          Privacy Policy
-        </a>
-        .
-      </p>
-    </div>
-  )
-}
-
-export function RegisterPage() {
-  return (
-    <div>
-      <MobileValueBanner />
-      <PageHeadline />
-
-      <div className="space-y-7">
-        <GuardianSection />
-        <ChildSection />
-        <CategorySelection />
-        <ConsentSection />
-        <SubmitSection />
-      </div>
+      </form>
     </div>
   )
 }
