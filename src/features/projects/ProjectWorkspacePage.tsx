@@ -1,4 +1,6 @@
-﻿type Task = {
+﻿import { useParams } from 'react-router-dom'
+
+type Task = {
   number: number
   title: string
   meta: string
@@ -36,36 +38,133 @@ const TASKS: Task[] = [
   },
 ]
 
-function TopBar() {
+type InProgressTask = {
+  number: number
+  title: string
+  status: 'DONE' | 'ACTIVE' | 'LOCKED'
+  meta: string
+  description: string
+}
+
+const IN_PROGRESS_TASKS: InProgressTask[] = [
+  {
+    number: 1,
+    title: 'Research & Validation',
+    status: 'DONE',
+    meta: 'Week 1 · Completed Mar 22',
+    description:
+      'You interviewed 6 family members about their favorite pasta dishes. Compared sauce prices at 3 supermarkets. Documented allergies of testers.',
+  },
+  {
+    number: 2,
+    title: 'Build & Create',
+    status: 'DONE',
+    meta: 'Week 2 · Completed Mar 29',
+    description:
+      'You and Sophie made fresh tagliatelle from scratch. Tomato-basil sauce based on Nonna\'s recipe research. 8 photos uploaded.',
+  },
+  {
+    number: 3,
+    title: 'Test & Validate',
+    status: 'ACTIVE',
+    meta: 'Week 3 · In progress · Due Apr 5',
+    description:
+      'Give samples to 5 testers. Collect feedback. Document reactions and improvement notes.\nSophie has uploaded 2 photos. You haven\'t logged tester feedback yet.',
+  },
+  {
+    number: 4,
+    title: 'Improve & Finalize',
+    status: 'LOCKED',
+    meta: 'Week 4 · Final deadline Apr 12 ⏰',
+    description:
+      'Make improved version. Submit final report + 3-minute video proof for review.',
+  },
+]
+
+type ActivityItem = {
+  icon: string
+  initials: string
+  label: string
+  time: string
+}
+
+const ACTIVITY: ActivityItem[] = [
+  {
+    icon: '📸',
+    initials: 'SK',
+    label: 'Sophie K. uploaded 2 photos for Week 3 — Test & Validate',
+    time: '2h ago',
+  },
+  {
+    icon: '✓',
+    initials: 'LM',
+    label: 'You marked Week 2 as complete',
+    time: 'Yesterday',
+  },
+  {
+    icon: '📸',
+    initials: 'SK',
+    label: 'Sophie K. uploaded 4 photos for Week 2 — Build & Create',
+    time: '2 days ago',
+  },
+  {
+    icon: '⭐',
+    initials: '',
+    label: 'System: Project officially started · Timer began Mar 15',
+    time: '',
+  },
+]
+
+type FileItem = {
+  name: string
+  size: string
+  by: string
+}
+
+const FILES: FileItem[] = [
+  { name: 'week2_pasta_dough.jpg', size: '2.3 MB', by: 'Sophie' },
+  { name: 'week2_final_dish.jpg', size: '1.8 MB', by: 'Sophie' },
+  { name: 'week1_research.docx', size: '245 KB', by: 'you' },
+]
+
+/* ─── Pre-Start (Brezel Workshop) components ─── */
+
+function PreStartTopBar() {
   return (
     <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <p className="text-xs text-[#8A8F98]">Star Project › My Projects › Brezel Workshop</p>
-      <div className="flex items-center gap-4">
-        <div className="text-right text-xs">
-          <p className="font-semibold text-[#172033]">LM Lukas Müller</p>
-          <p className="text-[#8A8F98]">Baby · ⭐ 7</p>
-        </div>
-        <button
-          type="button"
-          className="relative rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
-        >
-          🔔
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C96B5A] text-[9px] font-bold text-white">
-            3
-          </span>
-        </button>
-        <button
-          type="button"
-          className="rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
-        >
-          ✉️
-        </button>
-      </div>
+      <UserSummary />
     </div>
   )
 }
 
-function ProjectHeader() {
+function UserSummary() {
+  return (
+    <div className="flex items-center gap-4">
+      <div className="text-right text-xs">
+        <p className="font-semibold text-[#172033]">LM Lukas Müller</p>
+        <p className="text-[#8A8F98]">Baby · ⭐ 7</p>
+      </div>
+      <button
+        type="button"
+        className="relative rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
+      >
+        🔔
+        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C96B5A] text-[9px] font-bold text-white">
+          3
+        </span>
+      </button>
+      <button
+        type="button"
+        className="rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
+      >
+        ✉️
+      </button>
+    </div>
+  )
+}
+
+function PreStartProjectHeader() {
   return (
     <div className="mb-8">
       <div className="flex items-center gap-3">
@@ -97,7 +196,7 @@ function ProjectHeader() {
   )
 }
 
-function StatusCard() {
+function PreStartStatusCard() {
   return (
     <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
       <span className="rounded-full bg-[#F2E2B8] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#B88A3A]">
@@ -126,7 +225,7 @@ function StatusCard() {
   )
 }
 
-function VideoPlaceholder() {
+function PreStartVideoPlaceholder() {
   return (
     <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
       <p className="mb-4 text-sm font-semibold text-[#172033]">Project Introduction</p>
@@ -147,7 +246,7 @@ function VideoPlaceholder() {
   )
 }
 
-function ReportTemplate() {
+function PreStartReportTemplate() {
   return (
     <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
       <p className="mb-4 text-sm font-semibold text-[#172033]">📄 Brezel Project Report Template</p>
@@ -162,7 +261,7 @@ function ReportTemplate() {
   )
 }
 
-function TeamMembers() {
+function PreStartTeamMembers() {
   return (
     <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
@@ -186,7 +285,7 @@ function TeamMembers() {
   )
 }
 
-function InviteMember() {
+function PreStartInviteMember() {
   return (
     <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
       <p className="mb-2 text-sm font-semibold text-[#172033]">Invite a Team Member</p>
@@ -210,7 +309,7 @@ function InviteMember() {
   )
 }
 
-function PendingInvitations() {
+function PreStartPendingInvitations() {
   return (
     <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
       <p className="mb-4 text-sm font-semibold text-[#172033]">Pending Invitations</p>
@@ -235,7 +334,7 @@ function PendingInvitations() {
   )
 }
 
-function TaskCard({ task }: { task: Task }) {
+function PreStartTaskCard({ task }: { task: Task }) {
   return (
     <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-5 shadow-sm">
       <div className="flex items-start gap-4">
@@ -257,39 +356,310 @@ function TaskCard({ task }: { task: Task }) {
   )
 }
 
-function WeeklyTasks() {
+function PreStartWeeklyTasks() {
   return (
     <div>
       <p className="mb-4 text-sm font-semibold text-[#172033]">Weekly Tasks</p>
       <div className="space-y-3">
         {TASKS.map((task) => (
-          <TaskCard key={task.number} task={task} />
+          <PreStartTaskCard key={task.number} task={task} />
         ))}
       </div>
     </div>
   )
 }
 
-export function ProjectWorkspacePage() {
+function PreStartView() {
   return (
-    <div>
-      <TopBar />
-      <ProjectHeader />
+    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+      <div className="space-y-6">
+        <PreStartVideoPlaceholder />
+        <PreStartReportTemplate />
+        <PreStartWeeklyTasks />
+      </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-6">
-          <VideoPlaceholder />
-          <ReportTemplate />
-          <WeeklyTasks />
+      <div className="space-y-5">
+        <PreStartStatusCard />
+        <PreStartTeamMembers />
+        <PreStartInviteMember />
+        <PreStartPendingInvitations />
+      </div>
+    </div>
+  )
+}
+
+/* ─── In Progress (Pasta from Scratch) components ─── */
+
+function InProgressTopBar() {
+  return (
+    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <p className="text-xs text-[#8A8F98]">Star Project › My Projects › Pasta from Scratch</p>
+      <UserSummary />
+    </div>
+  )
+}
+
+function InProgressProjectHeader() {
+  return (
+    <div className="mb-8">
+      <div className="flex items-center gap-3">
+        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FCE1D8] text-2xl">
+          🍝
+        </span>
+        <h1 className="text-2xl font-bold tracking-tight text-[#172033] md:text-3xl">
+          Pasta from Scratch
+        </h1>
+      </div>
+
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#5B6472]">
+        Make handmade pasta with traditional techniques + your own sauce. Document each step. Test
+        with family.
+      </p>
+
+      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#5B6472]">
+        <span>⏱ Started Mar 15</span>
+        <span>📅 Final deadline Apr 12</span>
+        <span>👥 Team of 2</span>
+        <span className="rounded-full bg-[#DDEBDD] px-2 py-0.5 text-[10px] font-medium text-[#26483E]">
+          📈 72% complete
+        </span>
+      </div>
+    </div>
+  )
+}
+
+function InProgressStatusCard({ className }: { className?: string }) {
+  return (
+    <div className={`rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm ${className ?? ''}`}>
+      <div className="mb-4 rounded-xl bg-[#FCE1D8] px-4 py-3 text-center">
+        <span className="text-2xl">🍝</span>
+        <p className="mt-1 text-xs font-bold uppercase tracking-wider text-[#E98A6A]">
+          CHEF ⭐⭐ BABY
+        </p>
+      </div>
+
+      <span className="rounded-full bg-[#FCE1D8] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#C96B5A]">
+        🔥 ONGOING · WEEK 3
+      </span>
+
+      <div className="my-4 text-center">
+        <p className="text-3xl font-bold text-[#172033]">11 days</p>
+        <p className="text-xl font-bold text-[#172033]">4 hours</p>
+        <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-[#8A8F98]">
+          Time Remaining
+        </p>
+      </div>
+
+      <div className="h-2 w-full overflow-hidden rounded-full bg-[#F4EFE7]">
+        <div className="h-full w-[72%] rounded-full bg-[#26483E]" />
+      </div>
+
+      <p className="mt-4 text-xs leading-relaxed text-[#8A8F98]">
+        Final deadline: April 12, 2026 · 23:59 CET · Late fee applies if missed
+      </p>
+    </div>
+  )
+}
+
+function InProgressTaskCard({ task }: { task: InProgressTask }) {
+  const statusStyles: Record<string, { circle: string; badge: string; border: string }> = {
+    DONE: {
+      circle: 'bg-[#DDEBDD] text-[#26483E]',
+      badge: 'bg-[#DDEBDD] text-[#26483E]',
+      border: 'border-[#DDEBDD]',
+    },
+    ACTIVE: {
+      circle: 'bg-[#26483E] text-white',
+      badge: 'bg-[#FCE1D8] text-[#C96B5A]',
+      border: 'border-[#26483E] ring-1 ring-[#26483E]',
+    },
+    LOCKED: {
+      circle: 'bg-[#F4EFE7] text-[#8A8F98]',
+      badge: 'bg-[#F4EFE7] text-[#8A8F98]',
+      border: 'border-[#E8E1D8] opacity-70',
+    },
+  }
+
+  const s = statusStyles[task.status]
+
+  return (
+    <div className={`rounded-2xl border bg-[#FFFDF8] p-5 shadow-sm ${s.border}`}>
+      <div className="flex items-start gap-4">
+        <div
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${s.circle}`}
+        >
+          {task.status === 'DONE' ? '✓' : task.number}
         </div>
-
-        <div className="space-y-5">
-          <StatusCard />
-          <TeamMembers />
-          <InviteMember />
-          <PendingInvitations />
+        <div className="flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <h3 className="text-sm font-semibold text-[#172033]">{task.title}</h3>
+            <span
+              className={`rounded-full px-2.5 py-0.5 text-[10px] font-medium ${s.badge}`}
+            >
+              {task.status}
+            </span>
+          </div>
+          <p className="mt-1 text-xs text-[#8A8F98]">{task.meta}</p>
+          <p className="mt-2 text-sm leading-relaxed text-[#5B6472]">{task.description}</p>
         </div>
       </div>
+    </div>
+  )
+}
+
+function InProgressWeeklyTasks() {
+  return (
+    <div>
+      <p className="mb-4 text-sm font-semibold text-[#172033]">Weekly Progress</p>
+      <div className="space-y-3">
+        {IN_PROGRESS_TASKS.map((task) => (
+          <InProgressTaskCard key={task.number} task={task} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function InProgressTeamActivity() {
+  return (
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
+      <p className="mb-4 text-sm font-semibold text-[#172033]">Team Activity</p>
+      <div className="space-y-4">
+        {ACTIVITY.map((item, i) => (
+          <div key={i} className="flex items-start gap-3">
+            <div
+              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                item.initials ? 'bg-[#F4EFE7] text-[#5B6472]' : 'bg-[#26483E] text-white'
+              }`}
+            >
+              {item.initials || '⭐'}
+            </div>
+            <div className="flex-1">
+              <p className="text-xs leading-relaxed text-[#172033]">{item.label}</p>
+              {item.time && <p className="mt-0.5 text-[10px] text-[#8A8F98]">{item.time}</p>}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function InProgressTeam() {
+  return (
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
+      <p className="mb-4 text-sm font-semibold text-[#172033]">Team</p>
+      <div className="space-y-3">
+        <div className="flex items-center gap-3 rounded-xl bg-[#F4EFE7] p-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#26483E] text-xs font-bold text-white">
+            LM
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-[#172033]">Lukas (You)</p>
+            <p className="text-xs text-[#8A8F98]">SP-2026-0048</p>
+          </div>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#26483E]">
+            OWNER
+          </span>
+        </div>
+
+        <div className="flex items-center gap-3 rounded-xl bg-[#F4EFE7] p-3">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#5B6472] text-xs font-bold text-white">
+            SK
+          </div>
+          <div className="flex-1">
+            <p className="text-sm font-medium text-[#172033]">Sophie K.</p>
+            <p className="text-xs text-[#8A8F98]">SP-2026-0052</p>
+          </div>
+          <span className="rounded-full bg-[#DDEBDD] px-2.5 py-0.5 text-[10px] font-semibold text-[#26483E]">
+            ACTIVE
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function InProgressFiles() {
+  return (
+    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
+      <p className="mb-4 text-sm font-semibold text-[#172033]">Files Uploaded</p>
+      <div className="space-y-2.5">
+        {FILES.map((f) => (
+          <div key={f.name} className="flex items-center justify-between rounded-xl px-2 py-1.5">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="shrink-0 text-sm">
+                {f.name.endsWith('.jpg') ? '🖼️' : '📄'}
+              </span>
+              <span className="truncate text-xs text-[#172033]">{f.name}</span>
+            </div>
+            <span className="shrink-0 text-[10px] text-[#8A8F98]">
+              {f.size} · by {f.by}
+            </span>
+          </div>
+        ))}
+      </div>
+      <p className="mt-3 text-xs text-[#8A8F98]">+ 5 more files</p>
+    </div>
+  )
+}
+
+function InProgressSubmissionCta() {
+  return (
+    <button
+      type="button"
+      disabled
+      className="w-full cursor-not-allowed rounded-full bg-[#8A8F98] px-6 py-3 text-sm font-bold text-white opacity-60"
+    >
+      📤 Go to Submission
+    </button>
+  )
+}
+
+function InProgressView() {
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
+      <div className="space-y-6">
+        <InProgressStatusCard className="lg:hidden" />
+        <InProgressWeeklyTasks />
+      </div>
+
+      <div className="space-y-5">
+        <div className="hidden lg:block">
+          <InProgressStatusCard />
+        </div>
+        <InProgressTeamActivity />
+        <InProgressTeam />
+        <InProgressFiles />
+        <div className="text-center">
+          <InProgressSubmissionCta />
+          <p className="mt-2 text-xs text-[#8A8F98]">Available after Week 4 begins</p>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Main export ─── */
+
+export function ProjectWorkspacePage() {
+  const { projectId } = useParams()
+
+  if (projectId === 'pasta-from-scratch') {
+    return (
+      <div>
+        <InProgressTopBar />
+        <InProgressProjectHeader />
+        <InProgressView />
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      <PreStartTopBar />
+      <PreStartProjectHeader />
+      <PreStartView />
     </div>
   )
 }
