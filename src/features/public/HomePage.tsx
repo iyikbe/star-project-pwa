@@ -4,13 +4,12 @@ type Project = {
   id: string
   category: string
   icon: string
-  categoryBg: string
-  categoryAccent: string
+  level: string
+  cardCategoryBg: string
   title: string
   description: string
-  stars: number
-  ageRange: string
-  duration: string
+  footerLeft: string
+  footerRight: string
 }
 
 type Testimonial = {
@@ -18,6 +17,8 @@ type Testimonial = {
   name: string
   role: string
   initials: string
+  avatarBg: string
+  avatarColor: string
 }
 
 type Stat = {
@@ -85,79 +86,81 @@ const FEATURES: Feature[] = [
 const PROJECTS: Project[] = [
   {
     id: 'ice-cream',
-    category: 'Chef',
-    icon: '🍳',
-    categoryBg: '#FCE1D8',
-    categoryAccent: '#E98A6A',
+    category: 'CHEF',
+    icon: '🍦',
+    level: 'TINY',
+    cardCategoryBg: '#FCE1D8',
     title: 'The Ice Cream Project',
     description:
-      'Research, create, and present your own original ice cream flavour. Learn about ingredients, freezing techniques, and taste testing.',
-    stars: 1,
-    ageRange: '6–10',
-    duration: '4 weeks',
+      'Survey, build, test, improve — make your own ice cream from scratch.',
+    footerLeft: '★ 1 Star',
+    footerRight: 'AGE 4+',
   },
   {
     id: 'greenhouse',
-    category: 'Farm',
+    category: 'FARM',
     icon: '🌱',
-    categoryBg: '#DDEBDD',
-    categoryAccent: '#6C9A63',
+    level: 'JUNIOR',
+    cardCategoryBg: '#DDEBDD',
     title: 'Mini Greenhouse Build',
     description:
-      'Design and build a working mini greenhouse. Learn about plant biology, temperature control, and sustainable growing.',
-    stars: 1,
-    ageRange: '8–12',
-    duration: '4 weeks',
+      'Design, build, and monitor a small greenhouse with sensors.',
+    footerLeft: '★ 1 Star',
+    footerRight: 'AGE 8+',
   },
   {
     id: 'line-bot',
-    category: 'Robotics',
+    category: 'ROBOTICS',
     icon: '🤖',
-    categoryBg: '#DCEAF2',
-    categoryAccent: '#5D8AA8',
+    level: 'YOUNG',
+    cardCategoryBg: '#DCEAF2',
     title: 'Line-Following Bot',
     description:
-      'Build and program a robot that follows a line. Learn about sensors, logic, and iterative testing.',
-    stars: 1,
-    ageRange: '10–14',
-    duration: '5 weeks',
+      'Build a small robot that follows a path using sensors and code.',
+    footerLeft: '★ 1 Star',
+    footerRight: 'AGE 10+',
   },
   {
     id: 'song',
-    category: 'Music',
-    icon: '🎵',
-    categoryBg: '#E6DDF4',
-    categoryAccent: '#7B61A8',
+    category: 'MYTHICAL',
+    icon: '✨',
+    level: 'PREMIUM',
+    cardCategoryBg: 'linear-gradient(135deg, #26483E, #C9785A)',
     title: 'Compose & Record an Original Song',
     description:
-      'Write lyrics, compose a melody, and record your own original song. Learn about song structure and digital recording.',
-    stars: 1,
-    ageRange: '8–14',
-    duration: '4 weeks',
+      'Premium expert-led: compose, arrange, and record a track end-to-end.',
+    footerLeft: '€50 / star',
+    footerRight: 'AGE 13+',
   },
 ]
 
 const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      'My daughter used to think she wasn\'t good at anything. After the Ice Cream Project, she can\'t stop talking about being a chef. It\'s incredible to see her confidence grow.',
-    name: 'Sarah M.',
-    role: 'Parent of a 9-year-old',
-    initials: 'SM',
+      'My daughter went from watching videos all day to actually building a small herb garden. She\'s proud of it. That\'s worth €29 a month.',
+    name: 'Anna M.',
+    role: 'Parent · Kassel',
+    initials: 'AM',
+    avatarBg: '#FCE1D8',
+    avatarColor: '#E98A6A',
   },
   {
     quote:
-      'The team project requirement was a genius idea. My son learned more about collaboration in one project than in a whole semester of group work at school.',
+      'I learned how to interview real people for my chef project. Now I want to open my own ice cream shop someday.',
+    name: 'Lukas S., age 9',
+    role: 'Chef · Tiny Level',
+    initials: 'LS',
+    avatarBg: '#DDEBDD',
+    avatarColor: '#6C9A63',
+  },
+  {
+    quote:
+      'The team requirement felt strange at first, but it\'s the best part. My son and his cousin actually plan things together now.',
     name: 'Thomas K.',
-    role: 'Parent of an 11-year-old',
+    role: 'Parent · Hessen',
     initials: 'TK',
-  },
-  {
-    quote:
-      'As a teacher, I wish every child had access to this approach. It\'s hands-on, structured, and actually prepares them for the real world.',
-    name: 'Dr. Elena V.',
-    role: 'Education researcher, Kassel',
-    initials: 'EV',
+    avatarBg: '#DCEAF2',
+    avatarColor: '#5D8AA8',
   },
 ]
 
@@ -279,32 +282,48 @@ function WhyChooseUsSection() {
   )
 }
 
-function ProjectCard({ project }: { project: Project }) {
+function ProjectCard({ project, isMythical }: { project: Project; isMythical?: boolean }) {
   return (
     <div className="group flex flex-col overflow-hidden rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] shadow-sm transition-shadow hover:shadow-md">
       <div
-        className="flex items-center gap-3 px-5 py-4 transition-colors"
-        style={{ background: project.categoryBg }}
+        className="relative flex h-[120px] items-center justify-center"
+        style={{ background: project.cardCategoryBg }}
       >
-        <span className="text-2xl">{project.icon}</span>
         <span
-          className="rounded-full px-3 py-1 text-xs font-semibold text-white"
-          style={{ background: project.categoryAccent }}
+          className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-widest"
+          style={{ color: isMythical ? '#F4C542' : '#5B6472' }}
         >
           {project.category}
         </span>
+
+        <span
+          className={`absolute right-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
+            isMythical
+              ? 'bg-white/20 text-white'
+              : 'bg-white/80 text-[#172033]'
+          }`}
+        >
+          {project.level === 'TINY'
+            ? '⭐ TINY'
+            : project.level === 'JUNIOR'
+              ? '⭐⭐⭐ JUNIOR'
+              : project.level === 'YOUNG'
+                ? '⭐⭐⭐⭐ YOUNG'
+                : '⭐⭐⭐ × 3'}
+        </span>
+
+        <span className="text-4xl">{project.icon}</span>
       </div>
 
-      <div className="flex flex-1 flex-col px-5 pb-5 pt-4">
-        <h3 className="text-base font-bold text-[#172033]">{project.title}</h3>
-        <p className="mt-2 flex-1 text-sm leading-relaxed text-[#5B6472]">{project.description}</p>
+      <div className="flex flex-1 flex-col px-4 pb-4 pt-3">
+        <h3 className="text-base font-semibold tracking-tight text-[#172033]">{project.title}</h3>
+        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-[#8A8F98]">
+          {project.description}
+        </p>
 
-        <div className="mt-4 flex items-center justify-between border-t border-[#E8E1D8] pt-4 text-xs text-[#8A8F98]">
-          <span className="flex items-center gap-1">
-            <span className="text-[#F4C542]">★</span> {project.stars} Star
-          </span>
-          <span>{project.ageRange} years</span>
-          <span>{project.duration}</span>
+        <div className="mt-3 flex items-center justify-between border-t border-[#E8E1D8] pt-3">
+          <span className="text-xs text-[#5B6472]">{project.footerLeft}</span>
+          <span className="text-xs font-medium text-[#172033]">{project.footerRight}</span>
         </div>
       </div>
     </div>
@@ -313,20 +332,41 @@ function ProjectCard({ project }: { project: Project }) {
 
 function ProjectsSection() {
   return (
-    <section className="px-6 py-20 md:py-24">
+    <section className="px-6 py-16 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">
-          Newly Released
-        </p>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-          Start your next adventure
-        </h2>
+        <div className="flex items-end justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F29B7F]">
+              NEWLY RELEASED
+            </p>
+            <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
+              Fresh projects, ready to start.
+            </h2>
+          </div>
+          <Link
+            to="/start"
+            className="hidden shrink-0 text-sm font-medium text-[#26483E] transition-colors hover:text-[#547C6A] md:inline-flex md:items-center md:gap-1"
+          >
+            View All Projects →
+          </Link>
+        </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PROJECTS.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+            <ProjectCard
+              key={project.id}
+              project={project}
+              isMythical={project.id === 'song'}
+            />
           ))}
         </div>
+
+        <Link
+          to="/start"
+          className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-[#26483E] transition-colors hover:text-[#547C6A] md:hidden"
+        >
+          View All Projects →
+        </Link>
       </div>
     </section>
   )
@@ -334,27 +374,32 @@ function ProjectsSection() {
 
 function TestimonialsSection() {
   return (
-    <section className="bg-[#F4EFE7] px-6 py-20 md:py-24">
+    <section className="bg-[#FAF7F2] px-6 py-16 md:py-20">
       <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">
-          Testimonials
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F29B7F]">
+          FROM OUR FAMILIES
         </p>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-          Trusted by parents and educators
+        <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
+          What parents and children say.
         </h2>
+        <p className="mt-2 text-sm text-[#5B6472]">
+          Public testimonials shared with explicit parent consent.
+        </p>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
           {TESTIMONIALS.map((t) => (
             <div
               key={t.name}
-              className="relative rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm"
+              className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-5 shadow-sm"
             >
-              <span className="absolute right-6 top-4 text-5xl leading-none text-[#26483E]/10 select-none">
-                &ldquo;
-              </span>
-              <p className="relative text-sm leading-relaxed text-[#5B6472]">&ldquo;{t.quote}&rdquo;</p>
-              <div className="mt-6 flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#26483E] text-sm font-bold text-white">
+              <p className="text-sm italic leading-relaxed text-[#5B6472]">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <div className="mt-5 flex items-center gap-3">
+                <div
+                  className="flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold"
+                  style={{ background: t.avatarBg, color: t.avatarColor }}
+                >
                   {t.initials}
                 </div>
                 <div>
@@ -365,10 +410,6 @@ function TestimonialsSection() {
             </div>
           ))}
         </div>
-
-        <p className="mt-8 text-center text-xs text-[#8A8F98]">
-          All testimonials are shared with explicit parent consent.
-        </p>
       </div>
     </section>
   )
