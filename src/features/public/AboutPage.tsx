@@ -1,30 +1,19 @@
-﻿type StatCard = {
-  value: string
-  label: string
-}
+﻿import { SectionEyebrow, IconTile } from '../../components/ui'
 
-const FOUNDER_STATS: StatCard[] = [
-  { value: '2026', label: 'Founded in Kassel' },
-  { value: '9', label: 'Career categories' },
-  { value: '7', label: 'Progressive levels' },
-  { value: '100%', label: 'GDPR-ready direction' },
-]
+/* ─── Section 1 – Hero ─── */
 
 function HeroSection() {
   return (
-    <section className="bg-[#26483E] px-6 py-20 text-[#FFFDF8] md:py-28">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F4C542]">
-          About Star Project
-        </p>
-
-        <h1 className="mt-6 text-4xl font-bold leading-tight tracking-tight md:text-5xl md:leading-[1.15]">
-          We help children become
-          <br />
-          creators of their future.
+    <section className="text-center">
+      <div className="mx-auto max-w-3xl">
+        <SectionEyebrow color="coral" className="text-center">
+          ABOUT STAR PROJECT
+        </SectionEyebrow>
+        <h1 className="font-serif mt-5 text-4xl font-semibold leading-[1.1] tracking-normal text-sp-primary md:text-5xl lg:text-6xl">
+          We help children become<br />
+          <span className="italic text-sp-accent-green">creators of their future.</span>
         </h1>
-
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#D8D3CA] md:text-lg">
+        <p className="mx-auto mt-6 max-w-2xl text-sp-text-muted">
           Star Project is an education technology company building real-world project experiences
           that prepare children for a rapidly changing world — through doing, not just watching.
         </p>
@@ -33,227 +22,301 @@ function HeroSection() {
   )
 }
 
-function VisionSection() {
+/* ─── Section 2 – Vision + Mission ─── */
+
+function VisionMissionSection() {
   return (
-    <section className="bg-[#F4EFE7] px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#26483E]/10 text-2xl">
-            🔭
-          </div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">
-            Our Vision
-          </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-            A generation of children who know how to build, test, and improve.
-          </h2>
-          <p className="mt-6 text-base leading-relaxed text-[#5B6472]">
-            We believe every child deserves to discover what they are capable of before they have to
-            choose a career. By engaging in real projects — not simulated exercises — children develop
-            the confidence to try, the resilience to fail, and the skills to build things they can be
-            proud of. Through real projects, real teams, and real outcomes, we help children discover
-            their future careers early — on their own terms.
-          </p>
-        </div>
+    <section className="grid gap-6 md:grid-cols-2">
+      {/* Vision — dark card */}
+      <div className="rounded-xl border border-sp-primary bg-sp-primary p-8 text-white md:p-10">
+        <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-sp-coral-bg-soft">
+          OUR VISION
+        </p>
+        <h3 className="font-serif mt-4 text-2xl font-semibold leading-tight md:text-3xl">
+          A generation of children who know how to build, test, and improve.
+        </h3>
+        <p className="mt-4 leading-relaxed text-white/80">
+          We see a future where every child has the chance to discover real careers early — by doing
+          real projects, working with real teams, and building real things they can be proud of.
+        </p>
+      </div>
+
+      {/* Mission — white card */}
+      <div className="rounded-xl border border-sp-border-soft bg-white p-8 md:p-10">
+        <SectionEyebrow color="coral">OUR MISSION</SectionEyebrow>
+        <h3 className="font-serif mt-4 text-2xl font-semibold leading-tight text-sp-primary md:text-3xl">
+          Provide safe, real-world project challenges that teach what schools can&apos;t.
+        </h3>
+        <p className="mt-4 leading-relaxed text-sp-text-primary">
+          We deliver structured 4–5 week project experiences that teach research, teamwork, project
+          management, discipline, and creative execution — wrapped in a safe, parent-managed
+          platform.
+        </p>
       </div>
     </section>
   )
 }
 
-function MissionSection() {
-  return (
-    <section className="px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-7xl">
-        <div className="mx-auto max-w-3xl text-center">
-          <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#26483E]/10 text-2xl">
-            🎯
-          </div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">
-            Our Mission
-          </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-            Provide safe, real-world project challenges that teach what schools can&apos;t.
-          </h2>
-          <p className="mt-6 text-base leading-relaxed text-[#5B6472]">
-            Schools give children theory. We give them practice. Through structured 4–5 week project
-            experiences, children learn research, teamwork, project management, discipline, and
-            creative execution. Every project is designed to be completed with a partner, reviewed by
-            real people, and celebrated with recognition that builds a lasting achievement profile.
-          </p>
-        </div>
-      </div>
-    </section>
-  )
-}
+/* ─── Section 3 – Our Story + Stats ─── */
 
 function StorySection() {
   return (
-    <section className="bg-[#F4EFE7] px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">
-          Our Story
-        </p>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-          Started in Kassel. Built for European families.
-        </h2>
-        <p className="mt-6 max-w-3xl text-base leading-relaxed text-[#5B6472]">
-          Star Project was founded in 2026 by Aldy YK and Yeedi J., two builders who saw that
-          traditional education was not keeping pace with a changing world. They chose Kassel,
-          Germany as the launch city — a place where innovation meets community. Today, Star Project
-          is building a platform where European families can help their children discover careers
-          through real projects, real teamwork, and real recognition.
-        </p>
+    <section className="rounded-xl border border-sp-border-soft bg-white p-6 md:p-10">
+      <div className="grid items-start gap-8 md:grid-cols-[1.2fr_1fr] md:gap-12">
+        {/* Left — story */}
+        <div>
+          <SectionEyebrow color="coral">OUR STORY</SectionEyebrow>
+          <h3 className="font-serif mt-4 text-2xl font-semibold text-sp-primary md:text-3xl">
+            Started in Kassel. Built for European families.
+          </h3>
+          <p className="mt-4 leading-relaxed text-sp-text-primary">
+            Star Project was founded in 2026 by Aldy YK and Yeedi J after watching children —
+            including our own — graduate from years of screen-based learning without confidence in
+            any real skill.
+          </p>
+          <p className="mt-4 leading-relaxed text-sp-text-primary">
+            We chose Kassel as our launch city because it sits at the heart of Germany&apos;s
+            apprenticeship and craftsmanship tradition — a place where building real things has
+            always mattered.
+          </p>
+        </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {FOUNDER_STATS.map((stat) => (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 text-center shadow-sm"
-            >
-              <p className="text-4xl font-bold text-[#26483E]">{stat.value}</p>
-              <p className="mt-2 text-sm text-[#5B6472]">{stat.label}</p>
-            </div>
-          ))}
+        {/* Right — 2x2 stat grid */}
+        <div className="grid grid-cols-2 gap-3 md:gap-4">
+          <div className="rounded-lg bg-sp-bg-card-muted p-5">
+            <p className="font-serif text-3xl font-semibold text-sp-primary md:text-4xl">2026</p>
+            <p className="mt-1 text-xs text-sp-text-muted">Founded in Kassel</p>
+          </div>
+          <div className="rounded-lg bg-sp-bg-card-muted p-5">
+            <p className="font-serif text-3xl font-semibold text-sp-coral md:text-4xl">9</p>
+            <p className="mt-1 text-xs text-sp-text-muted">Career categories</p>
+          </div>
+          <div className="rounded-lg bg-sp-bg-card-muted p-5">
+            <p className="font-serif text-3xl font-semibold text-sp-primary md:text-4xl">7</p>
+            <p className="mt-1 text-xs text-sp-text-muted">Progressive levels</p>
+          </div>
+          <div className="rounded-lg bg-sp-bg-card-muted p-5">
+            <p className="font-serif text-3xl font-semibold text-sp-coral md:text-4xl">100%</p>
+            <p className="mt-1 text-xs text-sp-text-muted">GDPR-ready</p>
+          </div>
         </div>
       </div>
     </section>
   )
 }
 
-function ContactSection() {
+/* ─── Section 4 – Get in Touch header ─── */
+
+function ContactHeader() {
   return (
-    <section className="px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">Contact</p>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-          Visit us, write us, or just say hi.
-        </h2>
+    <section className="text-center">
+      <SectionEyebrow color="coral" className="text-center">
+        GET IN TOUCH
+      </SectionEyebrow>
+      <h2 className="font-serif mt-3 text-3xl font-semibold text-sp-primary md:text-4xl">
+        Visit us, write us, or just say hi.
+      </h2>
+    </section>
+  )
+}
 
-        <div className="mt-12 grid gap-8 lg:grid-cols-3">
-          <div className="space-y-4 lg:col-span-1">
-            <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#8A8F98]">
-                Email
-              </p>
-              <p className="text-sm font-medium text-[#172033]">hello@starproject.de</p>
-            </div>
-            <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#8A8F98]">
-                Phone
-              </p>
-              <p className="text-sm font-medium text-[#172033]">+49 561 000 0000</p>
-            </div>
-            <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#8A8F98]">
-                Address
-              </p>
-              <p className="text-sm font-medium text-[#172033]">
-                Königsplatz 12, 34117 Kassel, Germany
-              </p>
-            </div>
-            <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest text-[#8A8F98]">
-                Legal
-              </p>
-              <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1.5 text-sm font-medium text-[#26483E]">
-                <a href="#" className="transition-colors hover:text-[#547C6A]">
-                  Impressum
-                </a>
-                <a href="#" className="transition-colors hover:text-[#547C6A]">
-                  Datenschutz
-                </a>
-                <a href="#" className="transition-colors hover:text-[#547C6A]">
-                  AGB
-                </a>
-              </div>
-            </div>
-          </div>
+/* ─── Section 5 – Contact ─── */
 
-          <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm lg:col-span-1">
-            <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#172033]">
-              Send us a message
+function ContactFormCard() {
+  return (
+    <div className="rounded-xl border border-sp-border-soft bg-white p-6 md:p-8">
+      <h3 className="font-serif text-xl font-semibold text-sp-primary md:text-2xl">
+        Contact Information
+      </h3>
+
+      {/* Info rows */}
+      <div className="mt-5 space-y-4">
+        <div className="flex items-start gap-3">
+          <IconTile size="sm" tint="coral">📧</IconTile>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-sp-text-muted">
+              EMAIL
             </p>
-            <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
-              <div>
-                <label htmlFor="name" className="block text-xs font-medium text-[#5B6472]">
-                  Your name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-                  placeholder="Name"
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-xs font-medium text-[#5B6472]">
-                  Email
-                </label>
-                <input
-                  id="email"
-                  type="email"
-                  className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-                  placeholder="email@example.com"
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-xs font-medium text-[#5B6472]">
-                  Message
-                </label>
-                <textarea
-                  id="message"
-                  rows={4}
-                  className="mt-1.5 w-full rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] placeholder-[#8A8F98] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-                  placeholder="Your message"
-                />
-              </div>
-              <button
-                type="submit"
-                className="rounded-full bg-[#26483E] px-7 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-[#1F3D35] hover:shadow-md"
-              >
-                Send Message
-              </button>
-            </form>
+            <a href="mailto:hello@starproject.de" className="font-medium text-sp-primary hover:underline">
+              hello@starproject.de
+            </a>
           </div>
-
-          <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm lg:col-span-1">
-            <p className="mb-6 text-sm font-semibold uppercase tracking-wider text-[#172033]">
-              Office Hours
+        </div>
+        <div className="flex items-start gap-3">
+          <IconTile size="sm" tint="coral">📞</IconTile>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-sp-text-muted">
+              PHONE
             </p>
-            <div className="space-y-4 text-sm">
-              <div className="flex items-center justify-between rounded-xl bg-[#F4EFE7] px-4 py-3">
-                <span className="text-[#5B6472]">Mon – Fri</span>
-                <span className="font-medium text-[#172033]">09:00 – 18:00</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl bg-[#F4EFE7] px-4 py-3">
-                <span className="text-[#5B6472]">Saturday</span>
-                <span className="font-medium text-[#172033]">10:00 – 14:00</span>
-              </div>
-              <div className="flex items-center justify-between rounded-xl bg-[#F4EFE7] px-4 py-3">
-                <span className="text-[#5B6472]">Sunday</span>
-                <span className="font-medium text-[#8A8F98]">Closed</span>
-              </div>
-            </div>
-
-            <p className="mt-6 text-xs leading-relaxed text-[#8A8F98]">
-              Our office is open for visits by appointment. We are happy to meet families, educators,
-              and partners who share our vision.
+            <a href="tel:+495610000000" className="font-medium text-sp-primary hover:underline">
+              +49 561 000 0000
+            </a>
+          </div>
+        </div>
+        <div className="flex items-start gap-3">
+          <IconTile size="sm" tint="coral">📍</IconTile>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-sp-text-muted">
+              ADDRESS
+            </p>
+            <p className="font-medium text-sp-primary">Königsplatz 12, 34117 Kassel, Germany</p>
+          </div>
+        </div>
+        <div className="flex items-start gap-3">
+          <IconTile size="sm" tint="coral">⚖️</IconTile>
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-sp-text-muted">
+              LEGAL
+            </p>
+            <p className="font-medium text-sp-primary">
+              <a href="#" className="hover:underline">Impressum</a>
+              <span className="mx-1.5 text-sp-text-muted">·</span>
+              <a href="#" className="hover:underline">Datenschutz</a>
+              <span className="mx-1.5 text-sp-text-muted">·</span>
+              <a href="#" className="hover:underline">AGB</a>
             </p>
           </div>
         </div>
       </div>
-    </section>
+
+      <hr className="my-6 border-sp-border-soft" />
+
+      {/* Form */}
+      <h4 className="font-semibold text-sp-primary">Send us a message</h4>
+      <form className="mt-4" onSubmit={(e) => { e.preventDefault(); alert('Thank you — message logged.'); }}>
+        <div className="grid gap-4 md:grid-cols-2">
+          <div>
+            <label htmlFor="contact-name" className="mb-1 block text-sm font-medium text-sp-text-primary">
+              Your name
+            </label>
+            <input
+              id="contact-name"
+              type="text"
+              placeholder="Anna Müller"
+              className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+            />
+          </div>
+          <div>
+            <label htmlFor="contact-email" className="mb-1 block text-sm font-medium text-sp-text-primary">
+              Email
+            </label>
+            <input
+              id="contact-email"
+              type="email"
+              placeholder="anna@example.com"
+              className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+            />
+          </div>
+        </div>
+        <div className="mt-4">
+          <label htmlFor="contact-message" className="mb-1 block text-sm font-medium text-sp-text-primary">
+            Message
+          </label>
+          <textarea
+            id="contact-message"
+            rows={4}
+            placeholder="Tell us how we can help..."
+            className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
+          />
+        </div>
+        <button
+          type="submit"
+          className="mt-4 rounded-lg bg-sp-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sp-primary-hover"
+        >
+          Send Message
+        </button>
+      </form>
+    </div>
   )
 }
+
+/* ─── Office Hours Card ─── */
+
+function OfficeHoursCard() {
+  const hours = [
+    { day: 'Mon–Fri', time: '09:00 – 18:00', highlight: true },
+    { day: 'Saturday', time: '10:00 – 14:00', highlight: true },
+    { day: 'Sunday', time: 'Closed', highlight: false },
+  ]
+
+  return (
+    <div className="rounded-xl border border-sp-border-soft bg-white p-6">
+      <h3 className="font-serif text-xl font-semibold text-sp-primary">Office Hours</h3>
+      <div className="mt-4">
+        {hours.map((h) => (
+          <div
+            key={h.day}
+            className="flex items-center justify-between border-b border-sp-border-soft py-2 last:border-0"
+          >
+            <span className="text-sm text-sp-text-primary">{h.day}</span>
+            <span className={`text-sm font-medium ${h.highlight ? 'text-sp-primary' : 'text-sp-text-muted'}`}>
+              {h.time}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/* ─── Map Card ─── */
+
+function MapCard() {
+  return (
+    <div className="overflow-hidden rounded-xl border border-sp-border-soft" style={{ background: '#E0E8D4' }}>
+      <div className="aspect-[16/10]">
+        <svg
+          viewBox="0 0 400 250"
+          className="h-full w-full"
+          aria-label="Approximate location of Star Project Kassel office"
+        >
+          {/* Horizontal streets */}
+          <line x1="0" y1="60" x2="400" y2="60" stroke="#F5EFE4" strokeWidth="3" />
+          <line x1="0" y1="120" x2="400" y2="120" stroke="#F5EFE4" strokeWidth="3" />
+          <line x1="0" y1="180" x2="400" y2="180" stroke="#F5EFE4" strokeWidth="3" />
+
+          {/* Vertical streets */}
+          <line x1="80" y1="0" x2="80" y2="250" stroke="#F5EFE4" strokeWidth="3" />
+          <line x1="200" y1="0" x2="200" y2="250" stroke="#F5EFE4" strokeWidth="3" />
+          <line x1="320" y1="0" x2="320" y2="250" stroke="#F5EFE4" strokeWidth="3" />
+
+          {/* Parks */}
+          <rect x="10" y="10" width="50" height="40" rx="4" fill="#6B8E4E" opacity="0.4" />
+          <rect x="340" y="190" width="50" height="50" rx="4" fill="#6B8E4E" opacity="0.4" />
+          <rect x="250" y="10" width="50" height="40" rx="4" fill="#6B8E4E" opacity="0.4" />
+
+          {/* Pin */}
+          <g transform="translate(200, 100)">
+            <path d="M0,-30 C-18,-30 -30,-18 -30,0 C-30,25 0,50 0,50 C0,50 30,25 30,0 C30,-18 18,-30 0,-30Z" fill="#D26B4A" />
+            <circle cx="0" cy="-5" r="10" fill="white" />
+          </g>
+
+          {/* Label */}
+          <text x="200" y="175" textAnchor="middle" className="text-xs font-semibold" fill="#1F3D2E">
+            Kassel HQ
+          </text>
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Page export ─── */
 
 export function AboutPage() {
   return (
-    <>
+    <div className="mx-auto flex max-w-7xl flex-col gap-16 px-4 py-12 md:gap-24 md:px-6 md:py-16">
       <HeroSection />
-      <VisionSection />
-      <MissionSection />
+      <VisionMissionSection />
       <StorySection />
-      <ContactSection />
-    </>
+      <ContactHeader />
+      <section className="grid gap-6 md:grid-cols-2">
+        <ContactFormCard />
+        <div className="flex flex-col gap-6">
+          <MapCard />
+          <OfficeHoursCard />
+        </div>
+      </section>
+    </div>
   )
 }
