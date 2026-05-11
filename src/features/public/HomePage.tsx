@@ -1,451 +1,358 @@
 ﻿import { Link } from 'react-router-dom'
+import { Pill } from '../../components/ui'
+import { StatCard } from '../../components/ui'
+import { IconTile } from '../../components/ui'
+import { SectionEyebrow } from '../../components/ui'
+import { ProjectCard } from '../../components/cards'
+import { HOME_NEWLY_RELEASED } from '../../data/mock/projects'
 
-type Project = {
-  id: string
-  category: string
-  icon: string
-  level: string
-  cardCategoryBg: string
-  title: string
-  description: string
-  footerLeft: string
-  footerRight: string
+const WATCH_HOW_IT_WORKS = '#'
+
+/* ─── Section 1 – Hero ─── */
+
+function HeroIllustration() {
+  return (
+    <svg viewBox="0 0 400 400" className="w-full max-w-[400px] h-auto" aria-hidden="true">
+      {/* background warm circles */}
+      <circle cx="340" cy="60" r="80" fill="#F4D9CC" opacity="0.35" />
+      <circle cx="60" cy="340" r="60" fill="#E0E8D4" opacity="0.35" />
+      <circle cx="200" cy="200" r="130" fill="#F2E6CC" opacity="0.25" />
+
+      {/* stars */}
+      <text x="300" y="70" fontSize="32" textAnchor="middle" fill="#C9A063">★</text>
+      <text x="80" y="100" fontSize="24" textAnchor="middle" fill="#D26B4A">★</text>
+
+      {/* character 1 (left) */}
+      <circle cx="150" cy="170" r="22" fill="#1F3D2E" />
+      <rect x="128" y="192" rx="14" ry="14" width="44" height="60" fill="#1F3D2E" />
+      {/* apron */}
+      <rect x="133" y="198" rx="10" ry="10" width="34" height="48" fill="#F4D9CC" />
+
+      {/* character 2 (right) */}
+      <circle cx="250" cy="165" r="20" fill="#D26B4A" />
+      <rect x="230" y="185" rx="12" ry="12" width="40" height="55" fill="#D26B4A" />
+
+      {/* project block in front */}
+      <rect x="155" y="230" rx="14" ry="14" width="90" height="55" fill="white" stroke="#EFE7D9" strokeWidth="1.5" />
+      <text x="200" y="260" fontSize="28" textAnchor="middle" fill="#1F3D2E">🍝</text>
+
+      {/* small decorative dots */}
+      <circle cx="320" cy="300" r="6" fill="#D26B4A" opacity="0.4" />
+      <circle cx="80" cy="220" r="5" fill="#C9A063" opacity="0.5" />
+      <circle cx="270" cy="310" r="4" fill="#1F3D2E" opacity="0.2" />
+    </svg>
+  )
 }
-
-type Testimonial = {
-  quote: string
-  name: string
-  role: string
-  initials: string
-  avatarBg: string
-  avatarColor: string
-}
-
-type Stat = {
-  value: string
-  label: string
-  source: string
-}
-
-type Feature = {
-  icon: string
-  title: string
-  description: string
-}
-
-const HERO_STATS: Stat[] = [
-  { value: '9', label: 'Career Paths', source: '' },
-  { value: '4–5', label: 'Week Projects', source: '' },
-  { value: '€29', label: '/month Family', source: '' },
-]
-
-const RESEARCH_STATS: Stat[] = [
-  {
-    value: '39%',
-    label: 'of teens uncertain about their future career',
-    source: 'OECD/PISA 2022',
-  },
-  {
-    value: '70K',
-    label: 'vacant apprenticeship positions in Germany',
-    source: 'end of 2023',
-  },
-  {
-    value: '39%',
-    label: 'of key job skills expected to change by 2030',
-    source: 'WEF Future of Jobs',
-  },
-  {
-    value: '66',
-    label: 'studies support project-based learning outcomes',
-    source: 'meta-analysis',
-  },
-]
-
-const FEATURES: Feature[] = [
-  {
-    icon: '🔨',
-    title: 'Real-World Projects',
-    description:
-      'Children build, cook, code, design, and create real things — not just worksheets. Each project follows a research-to-completion cycle.',
-  },
-  {
-    icon: '👥',
-    title: 'Teamwork by Design',
-    description:
-      'Projects require a partner. Children learn to collaborate, share tasks, and celebrate together. No solo sprints.',
-  },
-  {
-    icon: '🧭',
-    title: 'Career Path Orientation',
-    description:
-      'Nine career categories from Chef to Robotics. Children explore different fields, discover what they love, and build real skills early.',
-  },
-]
-
-const PROJECTS: Project[] = [
-  {
-    id: 'ice-cream',
-    category: 'CHEF',
-    icon: '🍦',
-    level: 'TINY',
-    cardCategoryBg: '#FCE1D8',
-    title: 'The Ice Cream Project',
-    description:
-      'Survey, build, test, improve — make your own ice cream from scratch.',
-    footerLeft: '★ 1 Star',
-    footerRight: 'AGE 4+',
-  },
-  {
-    id: 'greenhouse',
-    category: 'FARM',
-    icon: '🌱',
-    level: 'JUNIOR',
-    cardCategoryBg: '#DDEBDD',
-    title: 'Mini Greenhouse Build',
-    description:
-      'Design, build, and monitor a small greenhouse with sensors.',
-    footerLeft: '★ 1 Star',
-    footerRight: 'AGE 8+',
-  },
-  {
-    id: 'line-bot',
-    category: 'ROBOTICS',
-    icon: '🤖',
-    level: 'YOUNG',
-    cardCategoryBg: '#DCEAF2',
-    title: 'Line-Following Bot',
-    description:
-      'Build a small robot that follows a path using sensors and code.',
-    footerLeft: '★ 1 Star',
-    footerRight: 'AGE 10+',
-  },
-  {
-    id: 'song',
-    category: 'MYTHICAL',
-    icon: '✨',
-    level: 'PREMIUM',
-    cardCategoryBg: 'linear-gradient(135deg, #26483E, #C9785A)',
-    title: 'Compose & Record an Original Song',
-    description:
-      'Premium expert-led: compose, arrange, and record a track end-to-end.',
-    footerLeft: '€50 / star',
-    footerRight: 'AGE 13+',
-  },
-]
-
-const TESTIMONIALS: Testimonial[] = [
-  {
-    quote:
-      'My daughter went from watching videos all day to actually building a small herb garden. She\'s proud of it. That\'s worth €29 a month.',
-    name: 'Anna M.',
-    role: 'Parent · Kassel',
-    initials: 'AM',
-    avatarBg: '#FCE1D8',
-    avatarColor: '#E98A6A',
-  },
-  {
-    quote:
-      'I learned how to interview real people for my chef project. Now I want to open my own ice cream shop someday.',
-    name: 'Lukas S., age 9',
-    role: 'Chef · Tiny Level',
-    initials: 'LS',
-    avatarBg: '#DDEBDD',
-    avatarColor: '#6C9A63',
-  },
-  {
-    quote:
-      'The team requirement felt strange at first, but it\'s the best part. My son and his cousin actually plan things together now.',
-    name: 'Thomas K.',
-    role: 'Parent · Hessen',
-    initials: 'TK',
-    avatarBg: '#DCEAF2',
-    avatarColor: '#5D8AA8',
-  },
-]
 
 function HeroSection() {
   return (
-    <section className="bg-[#26483E] px-6 py-20 text-[#FFFDF8] md:py-28">
-      <div className="mx-auto max-w-7xl">
-        <span className="inline-flex items-center gap-2 rounded-full border border-[#547C6A] px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-[#F4C542]">
-          <span className="h-1.5 w-1.5 rounded-full bg-[#F4C542]" />
-          Now Live in Kassel
-        </span>
+    <section className="relative overflow-hidden">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 md:flex-row md:px-6 md:py-16 lg:py-20">
+        {/* Left column – text */}
+        <div className="flex-1">
+          <Pill variant="pending" size="sm" className="mb-6">
+            ⭐ NOW LIVE IN KASSEL
+          </Pill>
 
-        <h1 className="mt-8 text-5xl font-bold leading-tight tracking-tight md:text-7xl md:leading-[1.1]">
-          Let&apos;s Create
-          <br />
-          Something Real.
-        </h1>
+          <h1 className="font-serif text-5xl md:text-6xl font-semibold leading-[1.05] text-sp-primary tracking-normal">
+            Let&apos;s Create
+            <br />
+            Something
+            <br />
+            <span className="italic text-sp-accent-green">Real.</span>
+          </h1>
 
-        <p className="mt-6 max-w-2xl text-base leading-relaxed text-[#D8D3CA] md:text-lg">
-          Star Project helps children ages 4–18 discover future careers by completing real-world
-          projects, working in teams, and earning recognition for their work. No passive videos.
-          Just real creating.
-        </p>
+          <p className="mt-5 max-w-md text-sp-text-muted">
+            A project-based career discovery platform helping children aged 4–18 explore their
+            future through real-world challenges, teamwork, and guided reflection. Not another video
+            course — real projects.
+          </p>
 
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-          <Link
-            to="/register"
-            className="inline-flex items-center justify-center rounded-full bg-[#F29B7F] px-8 py-3.5 text-sm font-bold text-[#1F3D35] shadow-md transition-all hover:bg-[#F7B98D] hover:shadow-lg"
-          >
-            Start Your Career
-          </Link>
-          <Link
-            to="/about"
-            className="inline-flex items-center justify-center rounded-full border border-[#547C6A] px-8 py-3.5 text-sm font-semibold text-[#FFFDF8] transition-colors hover:bg-[#1F3D35]"
-          >
-            Watch How It Works
-          </Link>
-        </div>
-
-        <div className="mt-12 flex flex-wrap gap-x-10 gap-y-3">
-          {HERO_STATS.map((stat, i) => (
-            <div key={stat.label} className="flex items-center gap-x-10">
-              <div>
-                <span className="text-2xl font-bold text-[#F4C542]">{stat.value}</span>
-                <span className="ml-1.5 text-sm text-[#D8D3CA]">{stat.label}</span>
-              </div>
-              {i < HERO_STATS.length - 1 && (
-                <span className="hidden h-8 w-px bg-[#547C6A] sm:block" />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function ResearchSection() {
-  const icons = ['📊', '🔧', '📈', '📚']
-  return (
-    <section className="px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">
-          Why It Matters
-        </p>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-          Career uncertainty is real.
-          <br />
-          Project-based learning helps.
-        </h2>
-
-        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-          {RESEARCH_STATS.map((stat, i) => (
-            <div
-              key={stat.label}
-              className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm"
+          {/* CTAs */}
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              to="/register"
+              className="rounded-lg bg-sp-primary px-5 py-3 font-semibold text-white transition-colors hover:bg-sp-primary-hover"
             >
-              <div className="mb-4 flex h-10 w-10 items-center justify-center rounded-xl bg-[#F4EFE7] text-lg">
-                {icons[i]}
-              </div>
-              <p className="text-4xl font-bold text-[#26483E]">{stat.value}</p>
-              <p className="mt-2 text-sm leading-relaxed text-[#172033]">{stat.label}</p>
-              <p className="mt-3 text-xs text-[#8A8F98]">Source: {stat.source}</p>
+              Start Your Career →
+            </Link>
+            <Link
+              to={WATCH_HOW_IT_WORKS}
+              className="rounded-lg border border-sp-border-input bg-white px-5 py-3 font-semibold text-sp-primary transition-colors hover:bg-sp-bg-card-muted"
+            >
+              ▶ Watch How It Works
+            </Link>
+          </div>
+
+          {/* Stats strip */}
+          <div className="mt-8 flex gap-8">
+            <div className="flex items-center gap-8">
+              <StatCard variant="inline" value="9" label="CAREER PATHS" />
+              <span className="hidden h-8 w-px bg-sp-border-soft md:block" />
             </div>
-          ))}
+            <StatCard variant="inline" value="4–5" label="WEEK PROJECTS" />
+            <span className="hidden h-8 w-px bg-sp-border-soft md:block" />
+            <StatCard variant="inline" value="€29" label="/ MONTH · FAMILY" />
+          </div>
+        </div>
+
+        {/* Right column – illustration */}
+        <div className="flex shrink-0 items-center justify-center">
+          <HeroIllustration />
         </div>
       </div>
     </section>
   )
 }
+
+/* ─── Section 2 – The Reality ─── */
+
+const REALITY_STATS = [
+  {
+    value: '39%',
+    label:
+      'of 15-year-olds across OECD countries are unclear about their career expectations.',
+    source: 'OECD · PISA 2022',
+  },
+  {
+    value: '70K',
+    label:
+      'apprenticeship positions remained vacant in Germany by end of 2023.',
+    source: 'BERTELSMANN STIFTUNG · 2024',
+  },
+  {
+    value: '39%',
+    label:
+      'of key job skills are expected to change by 2030 — kids need adaptability.',
+    source: 'WORLD ECONOMIC FORUM · 2025',
+  },
+  {
+    value: '66',
+    label:
+      'studies meta-analyzed: project-based learning significantly improves outcomes.',
+    source: 'FRONTIERS IN PSYCHOLOGY · 2023',
+  },
+]
+
+function RealitySection() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="text-center">
+        <SectionEyebrow color="coral">THE REALITY</SectionEyebrow>
+        <h2 className="font-serif mt-2 text-3xl md:text-4xl font-semibold text-sp-primary">
+          Why early career discovery matters now.
+        </h2>
+        <p className="mt-2 text-sp-text-muted">
+          The job market is shifting faster than schools can adapt. Here&apos;s what the data tells
+          us.
+        </p>
+      </div>
+
+      <div className="mt-10 grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
+        {REALITY_STATS.map((stat) => (
+          <StatCard key={stat.value + stat.label} variant="large" {...stat} />
+        ))}
+      </div>
+    </section>
+  )
+}
+
+/* ─── Section 3 – Why Choose Us ─── */
+
+const FEATURES = [
+  {
+    icon: '🎯',
+    tint: 'coral' as const,
+    title: 'Real-World Projects',
+    body: 'Children create something tangible — a recipe, a robot, a song, a community plan. Not passive video lessons.',
+  },
+  {
+    icon: '🤝',
+    tint: 'farm' as const,
+    title: 'Teamwork by Design',
+    body: 'Minimum 2 registered users to start. Accountability and collaboration are built into every project.',
+  },
+  {
+    icon: '⭐',
+    tint: 'gold' as const,
+    title: 'Career Path Orientation',
+    body: '9 future-oriented categories from Robotics to Music to Community Building — real fields, real futures.',
+  },
+]
 
 function WhyChooseUsSection() {
   return (
-    <section className="bg-[#F4EFE7] px-6 py-20 md:py-24">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#5B6472]">
-          Why Choose Us
-        </p>
-        <h2 className="mt-4 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-          Built for real discovery
+    <section className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="text-center">
+        <SectionEyebrow color="coral">WHY CHOOSE US</SectionEyebrow>
+        <h2 className="font-serif mt-2 text-3xl md:text-4xl font-semibold text-sp-primary">
+          Real projects. Real teamwork. Real progress.
         </h2>
+      </div>
 
-        <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {FEATURES.map((feature) => (
-            <div
-              key={feature.title}
-              className="group rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-8 shadow-sm transition-shadow hover:shadow-md"
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F4EFE7] text-2xl transition-colors group-hover:bg-[#26483E]/10">
-                {feature.icon}
-              </div>
-              <h3 className="mt-6 text-lg font-bold text-[#172033]">{feature.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-[#5B6472]">{feature.description}</p>
-            </div>
-          ))}
-        </div>
+      <div className="mt-10 grid gap-4 md:grid-cols-3 md:gap-6">
+        {FEATURES.map((f) => (
+          <div
+            key={f.title}
+            className="rounded-xl border border-sp-border-soft bg-white p-6"
+          >
+            <IconTile size="md" tint={f.tint}>
+              {f.icon}
+            </IconTile>
+            <h3 className="mt-4 text-base font-semibold text-sp-primary">{f.title}</h3>
+            <p className="mt-2 text-sm text-sp-text-muted">{f.body}</p>
+          </div>
+        ))}
       </div>
     </section>
   )
 }
 
-function ProjectCard({ project, isMythical }: { project: Project; isMythical?: boolean }) {
+/* ─── Section 4 – Newly Released ─── */
+
+function NewlyReleasedSection() {
   return (
-    <div className="group flex flex-col overflow-hidden rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] shadow-sm transition-shadow hover:shadow-md">
-      <div
-        className="relative flex h-[120px] items-center justify-center"
-        style={{ background: project.cardCategoryBg }}
-      >
-        <span
-          className="absolute left-3 top-3 text-[10px] font-semibold uppercase tracking-widest"
-          style={{ color: isMythical ? '#F4C542' : '#5B6472' }}
-        >
-          {project.category}
-        </span>
-
-        <span
-          className={`absolute right-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider ${
-            isMythical
-              ? 'bg-white/20 text-white'
-              : 'bg-white/80 text-[#172033]'
-          }`}
-        >
-          {project.level === 'TINY'
-            ? '⭐ TINY'
-            : project.level === 'JUNIOR'
-              ? '⭐⭐⭐ JUNIOR'
-              : project.level === 'YOUNG'
-                ? '⭐⭐⭐⭐ YOUNG'
-                : '⭐⭐⭐ × 3'}
-        </span>
-
-        <span className="text-4xl">{project.icon}</span>
-      </div>
-
-      <div className="flex flex-1 flex-col px-4 pb-4 pt-3">
-        <h3 className="text-base font-semibold tracking-tight text-[#172033]">{project.title}</h3>
-        <p className="mt-1.5 flex-1 text-xs leading-relaxed text-[#8A8F98]">
-          {project.description}
-        </p>
-
-        <div className="mt-3 flex items-center justify-between border-t border-[#E8E1D8] pt-3">
-          <span className="text-xs text-[#5B6472]">{project.footerLeft}</span>
-          <span className="text-xs font-medium text-[#172033]">{project.footerRight}</span>
+    <section className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="flex items-end justify-between">
+        <div>
+          <SectionEyebrow color="coral">NEWLY RELEASED</SectionEyebrow>
+          <h2 className="font-serif mt-2 text-3xl md:text-4xl font-semibold text-sp-primary">
+            Fresh projects, ready to start.
+          </h2>
         </div>
-      </div>
-    </div>
-  )
-}
-
-function ProjectsSection() {
-  return (
-    <section className="px-6 py-16 md:py-20">
-      <div className="mx-auto max-w-7xl">
-        <div className="flex items-end justify-between">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F29B7F]">
-              NEWLY RELEASED
-            </p>
-            <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-              Fresh projects, ready to start.
-            </h2>
-          </div>
-          <Link
-            to="/start"
-            className="hidden shrink-0 text-sm font-medium text-[#26483E] transition-colors hover:text-[#547C6A] md:inline-flex md:items-center md:gap-1"
-          >
-            View All Projects →
-          </Link>
-        </div>
-
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {PROJECTS.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              isMythical={project.id === 'song'}
-            />
-          ))}
-        </div>
-
         <Link
           to="/start"
-          className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-[#26483E] transition-colors hover:text-[#547C6A] md:hidden"
+          className="hidden shrink-0 font-semibold text-sp-coral transition-colors hover:underline md:inline-block"
         >
           View All Projects →
         </Link>
       </div>
+
+      <div className="mt-8 grid gap-4 md:grid-cols-2 md:gap-6 lg:grid-cols-4">
+        {HOME_NEWLY_RELEASED.map((p) => (
+          <ProjectCard key={p.id} project={p} />
+        ))}
+      </div>
+
+      <Link
+        to="/start"
+        className="mt-4 inline-block font-semibold text-sp-coral transition-colors hover:underline md:hidden"
+      >
+        View All Projects →
+      </Link>
     </section>
   )
 }
 
+/* ─── Section 5 – From Our Families ─── */
+
+const TESTIMONIALS = [
+  {
+    quote:
+      'My daughter went from watching videos all day to actually building a small herb garden. She\'s proud of it. That\'s worth €29 a month.',
+    initials: 'AM',
+    avatarBg: 'bg-sp-coral',
+    name: 'Anna M.',
+    role: 'Parent · Kassel',
+  },
+  {
+    quote:
+      'I learned how to interview real people for my chef project. Now I want to open my own ice cream shop someday.',
+    initials: 'LS',
+    avatarBg: 'bg-category-farm-bg text-sp-accent-green',
+    name: 'Lukas S., age 9',
+    role: 'Chef · Tiny Level',
+  },
+  {
+    quote:
+      'The team requirement felt strange at first, but it\'s the best part. My son and his cousin actually plan things together now.',
+    initials: 'TK',
+    avatarBg: 'bg-sp-coral',
+    name: 'Thomas K.',
+    role: 'Parent · Hessen',
+  },
+]
+
 function TestimonialsSection() {
   return (
-    <section className="bg-[#FAF7F2] px-6 py-16 md:py-20">
-      <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#F29B7F]">
-          FROM OUR FAMILIES
-        </p>
-        <h2 className="mt-2 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
+    <section className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="text-center">
+        <SectionEyebrow color="coral">FROM OUR FAMILIES</SectionEyebrow>
+        <h2 className="font-serif mt-2 text-3xl md:text-4xl font-semibold text-sp-primary">
           What parents and children say.
         </h2>
-        <p className="mt-2 text-sm text-[#5B6472]">
+        <p className="mt-2 text-sm text-sp-text-muted">
           Public testimonials shared with explicit parent consent.
         </p>
+      </div>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {TESTIMONIALS.map((t) => (
-            <div
-              key={t.name}
-              className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-5 shadow-sm"
-            >
-              <p className="text-sm italic leading-relaxed text-[#5B6472]">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div className="mt-5 flex items-center gap-3">
-                <div
-                  className="flex h-10 w-10 items-center justify-center rounded-full text-xs font-bold"
-                  style={{ background: t.avatarBg, color: t.avatarColor }}
-                >
-                  {t.initials}
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-[#172033]">{t.name}</p>
-                  <p className="text-xs text-[#8A8F98]">{t.role}</p>
-                </div>
+      <div className="mt-10 grid gap-4 md:grid-cols-3 md:gap-6">
+        {TESTIMONIALS.map((t) => (
+          <div
+            key={t.name}
+            className="rounded-xl border border-sp-border-soft bg-white p-6"
+          >
+            <p className="font-serif italic text-sp-text-primary leading-relaxed text-base">&ldquo;{t.quote}&rdquo;</p>
+            <div className="mt-6 flex items-center gap-3">
+              <div
+                className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold text-white ${t.avatarBg}`}
+              >
+                {t.initials}
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-sp-primary">{t.name}</p>
+                <p className="text-xs text-sp-text-muted">{t.role}</p>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+/* ─── Section 6 – Bottom CTA Banner ─── */
+
+function CtaBanner() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 md:px-6">
+      <div className="relative overflow-hidden rounded-2xl bg-sp-primary p-8 md:p-12">
+        <div
+          className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full opacity-10"
+          style={{ background: '#FAF7F2' }}
+        />
+        <div className="flex flex-col items-start gap-6 md:flex-row md:items-center md:justify-between">
+          <div className="max-w-xl">
+            <h2 className="font-serif text-2xl md:text-3xl font-semibold leading-tight text-white">
+              Ready to start your child&apos;s real-world journey?
+            </h2>
+            <p className="mt-2 text-white/80">
+              Join families across Kassel building real projects, one star at a time.
+            </p>
+          </div>
+          <Link
+            to="/register"
+            className="inline-flex shrink-0 items-center gap-1 rounded-lg bg-sp-coral px-6 py-4 text-lg font-semibold text-white transition-colors hover:bg-sp-coral-hover"
+          >
+            Create Account →
+          </Link>
         </div>
       </div>
     </section>
   )
 }
 
-function CtaBanner() {
-  return (
-    <section className="bg-[#26483E] px-6 py-20 text-center text-[#FFFDF8] md:py-24">
-      <div className="mx-auto max-w-3xl">
-        <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
-          Ready to start your child&apos;s real-world journey?
-        </h2>
-        <p className="mx-auto mt-5 max-w-xl text-sm leading-relaxed text-[#D8D3CA]">
-          Join families in Kassel who are helping their children discover careers through real
-          projects, teamwork, and guided discovery.
-        </p>
-        <Link
-          to="/register"
-          className="mt-8 inline-flex items-center justify-center rounded-full bg-[#F29B7F] px-10 py-3.5 text-sm font-bold text-[#1F3D35] shadow-md transition-all hover:bg-[#F7B98D] hover:shadow-lg"
-        >
-          Create Account
-        </Link>
-      </div>
-    </section>
-  )
-}
+/* ─── Page export ─── */
 
 export function HomePage() {
   return (
-    <>
+    <div className="flex flex-col gap-16 pb-16 md:gap-24">
       <HeroSection />
-      <ResearchSection />
+      <RealitySection />
       <WhyChooseUsSection />
-      <ProjectsSection />
+      <NewlyReleasedSection />
       <TestimonialsSection />
       <CtaBanner />
-    </>
+    </div>
   )
 }

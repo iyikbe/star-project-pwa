@@ -43,14 +43,14 @@ export function PublicLayout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-[#26483E] bg-[#1F3D35] text-[#FFFDF8]">
+      <footer className="border-t border-[#26483E] bg-[#1F3D35] text-white/80">
         <div className="mx-auto max-w-7xl px-6 py-14">
-          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
             <div className="sm:col-span-2 lg:col-span-1">
-              <p className="mb-4 text-lg font-bold tracking-tight">★ Star Project</p>
-              <p className="max-w-xs text-sm leading-relaxed text-[#D8D3CA]">
-                Helping children discover future careers through real-world projects, teamwork, and
-                guided discovery.
+              <p className="mb-4 text-lg font-bold tracking-tight text-white">★ Star Project</p>
+              <p className="max-w-xs text-sm leading-relaxed text-white/60">
+                Project-based career discovery for children aged 4–18. Built in Kassel, Germany.
+                GDPR-compliant.
               </p>
             </div>
 
@@ -58,20 +58,25 @@ export function PublicLayout() {
               <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#F4C542]">
                 Product
               </p>
-              <ul className="space-y-2.5 text-sm text-[#D8D3CA]">
-                <li>
-                  <Link to="/start" className="transition-colors hover:text-white">
-                    Start Your Career
-                  </Link>
-                </li>
+              <ul className="space-y-2.5 text-sm text-white/60">
                 <li>
                   <Link to="/about" className="transition-colors hover:text-white">
-                    About Us
+                    How It Works
                   </Link>
                 </li>
                 <li>
-                  <Link to="/register" className="transition-colors hover:text-white">
-                    Create Account
+                  <Link to="/start" className="transition-colors hover:text-white">
+                    Categories
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/subscription" className="transition-colors hover:text-white">
+                    Pricing
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/start" className="transition-colors hover:text-white">
+                    Mythical Projects
                   </Link>
                 </li>
               </ul>
@@ -81,10 +86,10 @@ export function PublicLayout() {
               <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#F4C542]">
                 Company
               </p>
-              <ul className="space-y-2.5 text-sm text-[#D8D3CA]">
+              <ul className="space-y-2.5 text-sm text-white/60">
                 <li>
                   <Link to="/about" className="transition-colors hover:text-white">
-                    Our Story
+                    About Us
                   </Link>
                 </li>
                 <li>
@@ -99,35 +104,55 @@ export function PublicLayout() {
               <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#F4C542]">
                 Legal
               </p>
-              <ul className="space-y-2.5 text-sm text-[#D8D3CA]">
-                <li>
-                  <a href="#" className="transition-colors hover:text-white">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="transition-colors hover:text-white">
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="transition-colors hover:text-white">
-                    Cookie Policy
-                  </a>
-                </li>
+              <ul className="space-y-2.5 text-sm text-white/60">
                 <li>
                   <a href="#" className="transition-colors hover:text-white">
                     Impressum
                   </a>
                 </li>
+                <li>
+                  <a href="#" className="transition-colors hover:text-white">
+                    Datenschutz
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="transition-colors hover:text-white">
+                    Terms &amp; Conditions
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="transition-colors hover:text-white">
+                    Privacy Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-[#F4C542]">
+                Get in touch
+              </p>
+              <ul className="space-y-2.5 text-sm text-white/60">
+                <li>
+                  <a href="mailto:hello@starproject.de" className="transition-colors hover:text-white">
+                    hello@starproject.de
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+495610000000" className="transition-colors hover:text-white">
+                    +49 561 000 0000
+                  </a>
+                </li>
+                <li className="text-white/60">
+                  Kassel, Germany 🇩🇪
+                </li>
               </ul>
             </div>
           </div>
 
-          <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-[#26483E] pt-8 text-sm text-[#8A8F98] md:flex-row">
-            <p>Contact: hello@starproject.de</p>
-            <p>Made with love in Kassel, Germany</p>
+          <div className="mt-12 flex flex-col items-center justify-between gap-2 border-t border-white/10 pt-8 text-sm text-white/40 md:flex-row">
             <p>&copy; {new Date().getFullYear()} Star Project. All rights reserved.</p>
+            <p>Made with ❤ in Kassel</p>
           </div>
         </div>
       </footer>
