@@ -1,237 +1,256 @@
-﻿import { Link } from 'react-router-dom'
+﻿import { Link, useParams } from 'react-router-dom'
 
-type ReviewItem = {
-  icon: string
-  title: string
-  description: string
-  success: boolean
-}
-
-const REVIEW_ITEMS: ReviewItem[] = [
+const REVIEW_BREAKDOWN = [
   {
+    id: 'r1',
     icon: '✓',
+    iconTint: 'green' as const,
     title: 'Report Document — Passed AI Review',
     description:
       'All 4 weekly sections complete · Strong testing evidence (Week 3) · Excellent reflection',
-    success: true,
   },
   {
+    id: 'r2',
     icon: '✓',
+    iconTint: 'green' as const,
     title: 'Video Proof — Approved by Admin',
     description:
       'Reviewed by Maria S. (Star Project Team) · 3:42 video shows full process clearly',
-    success: true,
   },
   {
+    id: 'r3',
     icon: '✓',
+    iconTint: 'green' as const,
     title: 'Team Participation — Both members verified',
     description: 'Lukas Müller and Sophie K. both contributed to weekly tasks',
-    success: true,
   },
   {
-    icon: '★',
+    id: 'r4',
+    icon: '⭐',
+    iconTint: 'gold' as const,
     title: 'Achievement Issued — Pasta Master Baby',
     description: 'Added to your Achievements list · Certificate generated',
-    success: true,
   },
 ]
 
-function TopBar() {
-  return (
-    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-xs text-[#8A8F98]">
-        Star Project › My Projects › Pasta from Scratch › Review Result
-      </p>
-      <div className="flex items-center gap-4">
-        <div className="text-right text-xs">
-          <p className="font-semibold text-[#172033]">LM Lukas Müller</p>
-          <p className="text-[#8A8F98]">Baby · ⭐ 8</p>
-        </div>
-        <button
-          type="button"
-          className="relative rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
-        >
-          🔔
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C96B5A] text-[9px] font-bold text-white">
-            3
-          </span>
-        </button>
-        <button
-          type="button"
-          className="rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
-        >
-          ✉️
-        </button>
-      </div>
-    </div>
-  )
-}
-
-function SuccessHeader() {
-  return (
-    <div className="rounded-2xl border border-[#DDEBDD] bg-[#FFFDF8] p-7 shadow-sm">
-      <span className="inline-block rounded-full bg-[#DDEBDD] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-[#26483E]">
-        ⭐ Project Completed
-      </span>
-
-      <h1 className="mt-5 text-3xl font-bold tracking-tight text-[#172033] md:text-4xl">
-        Excellent work, Lukas!
-      </h1>
-
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#5B6472]">
-        Your Pasta from Scratch project has been accepted. You&apos;ve earned 1 star in Chef · Baby
-        Level. You now have 8 of 10 stars needed to unlock Junior!
-      </p>
-    </div>
-  )
-}
-
-function ReviewBreakdown() {
-  return (
-    <div>
-      <p className="mb-1 text-sm font-semibold text-[#172033]">Review Breakdown</p>
-      <p className="mb-4 text-xs text-[#5B6472]">
-        Your submission was reviewed automatically by our AI for the report and manually by an admin
-        for the video.
-      </p>
-
-      <div className="space-y-3">
-        {REVIEW_ITEMS.map((item) => (
-          <div
-            key={item.title}
-            className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-4 shadow-sm"
-          >
-            <div className="flex items-start gap-3">
-              <span
-                className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                  item.success
-                    ? 'bg-[#DDEBDD] text-[#26483E]'
-                    : 'bg-[#FCE1D8] text-[#C96B5A]'
-                }`}
-              >
-                {item.icon}
-              </span>
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-[#172033]">{item.title}</p>
-                <p className="mt-1 text-xs leading-relaxed text-[#5B6472]">{item.description}</p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function ReviewerNote() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#26483E] text-xs font-bold text-white">
-          MS
-        </div>
-        <div>
-          <p className="text-sm font-semibold text-[#172033]">Note from Maria S. · Reviewer</p>
-        </div>
-      </div>
-      <p className="mt-4 text-sm italic leading-relaxed text-[#5B6472]">
-        &ldquo;Beautifully documented project, Lukas! Your reflection on what went wrong with the
-        first batch and how you improved the salt level was very mature. Sophie&apos;s photography
-        is fantastic. Keep going!&rdquo;
-      </p>
-    </div>
-  )
-}
-
-function Certificate() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-7 shadow-sm">
-      <div className="rounded-xl border-2 border-[#26483E]/30 bg-[#FAF7F2] p-6 text-center">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#26483E]">
-          Certificate of Completion
-        </p>
-
-        <p className="mt-6 text-xs text-[#5B6472]">This certifies that</p>
-        <p className="mt-1 text-xl font-bold text-[#172033]">Lukas Müller</p>
-
-        <p className="mt-4 text-xs text-[#5B6472]">
-          has successfully completed the project
-        </p>
-        <p className="mt-1 text-base font-semibold text-[#172033]">&ldquo;Pasta from Scratch&rdquo;</p>
-
-        <p className="mt-1 text-xs text-[#5B6472]">at Chef · Baby Level</p>
-        <p className="mt-3 text-xs text-[#5B6472]">with team member Sophie K.</p>
-
-        <div className="my-6 flex justify-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F4C542] text-2xl shadow-sm">
-            ★
-          </span>
-        </div>
-
-        <p className="mt-6 text-xs text-[#8A8F98]">
-          Issued April 4, 2026 · Star Project Kassel
-        </p>
-      </div>
-    </div>
-  )
-}
-
-function ProgressNote() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold text-[#172033]">Progress to Junior</p>
-          <p className="mt-1 text-xs text-[#5B6472]">8 of 10 stars in Chef · Baby Level</p>
-        </div>
-        <span className="text-sm font-bold text-[#26483E]">80%</span>
-      </div>
-      <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-[#F4EFE7]">
-        <div className="h-full w-[80%] rounded-full bg-[#26483E]" />
-      </div>
-      <p className="mt-3 text-center text-xs font-medium text-[#26483E]">
-        2 more stars to unlock Junior Level
-      </p>
-    </div>
-  )
-}
-
-function ActionButtons() {
-  return (
-    <div className="flex flex-col gap-3 sm:flex-row">
-      <button
-        type="button"
-        className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#26483E] px-7 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-[#1F3D35] hover:shadow-md"
-      >
-        ⬇ Download Certificate (PDF)
-      </button>
-      <Link
-        to="/start"
-        className="inline-flex items-center justify-center gap-1.5 rounded-full border border-[#E8E1D8] bg-[#FFFDF8] px-7 py-3 text-sm font-bold text-[#26483E] shadow-sm transition-all hover:border-[#26483E] hover:shadow-md"
-      >
-        🚀 Browse Next Projects
-      </Link>
-    </div>
-  )
+const REVIEWER_NOTE = {
+  initials: 'MS',
+  name: 'Maria S.',
+  role: 'Reviewer',
+  quote:
+    'Beautifully documented project, Lukas! Your reflection on what went wrong with the first batch and how you improved the salt level was very mature. Sophie\'s photography is fantastic. Keep going!',
 }
 
 export function SubmissionResultPage() {
+  useParams<{ projectId: string }>()
+
   return (
-    <div>
-      <TopBar />
+    <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      {/* LEFT COLUMN */}
+      <div className="flex flex-col gap-6">
+        {/* Section 1 — Celebration Hero */}
+        <section
+          className="relative overflow-hidden rounded-2xl p-6 text-white md:p-10"
+          style={{ background: 'linear-gradient(135deg, #1F3D2E 0%, #2A4F3D 100%)' }}
+        >
+          <div className="absolute -right-8 -top-8 text-9xl opacity-10" aria-hidden="true">
+            ⭐
+          </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-6">
-          <SuccessHeader />
-          <ReviewBreakdown />
-          <ReviewerNote />
-          <ActionButtons />
-        </div>
+          <div className="relative">
+            <span className="inline-flex items-center gap-1 rounded-full bg-sp-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-sp-primary">
+              ⭐ PROJECT COMPLETED
+            </span>
 
-        <div className="space-y-5">
-          <Certificate />
-          <ProgressNote />
-        </div>
+            <h1 className="font-serif mt-4 text-3xl font-semibold leading-tight tracking-normal md:text-5xl">
+              Excellent work, <span className="italic text-sp-gold">Lukas!</span>
+            </h1>
+
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
+              Your <strong className="text-white">Pasta from Scratch</strong> project has been
+              accepted. You&apos;ve earned <strong className="text-sp-gold">1 star</strong> in Chef
+              · Baby Level.
+            </p>
+
+            <div className="mt-6 flex flex-wrap items-end gap-6">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70">
+                  YOUR STARS
+                </p>
+                <p className="font-serif mt-1 flex items-baseline gap-2 text-4xl font-semibold text-white md:text-5xl">
+                  <span className="text-sp-gold">⭐</span>
+                  <span>7</span>
+                  <span className="text-2xl text-white/60 md:text-3xl">→</span>
+                  <span className="text-sp-gold">8</span>
+                </p>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70">
+                  NEXT MILESTONE
+                </p>
+                <p className="mt-2 text-base text-white/90 md:text-lg">
+                  <strong className="text-white">2 more stars</strong> to unlock Junior →
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 2 — Review Breakdown */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5 md:p-6">
+          <h2 className="font-serif text-lg font-semibold text-sp-primary md:text-xl">
+            Review Breakdown
+          </h2>
+          <p className="mt-1 text-xs text-sp-text-muted">
+            Your submission was reviewed automatically by our AI for the report and manually by an
+            admin for the video.
+          </p>
+
+          <ul className="mt-5 flex flex-col gap-3">
+            {REVIEW_BREAKDOWN.map((item) => (
+              <li
+                key={item.id}
+                className={`flex gap-4 rounded-lg border p-4 ${
+                  item.iconTint === 'gold'
+                    ? 'border-sp-gold/30 bg-sp-gold-bg-soft/40'
+                    : 'border-sp-accent-green/30 bg-sp-accent-green-bg/30'
+                }`}
+              >
+                <div
+                  className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-lg font-bold text-white ${
+                    item.iconTint === 'gold' ? 'bg-sp-gold' : 'bg-sp-accent-green'
+                  }`}
+                >
+                  <span aria-hidden="true">{item.icon}</span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-serif text-base font-semibold text-sp-primary">
+                    {item.title}
+                  </h3>
+                  <p className="mt-1 text-sm leading-relaxed text-sp-text-primary">
+                    {item.description}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Section 3 — Reviewer Note */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5 md:p-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-sp-primary text-sm font-bold text-white">
+              {REVIEWER_NOTE.initials}
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline gap-2">
+                <h3 className="font-serif text-base font-semibold text-sp-primary">
+                  Note from {REVIEWER_NOTE.name}
+                </h3>
+                <span className="text-xs text-sp-text-muted">· {REVIEWER_NOTE.role}</span>
+              </div>
+
+              <blockquote className="font-serif mt-3 border-l-2 border-sp-coral pl-4 italic leading-relaxed text-sp-text-primary">
+                &ldquo;{REVIEWER_NOTE.quote}&rdquo;
+              </blockquote>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 4 — Action Buttons */}
+        <section className="flex flex-col gap-3 sm:flex-row">
+          <button
+            type="button"
+            onClick={() => console.log('Download certificate')}
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-sp-primary px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-sp-primary-hover"
+          >
+            ⬇ Download Certificate
+          </button>
+          <Link
+            to="/start"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-sp-border-input bg-white px-5 py-3 text-sm font-semibold text-sp-primary transition-colors hover:bg-sp-bg-card-muted"
+          >
+            🚀 Browse Next Projects →
+          </Link>
+        </section>
+      </div>
+
+      {/* RIGHT COLUMN — Sidebar */}
+      <div className="flex flex-col gap-4">
+        {/* Certificate Preview */}
+        <section className="relative overflow-hidden rounded-xl border-2 border-sp-gold/40 bg-white p-6">
+          <div
+            className="absolute left-3 top-3 h-8 w-8 border-l-2 border-t-2 border-sp-gold"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute right-3 top-3 h-8 w-8 border-r-2 border-t-2 border-sp-gold"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute bottom-3 left-3 h-8 w-8 border-b-2 border-l-2 border-sp-gold"
+            aria-hidden="true"
+          />
+          <div
+            className="absolute bottom-3 right-3 h-8 w-8 border-b-2 border-r-2 border-sp-gold"
+            aria-hidden="true"
+          />
+
+          <div className="px-2 py-4 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-[0.15em] text-sp-gold">
+              CERTIFICATE OF COMPLETION
+            </p>
+
+            <div className="my-4 text-5xl" aria-hidden="true">
+              ⭐
+            </div>
+
+            <p className="text-xs text-sp-text-muted">This certifies that</p>
+            <p className="font-serif mt-2 text-xl font-semibold text-sp-primary">Lukas Müller</p>
+
+            <p className="mt-3 text-xs text-sp-text-muted">
+              has successfully completed the project
+            </p>
+            <p className="font-serif mt-1 text-base italic text-sp-primary">
+              &ldquo;Pasta from Scratch&rdquo;
+            </p>
+
+            <p className="mt-2 text-xs text-sp-text-muted">
+              at <strong className="text-sp-primary">Chef · Baby Level</strong>
+            </p>
+            <p className="mt-1 text-xs text-sp-text-muted">with team member Sophie K.</p>
+
+            <div className="mt-5 border-t border-sp-border-soft pt-4">
+              <p className="text-[10px] text-sp-text-muted">Issued April 4, 2026</p>
+              <p className="mt-0.5 text-[10px] text-sp-text-muted">
+                Star Project · Kassel, Germany
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Progress Note */}
+        <section className="rounded-xl border border-sp-coral/30 bg-sp-coral-bg-soft/40 p-5">
+          <div className="flex items-start gap-3">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-sp-coral text-white">
+              <span aria-hidden="true">🎯</span>
+            </div>
+            <div className="flex-1">
+              <h3 className="font-serif text-base font-semibold text-sp-primary">Almost there!</h3>
+              <p className="mt-1 text-sm leading-relaxed text-sp-text-primary">
+                Only <strong className="text-sp-coral">2 more stars</strong> to unlock Junior Level.
+                Keep building, Lukas!
+              </p>
+              <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-white">
+                <div className="h-full rounded-full bg-sp-gold" style={{ width: '80%' }} />
+              </div>
+              <p className="mt-1 text-xs text-sp-text-muted">
+                8 of 10 stars in Chef · Baby Level
+              </p>
+            </div>
+          </div>
+        </section>
       </div>
     </div>
   )
