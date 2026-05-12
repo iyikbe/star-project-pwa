@@ -1,665 +1,308 @@
-﻿import { useParams } from 'react-router-dom'
+﻿import { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { CURRENT_USER, TEAMMATE_SOPHIE } from '../../data/mock/users'
 
-type Task = {
-  number: number
-  title: string
-  meta: string
-  description: string
-}
-
-const TASKS: Task[] = [
+const BREZEL_WEEKLY_TASKS = [
   {
     number: 1,
     title: 'Research & Validation',
-    meta: 'Week 1 · Estimated 3–4 hours',
+    week: 'Week 1',
+    estimatedHours: '3–4 hours',
     description:
       'Interview 5 people about their favorite pretzel. Research the history of Brezel in Hessen. Compare 3 local bakeries\' prices. Document allergies and dietary restrictions among testers.',
   },
   {
     number: 2,
     title: 'Build & Create',
-    meta: 'Week 2 · Estimated 4–5 hours',
+    week: 'Week 2',
+    estimatedHours: '4–5 hours',
     description:
       'Make your first batch of Brezel based on Week 1 findings. Document each step with photos. Note variations from the standard recipe.',
   },
   {
     number: 3,
     title: 'Test & Validate',
-    meta: 'Week 3 · Estimated 2–3 hours',
+    week: 'Week 3',
+    estimatedHours: '2–3 hours',
     description:
       'Give samples to 5 testers. Collect structured feedback on taste, texture, salt level, and appearance using the provided template.',
   },
   {
     number: 4,
     title: 'Improve & Finalize',
-    meta: 'Week 4 · Estimated 4 hours · Final deadline ⏰',
+    week: 'Week 4',
+    estimatedHours: '4 hours',
     description:
       'Make a second batch with improvements. Prepare your final report and a 3-minute video proof. Submit for review.',
+    isFinal: true,
   },
 ]
-
-type InProgressTask = {
-  number: number
-  title: string
-  status: 'DONE' | 'ACTIVE' | 'LOCKED'
-  meta: string
-  description: string
-}
-
-const IN_PROGRESS_TASKS: InProgressTask[] = [
-  {
-    number: 1,
-    title: 'Research & Validation',
-    status: 'DONE',
-    meta: 'Week 1 · Completed Mar 22',
-    description:
-      'You interviewed 6 family members about their favorite pasta dishes. Compared sauce prices at 3 supermarkets. Documented allergies of testers.',
-  },
-  {
-    number: 2,
-    title: 'Build & Create',
-    status: 'DONE',
-    meta: 'Week 2 · Completed Mar 29',
-    description:
-      'You and Sophie made fresh tagliatelle from scratch. Tomato-basil sauce based on Nonna\'s recipe research. 8 photos uploaded.',
-  },
-  {
-    number: 3,
-    title: 'Test & Validate',
-    status: 'ACTIVE',
-    meta: 'Week 3 · In progress · Due Apr 5',
-    description:
-      'Give samples to 5 testers. Collect feedback. Document reactions and improvement notes.\nSophie has uploaded 2 photos. You haven\'t logged tester feedback yet.',
-  },
-  {
-    number: 4,
-    title: 'Improve & Finalize',
-    status: 'LOCKED',
-    meta: 'Week 4 · Final deadline Apr 12 ⏰',
-    description:
-      'Make improved version. Submit final report + 3-minute video proof for review.',
-  },
-]
-
-type ActivityItem = {
-  icon: string
-  initials: string
-  label: string
-  time: string
-}
-
-const ACTIVITY: ActivityItem[] = [
-  {
-    icon: '📸',
-    initials: 'SK',
-    label: 'Sophie K. uploaded 2 photos for Week 3 — Test & Validate',
-    time: '2h ago',
-  },
-  {
-    icon: '✓',
-    initials: 'LM',
-    label: 'You marked Week 2 as complete',
-    time: 'Yesterday',
-  },
-  {
-    icon: '📸',
-    initials: 'SK',
-    label: 'Sophie K. uploaded 4 photos for Week 2 — Build & Create',
-    time: '2 days ago',
-  },
-  {
-    icon: '⭐',
-    initials: '',
-    label: 'System: Project officially started · Timer began Mar 15',
-    time: '',
-  },
-]
-
-type FileItem = {
-  name: string
-  size: string
-  by: string
-}
-
-const FILES: FileItem[] = [
-  { name: 'week2_pasta_dough.jpg', size: '2.3 MB', by: 'Sophie' },
-  { name: 'week2_final_dish.jpg', size: '1.8 MB', by: 'Sophie' },
-  { name: 'week1_research.docx', size: '245 KB', by: 'you' },
-]
-
-/* ─── Pre-Start (Brezel Workshop) components ─── */
-
-function PreStartTopBar() {
-  return (
-    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-xs text-[#8A8F98]">Star Project › My Projects › Brezel Workshop</p>
-      <UserSummary />
-    </div>
-  )
-}
-
-function UserSummary() {
-  return (
-    <div className="flex items-center gap-4">
-      <div className="text-right text-xs">
-        <p className="font-semibold text-[#172033]">LM Lukas Müller</p>
-        <p className="text-[#8A8F98]">Baby · ⭐ 7</p>
-      </div>
-      <button
-        type="button"
-        className="relative rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
-      >
-        🔔
-        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C96B5A] text-[9px] font-bold text-white">
-          3
-        </span>
-      </button>
-      <button
-        type="button"
-        className="rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
-      >
-        ✉️
-      </button>
-    </div>
-  )
-}
-
-function PreStartProjectHeader() {
-  return (
-    <div className="mb-8">
-      <div className="flex items-center gap-3">
-        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FCE1D8] text-2xl">
-          🥨
-        </span>
-        <h1 className="text-2xl font-bold tracking-tight text-[#172033] md:text-3xl">
-          Brezel Workshop
-        </h1>
-      </div>
-
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#5B6472]">
-        The classic German pretzel — knead the dough, master the lye boil, and bake. A research-driven
-        4-week project on tradition, food chemistry, and craft.
-      </p>
-
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#5B6472]">
-        <span>⏱ 4 weeks</span>
-        <span>⭐ 1 Star reward</span>
-        <span>👥 Min 2 members</span>
-        <span className="rounded-full bg-[#FCE1D8] px-2 py-0.5 text-[10px] font-medium text-[#E98A6A]">
-          Adult supervision
-        </span>
-        <span className="rounded-full bg-[#F4EFE7] px-2 py-0.5 text-[10px] font-medium text-[#5B6472]">
-          🚫 No open fire
-        </span>
-      </div>
-    </div>
-  )
-}
-
-function PreStartStatusCard() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <span className="rounded-full bg-[#F2E2B8] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#B88A3A]">
-        WAITING FOR MEMBER
-      </span>
-      <p className="mt-3 text-sm font-semibold text-[#172033]">Need 1 more member to start</p>
-
-      <div className="my-4 rounded-xl bg-[#FCE1D8] px-4 py-3 text-center">
-        <span className="text-2xl">🥨</span>
-        <p className="mt-1 text-xs font-bold uppercase tracking-wider text-[#E98A6A]">
-          CHEF ⭐⭐ BABY
-        </p>
-      </div>
-
-      <button
-        type="button"
-        disabled
-        className="w-full cursor-not-allowed rounded-full bg-[#8A8F98] px-6 py-3 text-sm font-bold text-white opacity-60"
-      >
-        ▶ Start Project
-      </button>
-      <p className="mt-2 text-center text-xs text-[#8A8F98]">
-        Need at least 2 members to begin
-      </p>
-    </div>
-  )
-}
-
-function PreStartVideoPlaceholder() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Project Introduction</p>
-      <div className="flex aspect-video items-center justify-center rounded-xl bg-[#26483E]/5">
-        <div className="text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#26483E] text-white">
-            ▶
-          </div>
-          <p className="mt-3 text-sm font-medium text-[#172033]">
-            How to Make a Real Brezel — 4-week project intro
-          </p>
-          <p className="mt-1 text-xs text-[#8A8F98]">
-            12:34 · Chef Anna walks you through the project
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function PreStartReportTemplate() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">📄 Brezel Project Report Template</p>
-      <p className="text-xs text-[#5B6472]">.docx · 245 KB · 4 sections matching weekly tasks</p>
-      <button
-        type="button"
-        className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-[#26483E] px-5 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#1F3D35]"
-      >
-        ⬇ Download
-      </button>
-    </div>
-  )
-}
-
-function PreStartTeamMembers() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <div className="mb-4 flex items-center justify-between">
-        <p className="text-sm font-semibold text-[#172033]">Team Members</p>
-        <span className="text-xs text-[#8A8F98]">1 / 2 minimum</span>
-      </div>
-
-      <div className="flex items-center gap-3 rounded-xl bg-[#F4EFE7] p-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#26483E] text-xs font-bold text-white">
-          LM
-        </div>
-        <div className="flex-1">
-          <p className="text-sm font-medium text-[#172033]">Lukas Müller (You)</p>
-          <p className="text-xs text-[#8A8F98]">SP-2026-0048 · Owner</p>
-        </div>
-        <span className="rounded-full bg-[#DDEBDD] px-2.5 py-0.5 text-[10px] font-semibold text-[#26483E]">
-          JOINED
-        </span>
-      </div>
-    </div>
-  )
-}
-
-function PreStartInviteMember() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-2 text-sm font-semibold text-[#172033]">Invite a Team Member</p>
-      <p className="text-xs text-[#5B6472]">
-        Only registered users can be invited. Use their Student ID — no email or phone.
-      </p>
-      <div className="mt-4 flex gap-2">
-        <input
-          type="text"
-          defaultValue="SP-2026-0052"
-          className="flex-1 rounded-xl border border-[#D8D3CA] bg-[#FAF7F2] px-4 py-2.5 text-sm text-[#172033] outline-none transition-colors focus:border-[#26483E] focus:ring-1 focus:ring-[#26483E]"
-        />
-        <button
-          type="button"
-          className="rounded-full bg-[#26483E] px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#1F3D35]"
-        >
-          📩 Send
-        </button>
-      </div>
-    </div>
-  )
-}
-
-function PreStartPendingInvitations() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Pending Invitations</p>
-
-      <div className="flex items-center gap-3 rounded-xl bg-[#F4EFE7] p-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#5B6472] text-xs font-bold text-white">
-          SK
-        </div>
-        <div className="flex-1">
-          <p className="text-sm font-medium text-[#172033]">Sophie K.</p>
-          <p className="text-xs text-[#8A8F98]">SP-2026-0052 · Sent 2h ago</p>
-        </div>
-        <span className="rounded-full bg-[#F2E2B8] px-2.5 py-0.5 text-[10px] font-semibold text-[#B88A3A]">
-          PENDING
-        </span>
-      </div>
-
-      <p className="mt-4 text-xs leading-relaxed text-[#8A8F98]">
-        Invitations expire after 7 days. Project cannot start until at least 2 members have joined.
-      </p>
-    </div>
-  )
-}
-
-function PreStartTaskCard({ task }: { task: Task }) {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-5 shadow-sm">
-      <div className="flex items-start gap-4">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#26483E] text-xs font-bold text-white">
-          {task.number}
-        </div>
-        <div className="flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-sm font-semibold text-[#172033]">{task.title}</h3>
-            <span className="rounded-full bg-[#F4EFE7] px-2.5 py-0.5 text-[10px] font-medium text-[#5B6472]">
-              UPCOMING
-            </span>
-          </div>
-          <p className="mt-1 text-xs text-[#8A8F98]">{task.meta}</p>
-          <p className="mt-2 text-sm leading-relaxed text-[#5B6472]">{task.description}</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function PreStartWeeklyTasks() {
-  return (
-    <div>
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Weekly Tasks</p>
-      <div className="space-y-3">
-        {TASKS.map((task) => (
-          <PreStartTaskCard key={task.number} task={task} />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function PreStartView() {
-  return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-      <div className="space-y-6">
-        <PreStartVideoPlaceholder />
-        <PreStartReportTemplate />
-        <PreStartWeeklyTasks />
-      </div>
-
-      <div className="space-y-5">
-        <PreStartStatusCard />
-        <PreStartTeamMembers />
-        <PreStartInviteMember />
-        <PreStartPendingInvitations />
-      </div>
-    </div>
-  )
-}
-
-/* ─── In Progress (Pasta from Scratch) components ─── */
-
-function InProgressTopBar() {
-  return (
-    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-xs text-[#8A8F98]">Star Project › My Projects › Pasta from Scratch</p>
-      <UserSummary />
-    </div>
-  )
-}
-
-function InProgressProjectHeader() {
-  return (
-    <div className="mb-8">
-      <div className="flex items-center gap-3">
-        <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#FCE1D8] text-2xl">
-          🍝
-        </span>
-        <h1 className="text-2xl font-bold tracking-tight text-[#172033] md:text-3xl">
-          Pasta from Scratch
-        </h1>
-      </div>
-
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#5B6472]">
-        Make handmade pasta with traditional techniques + your own sauce. Document each step. Test
-        with family.
-      </p>
-
-      <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-xs text-[#5B6472]">
-        <span>⏱ Started Mar 15</span>
-        <span>📅 Final deadline Apr 12</span>
-        <span>👥 Team of 2</span>
-        <span className="rounded-full bg-[#DDEBDD] px-2 py-0.5 text-[10px] font-medium text-[#26483E]">
-          📈 72% complete
-        </span>
-      </div>
-    </div>
-  )
-}
-
-function InProgressStatusCard({ className }: { className?: string }) {
-  return (
-    <div className={`rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm ${className ?? ''}`}>
-      <div className="mb-4 rounded-xl bg-[#FCE1D8] px-4 py-3 text-center">
-        <span className="text-2xl">🍝</span>
-        <p className="mt-1 text-xs font-bold uppercase tracking-wider text-[#E98A6A]">
-          CHEF ⭐⭐ BABY
-        </p>
-      </div>
-
-      <span className="rounded-full bg-[#FCE1D8] px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#C96B5A]">
-        🔥 ONGOING · WEEK 3
-      </span>
-
-      <div className="my-4 text-center">
-        <p className="text-3xl font-bold text-[#172033]">11 days</p>
-        <p className="text-xl font-bold text-[#172033]">4 hours</p>
-        <p className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-[#8A8F98]">
-          Time Remaining
-        </p>
-      </div>
-
-      <div className="h-2 w-full overflow-hidden rounded-full bg-[#F4EFE7]">
-        <div className="h-full w-[72%] rounded-full bg-[#26483E]" />
-      </div>
-
-      <p className="mt-4 text-xs leading-relaxed text-[#8A8F98]">
-        Final deadline: April 12, 2026 · 23:59 CET · Late fee applies if missed
-      </p>
-    </div>
-  )
-}
-
-function InProgressTaskCard({ task }: { task: InProgressTask }) {
-  const statusStyles: Record<string, { circle: string; badge: string; border: string }> = {
-    DONE: {
-      circle: 'bg-[#DDEBDD] text-[#26483E]',
-      badge: 'bg-[#DDEBDD] text-[#26483E]',
-      border: 'border-[#DDEBDD]',
-    },
-    ACTIVE: {
-      circle: 'bg-[#26483E] text-white',
-      badge: 'bg-[#FCE1D8] text-[#C96B5A]',
-      border: 'border-[#26483E] ring-1 ring-[#26483E]',
-    },
-    LOCKED: {
-      circle: 'bg-[#F4EFE7] text-[#8A8F98]',
-      badge: 'bg-[#F4EFE7] text-[#8A8F98]',
-      border: 'border-[#E8E1D8] opacity-70',
-    },
-  }
-
-  const s = statusStyles[task.status]
-
-  return (
-    <div className={`rounded-2xl border bg-[#FFFDF8] p-5 shadow-sm ${s.border}`}>
-      <div className="flex items-start gap-4">
-        <div
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${s.circle}`}
-        >
-          {task.status === 'DONE' ? '✓' : task.number}
-        </div>
-        <div className="flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <h3 className="text-sm font-semibold text-[#172033]">{task.title}</h3>
-            <span
-              className={`rounded-full px-2.5 py-0.5 text-[10px] font-medium ${s.badge}`}
-            >
-              {task.status}
-            </span>
-          </div>
-          <p className="mt-1 text-xs text-[#8A8F98]">{task.meta}</p>
-          <p className="mt-2 text-sm leading-relaxed text-[#5B6472]">{task.description}</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function InProgressWeeklyTasks() {
-  return (
-    <div>
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Weekly Progress</p>
-      <div className="space-y-3">
-        {IN_PROGRESS_TASKS.map((task) => (
-          <InProgressTaskCard key={task.number} task={task} />
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function InProgressTeamActivity() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Team Activity</p>
-      <div className="space-y-4">
-        {ACTIVITY.map((item, i) => (
-          <div key={i} className="flex items-start gap-3">
-            <div
-              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                item.initials ? 'bg-[#F4EFE7] text-[#5B6472]' : 'bg-[#26483E] text-white'
-              }`}
-            >
-              {item.initials || '⭐'}
-            </div>
-            <div className="flex-1">
-              <p className="text-xs leading-relaxed text-[#172033]">{item.label}</p>
-              {item.time && <p className="mt-0.5 text-[10px] text-[#8A8F98]">{item.time}</p>}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function InProgressTeam() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Team</p>
-      <div className="space-y-3">
-        <div className="flex items-center gap-3 rounded-xl bg-[#F4EFE7] p-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#26483E] text-xs font-bold text-white">
-            LM
-          </div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-[#172033]">Lukas (You)</p>
-            <p className="text-xs text-[#8A8F98]">SP-2026-0048</p>
-          </div>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#26483E]">
-            OWNER
-          </span>
-        </div>
-
-        <div className="flex items-center gap-3 rounded-xl bg-[#F4EFE7] p-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#5B6472] text-xs font-bold text-white">
-            SK
-          </div>
-          <div className="flex-1">
-            <p className="text-sm font-medium text-[#172033]">Sophie K.</p>
-            <p className="text-xs text-[#8A8F98]">SP-2026-0052</p>
-          </div>
-          <span className="rounded-full bg-[#DDEBDD] px-2.5 py-0.5 text-[10px] font-semibold text-[#26483E]">
-            ACTIVE
-          </span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function InProgressFiles() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Files Uploaded</p>
-      <div className="space-y-2.5">
-        {FILES.map((f) => (
-          <div key={f.name} className="flex items-center justify-between rounded-xl px-2 py-1.5">
-            <div className="flex items-center gap-2 min-w-0">
-              <span className="shrink-0 text-sm">
-                {f.name.endsWith('.jpg') ? '🖼️' : '📄'}
-              </span>
-              <span className="truncate text-xs text-[#172033]">{f.name}</span>
-            </div>
-            <span className="shrink-0 text-[10px] text-[#8A8F98]">
-              {f.size} · by {f.by}
-            </span>
-          </div>
-        ))}
-      </div>
-      <p className="mt-3 text-xs text-[#8A8F98]">+ 5 more files</p>
-    </div>
-  )
-}
-
-function InProgressSubmissionCta() {
-  return (
-    <button
-      type="button"
-      disabled
-      className="w-full cursor-not-allowed rounded-full bg-[#8A8F98] px-6 py-3 text-sm font-bold text-white opacity-60"
-    >
-      📤 Go to Submission
-    </button>
-  )
-}
-
-function InProgressView() {
-  return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-      <div className="space-y-6">
-        <InProgressStatusCard className="lg:hidden" />
-        <InProgressWeeklyTasks />
-      </div>
-
-      <div className="space-y-5">
-        <div className="hidden lg:block">
-          <InProgressStatusCard />
-        </div>
-        <InProgressTeamActivity />
-        <InProgressTeam />
-        <InProgressFiles />
-        <div className="text-center">
-          <InProgressSubmissionCta />
-          <p className="mt-2 text-xs text-[#8A8F98]">Available after Week 4 begins</p>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-/* ─── Main export ─── */
 
 export function ProjectWorkspacePage() {
-  const { projectId } = useParams()
-
-  if (projectId === 'pasta-from-scratch') {
-    return (
-      <div>
-        <InProgressTopBar />
-        <InProgressProjectHeader />
-        <InProgressView />
-      </div>
-    )
-  }
+  useParams<{ projectId: string }>()
+  const [inviteStudentId, setInviteStudentId] = useState('SP-2026-0052')
 
   return (
-    <div>
-      <PreStartTopBar />
-      <PreStartProjectHeader />
-      <PreStartView />
+    <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      {/* LEFT COLUMN */}
+      <div className="flex flex-col gap-6">
+        {/* Section 1 — Project Hero Card */}
+        <section
+          className="relative overflow-hidden rounded-2xl p-6 md:p-8"
+          style={{ background: 'linear-gradient(135deg, #F4D9CC 0%, #D26B4A 100%)' }}
+        >
+          <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/15" aria-hidden="true" />
+
+          <div className="relative flex flex-col gap-5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-white/20 text-4xl">
+                🥨
+              </div>
+              <div className="flex-1">
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-sp-coral">
+                    ⏳ WAITING FOR MEMBER
+                  </span>
+                  <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-xs font-semibold uppercase text-white">
+                    CHEF
+                  </span>
+                  <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-xs font-semibold text-white">
+                    ⭐⭐ BABY
+                  </span>
+                </div>
+                <h1 className="font-serif text-3xl font-semibold leading-tight tracking-normal text-white md:text-4xl">
+                  Brezel Workshop
+                </h1>
+              </div>
+            </div>
+
+            <p className="max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
+              The classic German pretzel — knead the dough, master the lye boil, and bake. A
+              research-driven 4-week project on tradition, food chemistry, and craft.
+            </p>
+
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-white/85 md:text-sm">
+              <span className="flex items-center gap-1.5">
+                ⏱ <strong className="font-semibold text-white">4 weeks</strong>
+              </span>
+              <span className="flex items-center gap-1.5">
+                ⭐ <strong className="font-semibold text-white">1 Star</strong> reward
+              </span>
+              <span className="flex items-center gap-1.5">
+                👥 <strong className="font-semibold text-white">Min 2 members</strong>
+              </span>
+              <span className="flex items-center gap-1.5">🔥 Adult supervision</span>
+              <span className="flex items-center gap-1.5">🚫 No open fire</span>
+            </div>
+
+            <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center">
+              <button
+                type="button"
+                disabled
+                className="inline-flex w-fit cursor-not-allowed items-center gap-2 rounded-lg bg-white/30 px-6 py-3 text-sm font-semibold text-white/70"
+              >
+                ▶ Start Project
+              </button>
+              <p className="text-xs text-white/80 md:text-sm">
+                Need <strong className="text-white">1 more member</strong> to start
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 2 — Project Introduction */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5 md:p-6">
+          <h2 className="font-serif text-lg font-semibold text-sp-primary md:text-xl">
+            Project Introduction
+          </h2>
+
+          <div className="relative mt-4 flex aspect-video items-center justify-center overflow-hidden rounded-xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-sp-primary to-sp-primary-hover" />
+
+            <div className="relative text-center">
+              <button
+                type="button"
+                className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white/20 text-2xl text-white backdrop-blur-sm transition-colors hover:bg-white/30"
+                aria-label="Play introduction video"
+              >
+                ▶
+              </button>
+              <p className="mt-4 text-sm font-semibold text-white md:text-base">
+                How to Make a Real Brezel — 4-week project intro
+              </p>
+              <p className="mt-1 text-xs text-white/70">
+                12:34 · Chef Anna walks you through the project
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 3 — Weekly Tasks */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5 md:p-6">
+          <h2 className="font-serif text-lg font-semibold text-sp-primary md:text-xl">
+            Weekly Tasks
+          </h2>
+          <p className="mt-1 text-xs text-sp-text-muted">4 weeks · Available after project starts</p>
+
+          <div className="mt-5 flex flex-col gap-3">
+            {BREZEL_WEEKLY_TASKS.map((task, i) => (
+              <article
+                key={task.number}
+                className="flex gap-4 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted p-4"
+              >
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full border-2 border-sp-border-input bg-white font-serif font-semibold text-sp-primary">
+                  {task.number}
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <h3 className="font-serif text-base font-semibold text-sp-primary">
+                      {task.title}
+                    </h3>
+                    <span className="text-xs text-sp-text-muted">
+                      {task.week} · Estimated {task.estimatedHours}
+                      {task.isFinal && ' · Final deadline ⏰'}
+                    </span>
+                  </div>
+                  <p className="mt-2 text-sm leading-relaxed text-sp-text-primary">
+                    {task.description}
+                  </p>
+                  {i === 0 && (
+                    <span className="mt-2 inline-flex items-center rounded-full bg-sp-coral-bg-soft px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-sp-coral">
+                      UPCOMING
+                    </span>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        {/* Section 4 — Report Template */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5 md:p-6">
+          <h2 className="font-serif text-lg font-semibold text-sp-primary md:text-xl">
+            Report Template
+          </h2>
+          <p className="mt-1 text-xs text-sp-text-muted">
+            Download and complete during the project. Required for final submission.
+          </p>
+
+          <div className="mt-4 flex flex-col justify-between gap-4 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted p-4 sm:flex-row sm:items-center">
+            <div className="flex items-center gap-3">
+              <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-lg border border-sp-border-soft bg-white text-2xl">
+                📄
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-sp-primary">
+                  Brezel Project Report Template
+                </p>
+                <p className="mt-0.5 text-xs text-sp-text-muted">
+                  .docx · 245 KB · 4 sections matching weekly tasks
+                </p>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 whitespace-nowrap rounded-lg bg-sp-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sp-primary-hover"
+            >
+              ⬇ Download
+            </button>
+          </div>
+        </section>
+      </div>
+
+      {/* RIGHT COLUMN — Sidebar */}
+      <div className="flex flex-col gap-4">
+        {/* Team Members */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="font-serif text-base font-semibold text-sp-primary">Team Members</h3>
+            <span className="text-xs font-semibold text-sp-text-muted">1 / 2 minimum</span>
+          </div>
+
+          <div className="flex items-center gap-3 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted p-3">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-sp-coral text-xs font-bold text-white">
+              {CURRENT_USER.childInitials}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-sp-primary">
+                {CURRENT_USER.childName}{' '}
+                <span className="text-xs font-normal text-sp-text-muted">(You)</span>
+              </p>
+              <p className="mt-0.5 text-xs text-sp-text-muted">
+                {CURRENT_USER.studentId} · Owner
+              </p>
+            </div>
+            <span className="inline-flex items-center rounded-full bg-sp-accent-green-bg px-2 py-0.5 text-[10px] font-bold uppercase text-sp-accent-green">
+              JOINED
+            </span>
+          </div>
+        </section>
+
+        {/* Invite a Team Member */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5">
+          <h3 className="font-serif text-base font-semibold text-sp-primary">
+            Invite a Team Member
+          </h3>
+          <p className="mt-1 text-xs leading-relaxed text-sp-text-muted">
+            Only registered users can be invited. Use their Student ID — no email or phone.
+          </p>
+
+          <div className="mt-4 flex flex-col gap-2">
+            <label
+              htmlFor="student-id"
+              className="text-[11px] font-semibold uppercase tracking-wider text-sp-text-muted"
+            >
+              STUDENT ID
+            </label>
+            <input
+              id="student-id"
+              type="text"
+              value={inviteStudentId}
+              onChange={(e) => setInviteStudentId(e.target.value)}
+              placeholder="SP-2026-XXXX"
+              className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 font-mono text-sm outline-none focus:border-sp-primary"
+            />
+            <button
+              type="button"
+              onClick={() => console.log('Send invitation to', inviteStudentId)}
+              className="mt-1 flex items-center justify-center gap-2 rounded-lg bg-sp-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-sp-primary-hover"
+            >
+              📩 Send Invitation
+            </button>
+          </div>
+        </section>
+
+        {/* Pending Invitations */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5">
+          <h3 className="font-serif text-base font-semibold text-sp-primary">
+            Pending Invitations
+          </h3>
+
+          <div className="mt-4 flex items-center gap-3 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted p-3">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-category-farm text-xs font-bold text-white">
+              {TEAMMATE_SOPHIE.childInitials}
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-semibold text-sp-primary">
+                {TEAMMATE_SOPHIE.childName}
+              </p>
+              <p className="mt-0.5 text-xs text-sp-text-muted">
+                {TEAMMATE_SOPHIE.studentId} · Sent 2h ago
+              </p>
+            </div>
+            <span className="inline-flex items-center rounded-full bg-sp-coral-bg-soft px-2 py-0.5 text-[10px] font-bold uppercase text-sp-coral">
+              PENDING
+            </span>
+          </div>
+
+          <p className="mt-3 text-xs leading-relaxed text-sp-text-muted">
+            Invitations expire after 7 days. Project cannot start until at least 2 members have
+            joined.
+          </p>
+        </section>
+      </div>
     </div>
   )
 }
