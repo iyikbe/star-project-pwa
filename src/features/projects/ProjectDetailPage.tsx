@@ -1,58 +1,68 @@
-﻿type SyllabusWeek = {
-  number: number
-  title: string
-  meta: string
-  description: string
+﻿import { useParams } from 'react-router-dom'
+import { IconTile, SectionEyebrow } from '../../components/ui'
+
+const EXPERT = {
+  initials: 'SK',
+  name: 'Maestro Sven Krause',
+  role: 'Composer · Mentored 200+ young musicians · Berlin',
+  bio: 'Award-winning composer with 15 years of mentoring experience. Specialized in helping young musicians develop their authentic sound.',
 }
 
-const SYLLABUS: SyllabusWeek[] = [
+const LEARNING_OUTCOMES = [
+  { icon: '🎼', title: 'Composition basics', description: 'Melody, rhythm, harmony fundamentals' },
+  { icon: '🎹', title: 'Music theory', description: 'Keys, scales, chord progressions' },
+  { icon: '🎤', title: 'Recording techniques', description: 'Mic placement, takes, performance' },
+  { icon: '🎚️', title: 'Mixing & mastering', description: 'DAW basics, EQ, compression' },
+  { icon: '📋', title: 'Project management', description: 'Recording sessions, deadlines, deliverables' },
+  { icon: '📦', title: 'Distribution prep', description: 'Final mastered file ready to share' },
+]
+
+const SYLLABUS = [
   {
-    number: 1,
+    week: 1,
     title: 'Inspiration & Concept',
-    meta: 'Week 1 · 1-on-1 mentoring call with Sven',
+    format: '1-on-1 mentoring call with Sven',
     description:
       'Find your sound. Discover artists you love and analyze why. Sven helps you identify a musical direction that feels authentic.',
   },
   {
-    number: 2,
+    week: 2,
     title: 'Composition & Arrangement',
-    meta: 'Week 2 · Group workshop + DAW intro',
+    format: 'Group workshop + DAW intro',
     description:
       'Write your melody and lyrics. Learn the basics of arranging in a Digital Audio Workstation (DAW). Build a song structure.',
   },
   {
-    number: 3,
+    week: 3,
     title: 'Recording Session',
-    meta: 'Week 3 · Studio time at Music Workshop Kassel',
+    format: 'Studio time at Music Workshop Kassel',
     description:
       'Record vocals and any acoustic instruments in a real studio. Sven teaches mic technique and recording best practices.',
   },
   {
-    number: 4,
+    week: 4,
     title: 'Mixing & Mastering',
-    meta: 'Week 4 · DAW workshop + 1-on-1 mix review',
+    format: 'DAW workshop + 1-on-1 mix review',
     description:
       'Mix your song with EQ, compression, and effects. Master to industry-standard loudness. Final mix review with Sven.',
   },
   {
-    number: 5,
+    week: 5,
     title: 'Showcase & Reflection',
-    meta: 'Week 5 · Optional showcase event',
+    format: 'Optional showcase event',
     description:
       'Share your song with your team and Sven. Reflect on what you learned. Receive your final mastered audio file + certificate.',
   },
 ]
 
-const LEARNING_ITEMS = [
-  'Composition basics — melody, rhythm, harmony',
-  'Music theory — keys, scales, chord progressions',
-  'Recording techniques — mic placement, takes',
-  'Mixing & mastering — DAW basics, EQ, compression',
-  'Project management — recording sessions, deadlines',
-  'Distribution prep — final mastered file ready to share',
+const SAFETY_ITEMS = [
+  { icon: '👨‍👩‍👧', text: 'Adult supervision required for studio session' },
+  { icon: '🔒', text: 'Expert never accesses child personal data' },
+  { icon: '🎵', text: 'Final audio is yours — Star Project does not publish' },
+  { icon: '📹', text: 'All sessions recorded for parent review' },
 ]
 
-const INCLUDED_ITEMS = [
+const PRICING_INCLUDED = [
   '5-week mentored program',
   '2 × 1-on-1 calls with Maestro Sven',
   'Studio session at Music Workshop Kassel',
@@ -61,258 +71,226 @@ const INCLUDED_ITEMS = [
   'Premium certificate',
 ]
 
-const SAFETY_ITEMS = [
-  'Adult supervision required for studio session',
-  'Expert never accesses child personal data',
-  'Final audio is yours — Star Project does not publish',
-  'All sessions recorded for parent review',
-]
+export function ProjectDetailPage() {
+  useParams<{ projectId: string }>()
 
-function TopBar() {
   return (
-    <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-xs text-[#8A8F98]">
-        Star Project › Start Your Career › Music · Mythical › Compose & Record an Original Song
-      </p>
-      <div className="flex items-center gap-4">
-        <div className="text-right text-xs">
-          <p className="font-semibold text-[#172033]">LM Lukas Müller</p>
-          <p className="text-[#8A8F98]">Baby · ⭐ 7</p>
-        </div>
-        <button
-          type="button"
-          className="relative rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
+    <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      {/* LEFT COLUMN */}
+      <div className="flex flex-col gap-6">
+        {/* Section 1 — Premium Hero */}
+        <section
+          className="relative overflow-hidden rounded-2xl p-6 text-white md:p-10"
+          style={{
+            background: 'linear-gradient(135deg, #F4D9CC 0%, #D26B4A 50%, #1F3D2E 100%)',
+          }}
         >
-          🔔
-          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C96B5A] text-[9px] font-bold text-white">
-            3
-          </span>
-        </button>
-        <button
-          type="button"
-          className="rounded-xl border border-[#E8E1D8] bg-[#FFFDF8] px-3 py-2 text-sm text-[#5B6472] hover:bg-[#F4EFE7]"
-        >
-          ✉️
-        </button>
-      </div>
-    </div>
-  )
-}
-
-function PremiumHero() {
-  return (
-    <div
-      className="overflow-hidden rounded-2xl text-[#FFFDF8] shadow-sm"
-      style={{ background: 'linear-gradient(135deg, #26483E, #1F3D35, #C9785A)' }}
-    >
-      <div className="p-7 md:p-9">
-        <span className="inline-block rounded-full border border-[#F4C542]/40 bg-white/10 px-3.5 py-1 text-[10px] font-semibold uppercase tracking-widest text-[#F4C542]">
-          ✨ Mythical · Expert-led · Limited Spots
-        </span>
-
-        <h1 className="mt-5 text-2xl font-bold tracking-tight md:text-3xl">
-          Compose & Record an Original Song
-        </h1>
-
-        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-[#D8D3CA]">
-          A 5-week mentored project where children learn to compose, arrange, record, and master an
-          original song with a working musician — using real studio tools at Music Workshop Kassel.
-        </p>
-
-        <div className="mt-6 flex flex-wrap gap-4">
-          <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#F4C542]">
-              Premium
-            </p>
-            <p className="mt-0.5 text-sm font-bold">⭐⭐⭐ × 3</p>
+          <div className="absolute right-4 top-4 text-6xl opacity-20" aria-hidden="true">
+            ✨
           </div>
-          <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#F4C542]">
-              Duration
+          <div className="absolute -bottom-12 -right-12 h-64 w-64 rounded-full bg-white/10" aria-hidden="true" />
+
+          <div className="relative">
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-sp-gold px-3 py-1 text-xs font-bold uppercase tracking-wider text-sp-primary">
+                ✨ MYTHICAL · EXPERT-LED
+              </span>
+              <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-xs font-semibold uppercase text-white">
+                LIMITED SPOTS
+              </span>
+            </div>
+
+            <h1 className="font-serif text-3xl font-semibold leading-tight tracking-normal md:text-5xl">
+              Compose &amp; Record an{' '}
+              <span className="italic text-sp-gold">Original Song</span>
+            </h1>
+
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
+              A 5-week mentored project where children learn to compose, arrange, record, and master
+              an original song with a working musician — using real studio tools at Music Workshop
+              Kassel.
             </p>
-            <p className="mt-0.5 text-sm font-bold">5 weeks</p>
           </div>
-          <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#F4C542]">
-              Age
-            </p>
-            <p className="mt-0.5 text-sm font-bold">13+</p>
-          </div>
-          <div className="rounded-xl bg-white/10 px-4 py-2.5 text-center">
-            <p className="text-xs font-semibold uppercase tracking-wider text-[#F4C542]">
-              Level
-            </p>
-            <p className="mt-0.5 text-sm font-bold">Mythical</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
+        </section>
 
-function ProjectMeta() {
-  return (
-    <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-[#5B6472]">
-      <span>
-        <span className="font-semibold text-[#172033]">DURATION:</span> 5 weeks
-      </span>
-      <span>
-        <span className="font-semibold text-[#172033]">REWARD:</span> ⭐⭐⭐ × 3
-      </span>
-      <span>
-        <span className="font-semibold text-[#172033]">AGE:</span> 13+
-      </span>
-      <span>
-        <span className="font-semibold text-[#172033]">RECOMMENDED LEVEL:</span> Mythical
-      </span>
-    </div>
-  )
-}
+        {/* Section 2 — Meta Row */}
+        <section className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {[
+            { label: 'DURATION', value: '5 weeks' },
+            { label: 'REWARD', value: '⭐⭐⭐ × 3' },
+            { label: 'AGE', value: '13+' },
+            { label: 'LEVEL', value: 'Mythical' },
+          ].map((stat, i) => (
+            <div
+              key={i}
+              className="rounded-xl border border-sp-border-soft bg-white p-4 text-center"
+            >
+              <p className="text-[10px] font-semibold uppercase tracking-wider text-sp-text-muted">
+                {stat.label}
+              </p>
+              <p className="font-serif mt-1 text-lg font-semibold text-sp-primary md:text-xl">
+                {stat.value}
+              </p>
+            </div>
+          ))}
+        </section>
 
-function ExpertProfile() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Your Expert Mentor</p>
-      <div className="flex items-center gap-4">
-        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#26483E] to-[#C9785A] text-sm font-bold text-white">
-          SK
-        </div>
-        <div>
-          <p className="text-sm font-bold text-[#172033]">Maestro Sven Krause</p>
-          <p className="mt-0.5 text-xs text-[#5B6472]">
-            Composer · Mentored 200+ young musicians · Berlin
-          </p>
-        </div>
-      </div>
-    </div>
-  )
-}
+        {/* Section 3 — Expert Profile */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5 md:p-6">
+          <SectionEyebrow color="coral">YOUR MENTOR</SectionEyebrow>
 
-function LearningSection() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">What you&apos;ll learn</p>
-      <ul className="space-y-2.5">
-        {LEARNING_ITEMS.map((item) => (
-          <li key={item} className="flex items-start gap-2.5 text-sm text-[#5B6472]">
-            <span className="mt-0.5 text-[#26483E]">✓</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
+          <div className="mt-4 flex flex-col items-start gap-4 sm:flex-row">
+            <div className="flex h-20 w-20 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sp-coral to-sp-primary font-serif text-2xl font-semibold text-white">
+              {EXPERT.initials}
+            </div>
 
-function SyllabusSection() {
-  return (
-    <div>
-      <p className="mb-4 text-sm font-semibold text-[#172033]">5-Week Syllabus</p>
-      <div className="space-y-3">
-        {SYLLABUS.map((week) => (
-          <div
-            key={week.number}
-            className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-5 shadow-sm"
-          >
-            <div className="flex items-start gap-4">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#26483E] to-[#C9785A] text-xs font-bold text-white">
-                {week.number}
-              </div>
-              <div className="flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <h3 className="text-sm font-semibold text-[#172033]">{week.title}</h3>
-                  <span className="rounded-full bg-[#F4EFE7] px-2.5 py-0.5 text-[10px] font-medium text-[#5B6472]">
-                    {week.meta}
-                  </span>
-                </div>
-                <p className="mt-1.5 text-sm leading-relaxed text-[#5B6472]">{week.description}</p>
-              </div>
+            <div className="min-w-0 flex-1">
+              <h2 className="font-serif text-xl font-semibold tracking-normal text-sp-primary md:text-2xl">
+                {EXPERT.name}
+              </h2>
+              <p className="mt-1 text-sm text-sp-text-muted">{EXPERT.role}</p>
+              <p className="mt-3 text-sm leading-relaxed text-sp-text-primary">{EXPERT.bio}</p>
             </div>
           </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+        </section>
 
-function SafetyPrivacy() {
-  return (
-    <div className="rounded-2xl border border-[#E8E1D8] bg-[#FFFDF8] p-6 shadow-sm">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Safety &amp; Privacy</p>
-      <ul className="space-y-2.5">
-        {SAFETY_ITEMS.map((item) => (
-          <li key={item} className="flex items-start gap-2.5 text-xs text-[#5B6472]">
-            <span className="mt-0.5 text-[#26483E]">✓</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  )
-}
+        {/* Section 4 — What You'll Learn */}
+        <section>
+          <h2 className="font-serif mb-5 text-xl font-semibold tracking-normal text-sp-primary md:text-2xl">
+            What you&apos;ll learn
+          </h2>
 
-function PricingCard() {
-  return (
-    <div className="rounded-2xl border-2 border-[#F4C542]/40 bg-[#FFFDF8] p-6 shadow-md">
-      <p className="mb-4 text-sm font-semibold text-[#172033]">Pricing</p>
-
-      <div className="text-center">
-        <p className="text-3xl font-bold text-[#172033]">€150</p>
-        <p className="text-xs text-[#5B6472]">One-time payment · 5 weeks access</p>
-      </div>
-
-      <div className="my-5 flex items-center justify-center gap-6 text-sm">
-        <span className="flex items-center gap-1">
-          <span className="text-[#F4C542]">⭐</span> × <span className="font-bold">3</span>
-        </span>
-        <span className="text-[#8A8F98]">€50 / star</span>
-      </div>
-
-      <ul className="space-y-2.5 border-t border-[#E8E1D8] pt-4">
-        {INCLUDED_ITEMS.map((item) => (
-          <li key={item} className="flex items-start gap-2 text-xs text-[#5B6472]">
-            <span className="mt-0.5 text-[#26483E]">✓</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-
-      <button
-        type="button"
-        className="mt-6 w-full rounded-full bg-gradient-to-r from-[#26483E] to-[#1F3D35] px-6 py-3 text-sm font-bold text-white shadow-sm transition-all hover:shadow-md"
-      >
-        Purchase &amp; Begin · €150
-      </button>
-
-      <p className="mt-3 text-center text-xs text-[#8A8F98]">
-        Payment via Flipflop · Manual approval within 24h
-        <br />
-        Subject to age check (13+)
-      </p>
-    </div>
-  )
-}
-
-export function ProjectDetailPage() {
-  return (
-    <div>
-      <TopBar />
-
-      <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
-        <div className="space-y-6">
-          <PremiumHero />
-          <ProjectMeta />
-          <LearningSection />
-          <SyllabusSection />
-        </div>
-
-        <div className="space-y-5">
-          <ExpertProfile />
-          <SafetyPrivacy />
-          <div className="sticky top-8">
-            <PricingCard />
+          <div className="grid gap-3 md:grid-cols-2">
+            {LEARNING_OUTCOMES.map((item, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 rounded-xl border border-sp-border-soft bg-white p-4"
+              >
+                <IconTile size="md" tint="coral">
+                  <span aria-hidden="true">{item.icon}</span>
+                </IconTile>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm font-semibold text-sp-primary">✓ {item.title}</h3>
+                  <p className="mt-1 text-xs leading-relaxed text-sp-text-muted">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
+
+        {/* Section 5 — 5-Week Syllabus */}
+        <section>
+          <h2 className="font-serif mb-5 text-xl font-semibold tracking-normal text-sp-primary md:text-2xl">
+            5-Week Syllabus
+          </h2>
+
+          <div className="flex flex-col gap-3">
+            {SYLLABUS.map((week) => (
+              <article
+                key={week.week}
+                className="flex gap-4 rounded-xl border border-sp-border-soft bg-white p-4 md:p-5"
+              >
+                <div className="flex h-14 w-14 flex-shrink-0 flex-col items-center justify-center rounded-xl bg-gradient-to-br from-sp-coral-bg-soft to-sp-coral text-white">
+                  <span className="text-[9px] font-bold uppercase tracking-wider">WEEK</span>
+                  <span className="font-serif text-xl font-semibold leading-none">{week.week}</span>
+                </div>
+
+                <div className="min-w-0 flex-1">
+                  <h3 className="font-serif text-base font-semibold text-sp-primary">
+                    {week.title}
+                  </h3>
+                  <p className="mt-1 text-xs font-semibold text-sp-coral">{week.format}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-sp-text-primary">
+                    {week.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      </div>
+
+      {/* RIGHT COLUMN — Sidebar */}
+      <div className="flex flex-col gap-4">
+        {/* Pricing Card — prominent, sticky */}
+        <section
+          className="relative overflow-hidden rounded-2xl p-6 text-white lg:sticky lg:top-6"
+          style={{ background: 'linear-gradient(135deg, #1F3D2E 0%, #2A4F3D 100%)' }}
+        >
+          <div className="absolute -right-8 -top-8 text-7xl opacity-15" aria-hidden="true">
+            ✨
+          </div>
+
+          <div className="relative">
+            <SectionEyebrow color="coral" className="text-sp-gold">
+              PRICING
+            </SectionEyebrow>
+
+            <div className="mt-3 flex items-baseline gap-1">
+              <span className="text-2xl" aria-hidden="true">
+                ⭐⭐⭐
+              </span>
+              <span className="ml-2 text-sm text-white/80">× 3 stars</span>
+            </div>
+
+            <div className="mt-4">
+              <p className="text-sm text-white/70">€50 / star</p>
+              <p className="font-serif mt-1 text-5xl font-semibold text-sp-gold">€150</p>
+              <p className="mt-1 text-xs text-white/70">One-time payment · 5 weeks access</p>
+            </div>
+
+            <div className="my-5 border-t border-white/15" />
+
+            <p className="mb-3 text-[10px] font-bold uppercase tracking-wider text-white/70">
+              INCLUDED
+            </p>
+            <ul className="flex flex-col gap-2 text-xs">
+              {PRICING_INCLUDED.map((item, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="mt-0.5 flex-shrink-0 text-sp-gold" aria-hidden="true">
+                    ✓
+                  </span>
+                  <span className="leading-relaxed text-white/90">{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              type="button"
+              onClick={() => console.log('Purchase mythical project')}
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-sp-gold px-5 py-3.5 text-sm font-bold text-sp-primary transition-colors hover:bg-sp-gold/90"
+            >
+              Purchase &amp; Begin · €150 →
+            </button>
+
+            <p className="mt-3 text-center text-[10px] leading-relaxed text-white/60">
+              Payment via Flipflop · Manual approval within 24h
+              <br />
+              Subject to age check (13+)
+            </p>
+          </div>
+        </section>
+
+        {/* Safety & Privacy */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5">
+          <h3 className="font-serif mb-4 flex items-center gap-2 text-base font-semibold text-sp-primary">
+            <span aria-hidden="true">🛡️</span>
+            Safety &amp; Privacy
+          </h3>
+
+          <ul className="flex flex-col gap-3">
+            {SAFETY_ITEMS.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-xs">
+                <span className="flex-shrink-0" aria-hidden="true">
+                  {item.icon}
+                </span>
+                <span className="leading-relaxed text-sp-text-primary">{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
       </div>
     </div>
   )
