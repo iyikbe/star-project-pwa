@@ -1,6 +1,8 @@
 ﻿import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { CURRENT_USER, TEAMMATE_SOPHIE } from '../../data/mock/users'
+
+/* ─── Pre-Start data ─── */
 
 const BREZEL_WEEKLY_TASKS = [
   {
@@ -38,8 +40,89 @@ const BREZEL_WEEKLY_TASKS = [
   },
 ]
 
-export function ProjectWorkspacePage() {
-  useParams<{ projectId: string }>()
+/* ─── In-Progress data ─── */
+
+const PASTA_WEEKLY_PROGRESS = [
+  {
+    number: 1,
+    title: 'Research & Validation',
+    week: 'Week 1',
+    status: 'done' as const,
+    completedDate: 'Completed Mar 22',
+    description:
+      'You interviewed 6 family members about their favorite pasta dishes. Compared sauce prices at 3 supermarkets. Documented allergies of testers.',
+  },
+  {
+    number: 2,
+    title: 'Build & Create',
+    week: 'Week 2',
+    status: 'done' as const,
+    completedDate: 'Completed Mar 29',
+    description:
+      'You and Sophie made fresh tagliatelle from scratch. Tomato-basil sauce based on Nonna\'s recipe research. 8 photos uploaded.',
+  },
+  {
+    number: 3,
+    title: 'Test & Validate',
+    week: 'Week 3',
+    status: 'active' as const,
+    dueDate: 'In progress · Due Apr 5',
+    description:
+      'Give samples to 5 testers. Collect feedback. Document reactions and improvement notes.',
+    progressNote: 'Sophie has uploaded 2 photos. You haven\'t logged tester feedback yet.',
+  },
+  {
+    number: 4,
+    title: 'Improve & Finalize',
+    week: 'Week 4',
+    status: 'locked' as const,
+    finalDeadline: 'Final deadline Apr 12 ⏰',
+    description:
+      'Make improved version. Submit final report + 3-minute video proof for review.',
+  },
+]
+
+const TEAM_ACTIVITY = [
+  {
+    initials: 'SK',
+    name: 'Sophie K.',
+    action: 'uploaded 2 photos for Week 3 — Test & Validate',
+    time: '2h ago',
+    avatar: 'sage' as const,
+  },
+  {
+    initials: 'LM',
+    name: 'You',
+    action: 'marked Week 2 as complete',
+    time: 'Yesterday',
+    avatar: 'coral' as const,
+  },
+  {
+    initials: 'SK',
+    name: 'Sophie K.',
+    action: 'uploaded 4 photos for Week 2 — Build & Create',
+    time: '2 days ago',
+    avatar: 'sage' as const,
+  },
+  {
+    initials: '⭐',
+    name: 'System',
+    action: 'Project officially started · Timer began Mar 15',
+    time: '3 weeks ago',
+    avatar: 'gold' as const,
+  },
+]
+
+const FILES_UPLOADED = [
+  { name: 'week2_pasta_dough.jpg', size: '2.3 MB', uploader: 'Sophie' },
+  { name: 'week2_final_dish.jpg', size: '1.8 MB', uploader: 'Sophie' },
+  { name: 'week1_research.docx', size: '245 KB', uploader: 'you' },
+]
+const TOTAL_FILES = 8
+
+/* ─── PreStartView ─── */
+
+function PreStartView() {
   const [inviteStudentId, setInviteStudentId] = useState('SP-2026-0052')
 
   return (
@@ -305,4 +388,310 @@ export function ProjectWorkspacePage() {
       </div>
     </div>
   )
+}
+
+/* ─── InProgressView ─── */
+
+function InProgressView() {
+  return (
+    <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      {/* LEFT COLUMN */}
+      <div className="flex flex-col gap-6">
+        {/* Section 1 — Project Hero Card */}
+        <section
+          className="relative overflow-hidden rounded-2xl p-6 md:p-8"
+          style={{ background: 'linear-gradient(135deg, #F4D9CC 0%, #D26B4A 100%)' }}
+        >
+          <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full bg-white/15" aria-hidden="true" />
+
+          <div className="relative flex flex-col gap-5">
+            <div className="flex items-start gap-4">
+              <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-full bg-white/20 text-4xl">
+                🍝
+              </div>
+              <div className="flex-1">
+                <div className="mb-2 flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-semibold uppercase tracking-wide text-sp-coral">
+                    🔥 ONGOING · WEEK 3
+                  </span>
+                  <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-xs font-semibold uppercase text-white">
+                    CHEF
+                  </span>
+                  <span className="inline-flex items-center rounded-full bg-white/20 px-2.5 py-1 text-xs font-semibold text-white">
+                    ⭐⭐ BABY
+                  </span>
+                </div>
+                <h1 className="font-serif text-3xl font-semibold leading-tight tracking-normal text-white md:text-4xl">
+                  Pasta from Scratch
+                </h1>
+              </div>
+            </div>
+
+            <p className="max-w-2xl text-sm leading-relaxed text-white/90 md:text-base">
+              Make handmade pasta with traditional techniques + your own sauce. Document each step.
+              Test with family.
+            </p>
+
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-white/85 md:text-sm">
+              <span className="flex items-center gap-1.5">
+                ⏱ Started <strong className="font-semibold text-white">Mar 15</strong>
+              </span>
+              <span className="flex items-center gap-1.5">
+                📅 Deadline <strong className="font-semibold text-white">Apr 12</strong>
+              </span>
+              <span className="flex items-center gap-1.5">
+                👥 <strong className="font-semibold text-white">Team of 2</strong>
+              </span>
+              <span className="flex items-center gap-1.5">
+                📈 <strong className="font-semibold text-white">72% complete</strong>
+              </span>
+            </div>
+
+            <div className="mt-2 flex flex-col justify-between gap-3 rounded-xl bg-sp-primary p-4 sm:flex-row sm:items-center">
+              <div>
+                <p className="text-[10px] font-semibold uppercase tracking-wider text-white/70">
+                  TIME REMAINING
+                </p>
+                <p className="font-serif mt-1 text-3xl font-semibold tracking-normal text-white md:text-4xl">
+                  11 days · 4 hours
+                </p>
+              </div>
+              <p className="max-w-xs text-xs text-white/80">
+                Final deadline:{' '}
+                <strong className="text-white">April 12, 2026 · 23:59 CET</strong> · Late fee
+                applies if missed
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 2 — Weekly Progress */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5 md:p-6">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 className="font-serif text-lg font-semibold text-sp-primary md:text-xl">
+              Weekly Progress
+            </h2>
+            <div className="flex items-center gap-2">
+              <div className="h-1.5 w-24 overflow-hidden rounded-full bg-sp-border-soft">
+                <div className="h-full rounded-full bg-sp-gold" style={{ width: '72%' }} />
+              </div>
+              <span className="text-xs font-semibold text-sp-text-muted">72%</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            {PASTA_WEEKLY_PROGRESS.map((task) => {
+              const isDone = task.status === 'done'
+              const isActive = task.status === 'active'
+              const isLocked = task.status === 'locked'
+
+              return (
+                <article
+                  key={task.number}
+                  className={`flex gap-4 rounded-lg border p-4 transition-colors ${
+                    isDone
+                      ? 'border-sp-accent-green/30 bg-sp-accent-green-bg/40'
+                      : isActive
+                        ? 'border-sp-coral/30 bg-sp-coral-bg-soft/40'
+                        : 'border-sp-border-soft bg-sp-bg-card-muted opacity-70'
+                  }`}
+                >
+                  <div
+                    className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full font-serif font-semibold ${
+                      isDone
+                        ? 'bg-sp-accent-green text-white'
+                        : isActive
+                          ? 'bg-sp-coral text-white'
+                          : 'border-2 border-sp-border-input bg-white text-sp-text-muted'
+                    }`}
+                  >
+                    {isDone ? '✓' : isLocked ? '🔒' : task.number}
+                  </div>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <h3
+                        className={`font-serif text-base font-semibold ${
+                          isLocked ? 'text-sp-text-muted' : 'text-sp-primary'
+                        }`}
+                      >
+                        {task.title}
+                      </h3>
+                      <span className="text-xs text-sp-text-muted">
+                        {task.week}
+                        {isDone && task.completedDate && ` · ${task.completedDate}`}
+                        {isActive && task.dueDate && ` · ${task.dueDate}`}
+                        {isLocked && task.finalDeadline && ` · ${task.finalDeadline}`}
+                      </span>
+
+                      <span
+                        className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide ${
+                          isDone
+                            ? 'bg-sp-accent-green-bg text-sp-accent-green'
+                            : isActive
+                              ? 'bg-sp-coral-bg-soft text-sp-coral'
+                              : 'bg-sp-border-soft text-sp-text-muted'
+                        }`}
+                      >
+                        {isDone ? 'DONE' : isActive ? 'ACTIVE' : 'LOCKED'}
+                      </span>
+                    </div>
+
+                    <p
+                      className={`mt-2 text-sm leading-relaxed ${
+                        isLocked ? 'text-sp-text-muted' : 'text-sp-text-primary'
+                      }`}
+                    >
+                      {task.description}
+                    </p>
+
+                    {isActive && task.progressNote && (
+                      <p className="mt-2 text-xs font-medium leading-relaxed text-sp-coral">
+                        ⚠ {task.progressNote}
+                      </p>
+                    )}
+                  </div>
+                </article>
+              )
+            })}
+          </div>
+        </section>
+      </div>
+
+      {/* RIGHT COLUMN — Sidebar */}
+      <div className="flex flex-col gap-4">
+        {/* Team Members (2 joined) */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5">
+          <div className="mb-4 flex items-center justify-between">
+            <h3 className="font-serif text-base font-semibold text-sp-primary">Team Members</h3>
+            <span className="text-xs font-semibold text-sp-text-muted">2 joined</span>
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-3 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted p-3">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-sp-coral text-xs font-bold text-white">
+                {CURRENT_USER.childInitials}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-sp-primary">
+                  {CURRENT_USER.childName}{' '}
+                  <span className="text-xs font-normal text-sp-text-muted">(You)</span>
+                </p>
+                <p className="text-[11px] text-sp-text-muted">
+                  {CURRENT_USER.studentId} · Owner
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted p-3">
+              <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-category-farm text-xs font-bold text-white">
+                {TEAMMATE_SOPHIE.childInitials}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-sm font-semibold text-sp-primary">
+                  {TEAMMATE_SOPHIE.childName}
+                </p>
+                <p className="text-[11px] text-sp-text-muted">
+                  {TEAMMATE_SOPHIE.studentId} · Member
+                </p>
+              </div>
+              <span className="inline-flex items-center rounded-full bg-sp-accent-green-bg px-2 py-0.5 text-[10px] font-bold uppercase text-sp-accent-green">
+                ACTIVE
+              </span>
+            </div>
+          </div>
+        </section>
+
+        {/* Team Activity */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5">
+          <h3 className="font-serif mb-4 text-base font-semibold text-sp-primary">
+            Team Activity
+          </h3>
+
+          <ul className="flex flex-col gap-3">
+            {TEAM_ACTIVITY.map((entry, i) => (
+              <li key={i} className="flex gap-3">
+                <div
+                  className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white ${
+                    entry.avatar === 'coral'
+                      ? 'bg-sp-coral'
+                      : entry.avatar === 'sage'
+                        ? 'bg-category-farm'
+                        : 'bg-sp-gold'
+                  }`}
+                >
+                  {entry.initials}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs leading-relaxed text-sp-text-primary">
+                    <strong className="font-semibold">{entry.name}</strong> {entry.action}
+                  </p>
+                  <p className="mt-0.5 text-[10px] text-sp-text-muted">{entry.time}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        {/* Files Uploaded */}
+        <section className="rounded-xl border border-sp-border-soft bg-white p-5">
+          <h3 className="font-serif mb-4 text-base font-semibold text-sp-primary">
+            Files Uploaded
+          </h3>
+
+          <ul className="flex flex-col gap-2">
+            {FILES_UPLOADED.map((f, i) => (
+              <li
+                key={i}
+                className="flex items-center gap-3 rounded-lg p-2.5 transition-colors hover:bg-sp-bg-card-muted"
+              >
+                <div className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-md border border-sp-border-soft bg-sp-bg-card-muted text-lg">
+                  {f.name.endsWith('.jpg') || f.name.endsWith('.png') ? '🖼️' : '📄'}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-xs font-semibold text-sp-primary">{f.name}</p>
+                  <p className="text-[10px] text-sp-text-muted">
+                    {f.size} · by {f.uploader}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+
+          <button type="button" className="mt-2 text-xs font-semibold text-sp-coral hover:underline">
+            + {TOTAL_FILES - FILES_UPLOADED.length} more files
+          </button>
+        </section>
+
+        {/* Submission CTA */}
+        <section
+          className="rounded-xl p-5 text-white"
+          style={{ background: 'linear-gradient(135deg, #1F3D2E 0%, #2A4F3D 100%)' }}
+        >
+          <h3 className="font-serif mb-2 text-base font-semibold">Ready to submit?</h3>
+          <p className="mb-4 text-xs leading-relaxed text-white/80">
+            Once Week 3 is complete and Week 4 work is done, submit your report + video for review.
+          </p>
+          <Link
+            to="/projects/pasta-from-scratch/submit"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-sp-primary transition-colors hover:bg-white/90"
+          >
+            📤 Go to Submission →
+          </Link>
+        </section>
+      </div>
+    </div>
+  )
+}
+
+/* ─── Page export ─── */
+
+export function ProjectWorkspacePage() {
+  const { projectId } = useParams<{ projectId: string }>()
+
+  if (projectId === 'pasta-from-scratch') {
+    return <InProgressView />
+  }
+
+  return <PreStartView />
 }
