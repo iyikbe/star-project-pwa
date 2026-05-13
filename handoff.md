@@ -9,21 +9,23 @@
 ---
 
 ## Goal
-Step 24C — Setup Vitest + first connection test
+Step 25A — Seed categories + levels tables in Supabase
 
 ## Current State
-Step 24B complete. Supabase client installed. Auth abstraction layer created.
-AuthProvider wrapping app in main.tsx. All existing pages still working.
+Step 24C complete. Vitest configured. 7 smoke tests passing.
+Supabase client verified — connection working, auth module ready.
+Testing infrastructure ready for Phase 3.
 
 ## Files in Flight
-None — Step 24B committed..
+None — Step 24C committed.
 
 ## Changed (this session)
-- Installed @supabase/supabase-js
-- Created src/lib/supabase.ts (client singleton)
-- Created src/lib/auth/ (AuthProvider, useAuth, types)
-- Created src/lib/db/ (placeholder types)
-- Modified src/main.tsx (wrapped with AuthProvider)
+- Created vitest.config.ts (test configuration)
+- Created src/test/setup.ts (jest-dom matchers)
+- Created src/test/helpers.ts (test utilities)
+- Created src/lib/__tests__/supabase.test.ts (7 connection tests)
+- Added test scripts to package.json
+- Added vitest types
 
 ## Failed Attempts
 None yet.
@@ -32,8 +34,8 @@ None yet.
 None yet.
 
 ## Next Step
-Step 24C — Setup Vitest configuration + write first connection test
-Tool assignment: 🟢 DEEPSEEK ONLY
+Step 25A — Create categories + levels tables in Supabase, seed with data from constants
+Tool assignment: 🟢 DEEPSEEK ONLY (Flash)
 
 ## Tool Assignment Legend
 - 🟢 DEEPSEEK ONLY — mechanical, no Claude Code needed
