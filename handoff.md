@@ -12,8 +12,16 @@
 Step 29 — Auth context provider (real sessions)
 
 ## Current State
-Step 28 COMPLETE. 007_notifications_audit_storage.sql fully reviewed and all security fixes applied.
-113 tests passing. Ready to commit migration and start Step 29.
+Step 28 COMPLETE & committed. Step 29 (auth-context.tsx) COMPLETE — both MEDIUM
+fixes applied, re-reviewed, verified. Build PASS, 119/119 tests PASS.
+Ready to commit auth-context.tsx and start Step 30.
+
+## Step 29 Resolution
+MEDIUM-1 (signUp isLoading hang) FIXED: signUp destructures { data, error },
+resets isLoading:false when !data.session (email-confirm path). Verified L129-140.
+MEDIUM-2 (silent authenticated parent) FIXED: loadProfile no-profile branch now
+sets user:null, isAuthenticated:false, error message. No hardcoded role. L76-82.
+All 7 checklist items pass. No SQL changes were needed (client-side only).
 
 ## Completed Steps (Phase 3 — Backend)
 | Step | Description | Status |
@@ -27,6 +35,7 @@ Step 28 COMPLETE. 007_notifications_audit_storage.sql fully reviewed and all sec
 | 27B | Submissions + files (recursion fix: is_submission_team_member) | ✅ |
 | 27C | Payments + late_fees (3 CRITICAL fixes: insert restrictions, fee cap lock) | ✅ |
 | 28 | Notifications + audit_logs + storage + schema patches | ✅ |
+| 29 | Auth context provider (2 MEDIUM fixes: signUp hang, silent parent) | ✅ |
 
 ## Completed Steps (Phase 1+2 — UI)
 Steps 0-23: Full UI rebuild from mockup (18 pages). All committed and deployed on Vercel.
@@ -125,7 +134,6 @@ Steps 0-23: Full UI rebuild from mockup (18 pages). All committed and deployed o
 | 40 | Late fee calculator | 🟡 | Pro | Sonnet |
 
 ## Known Remaining Gaps (LOW priority)
-- toUserProfile does not map child.id
 - No authenticated cross-user isolation tests (Playwright phase after Step 40)
 - fetchProjectBySlug weekly_tasks ORDER BY (fixed in app code, not SQL)
 - invitations UPDATE policies lack field-level status restriction
@@ -144,7 +152,7 @@ None — all committed.
 None.
 
 ## Next Step
-Step 29 — Auth context provider (real sessions).
+Commit auth-context.tsx (Step 29 done), then Step 30 — Real register flow.
 Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 
 ## Session Log
@@ -158,3 +166,5 @@ Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 | 6 | 2026-05-15 | 27C payments audit (Opus) | ~10 min | 3 CRITICAL: insert bypasses, fixed |
 | 7 | 2026-05-15 | 28 notifications+audit review | ~8 min | 2 MEDIUM: SECURITY DEFINER bypass; LOW: regex anchor |
 | 8 | 2026-05-15 | 28 final verification | ~5 min | All 3 fixes confirmed, 113/113 PASS, Step 28 ✅ |
+| 9 | 2026-05-15 | 29 auth-context review (Opus) | ~8 min | 2 MEDIUM: signUp isLoading hang; missing-profile silent parent. 119/119 PASS |
+| 10 | 2026-05-15 | 29 fix re-review (Opus) | ~5 min | Both MEDIUM fixes verified, build PASS, 119/119 PASS, Step 29 ✅ |
