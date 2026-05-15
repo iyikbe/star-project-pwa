@@ -9,19 +9,18 @@
 ---
 
 ## Goal
-Step 29 — Auth context provider (real sessions)
+Step 31 — Real login flow
 
 ## Current State
-Step 28 COMPLETE & committed. Step 29 (auth-context.tsx) COMPLETE — both MEDIUM
-fixes applied, re-reviewed, verified. Build PASS, 119/119 tests PASS.
-Ready to commit auth-context.tsx and start Step 30.
+Step 30 COMPLETE. RegisterPage.tsx reviewed, LOW-1 fix (signOut on insert failure)
+applied and re-verified. 126/126 tests PASS. Ready to commit and start Step 31.
 
-## Step 29 Resolution
-MEDIUM-1 (signUp isLoading hang) FIXED: signUp destructures { data, error },
-resets isLoading:false when !data.session (email-confirm path). Verified L129-140.
-MEDIUM-2 (silent authenticated parent) FIXED: loadProfile no-profile branch now
-sets user:null, isAuthenticated:false, error message. No hardcoded role. L76-82.
-All 7 checklist items pass. No SQL changes were needed (client-side only).
+## Step 30 Resolution
+LOW-1 (orphaned auth user) FIXED: all 3 insert-failure paths now call
+`await supabase.auth.signOut()` before returning the error message. Verified
+at RegisterPage.tsx L113-120 (profile fail), L155-162 (collision retry fail),
+L163-169 (non-collision child fail). No SQL changes needed.
+Remaining LOW-2 (student_id space) and LOW-3 (refreshProfile silent fail) deferred.
 
 ## Completed Steps (Phase 3 — Backend)
 | Step | Description | Status |
@@ -36,6 +35,7 @@ All 7 checklist items pass. No SQL changes were needed (client-side only).
 | 27C | Payments + late_fees (3 CRITICAL fixes: insert restrictions, fee cap lock) | ✅ |
 | 28 | Notifications + audit_logs + storage + schema patches | ✅ |
 | 29 | Auth context provider (2 MEDIUM fixes: signUp hang, silent parent) | ✅ |
+| 30 | Real register flow (LOW-1 fix: signOut on insert failure) | ✅ |
 
 ## Completed Steps (Phase 1+2 — UI)
 Steps 0-23: Full UI rebuild from mockup (18 pages). All committed and deployed on Vercel.
@@ -151,8 +151,15 @@ None — all committed.
 ## Failed Attempts
 None.
 
+## Urgent Backlog
+- [ ] Re-enable "Confirm email" in Supabase Auth before public launch
+  - Needed for: payment confirmation emails, task reminders, password reset
+  - Requires: email verification flow in UI (show "check your email" page)
+  - When: before Step 38 (payment integration) or before public launch
+  - Supabase Dashboard → Authentication → Providers → Confirm email → ON
+
 ## Next Step
-Commit auth-context.tsx (Step 29 done), then Step 30 — Real register flow.
+Commit RegisterPage.tsx (Step 30 done), then Step 31 — Real login flow.
 Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 
 ## Session Log
@@ -168,3 +175,5 @@ Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 | 8 | 2026-05-15 | 28 final verification | ~5 min | All 3 fixes confirmed, 113/113 PASS, Step 28 ✅ |
 | 9 | 2026-05-15 | 29 auth-context review (Opus) | ~8 min | 2 MEDIUM: signUp isLoading hang; missing-profile silent parent. 119/119 PASS |
 | 10 | 2026-05-15 | 29 fix re-review (Opus) | ~5 min | Both MEDIUM fixes verified, build PASS, 119/119 PASS, Step 29 ✅ |
+| 11 | 2026-05-15 | 30 register flow review | ~7 min | 1 LOW: orphaned auth user on insert fail. 126/126 PASS. Fix prompt ready. |
+| 12 | 2026-05-15 | 30 fix re-review | ~4 min | LOW-1 verified (3 signOut paths), 126/126 PASS, Step 30 ✅ |
