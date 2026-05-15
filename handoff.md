@@ -36,6 +36,7 @@ Remaining LOW-2 (student_id space) and LOW-3 (refreshProfile silent fail) deferr
 | 28 | Notifications + audit_logs + storage + schema patches | ✅ |
 | 29 | Auth context provider (2 MEDIUM fixes: signUp hang, silent parent) | ✅ |
 | 30 | Real register flow (LOW-1 fix: signOut on insert failure) | ✅ |
+| 31 | Real login flow (MEDIUM-1 fix: reset error message sanitized) | ✅ |
 
 ## Completed Steps (Phase 1+2 — UI)
 Steps 0-23: Full UI rebuild from mockup (18 pages). All committed and deployed on Vercel.
@@ -159,7 +160,7 @@ None.
   - Supabase Dashboard → Authentication → Providers → Confirm email → ON
 
 ## Next Step
-Commit RegisterPage.tsx (Step 30 done), then Step 31 — Real login flow.
+Step 32 — Session management + protected routes.
 Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 
 ## Session Log
@@ -177,3 +178,5 @@ Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 | 10 | 2026-05-15 | 29 fix re-review (Opus) | ~5 min | Both MEDIUM fixes verified, build PASS, 119/119 PASS, Step 29 ✅ |
 | 11 | 2026-05-15 | 30 register flow review | ~7 min | 1 LOW: orphaned auth user on insert fail. 126/126 PASS. Fix prompt ready. |
 | 12 | 2026-05-15 | 30 fix re-review | ~4 min | LOW-1 verified (3 signOut paths), 126/126 PASS, Step 30 ✅ |
+| 13 | 2026-05-15 | 31 login flow review | ~5 min | 1 MEDIUM: reset error leaks raw Supabase message. 132/132 PASS. Fix prompt ready. |
+| 14 | 2026-05-15 | 31 fix re-review | ~3 min | MEDIUM-1 verified (sanitized error), 132/132 PASS, Step 31 ✅ |
