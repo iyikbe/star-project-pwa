@@ -9,11 +9,13 @@
 ---
 
 ## Goal
-Step 31 — Real login flow
+Step 33 — Projects read queries (connect UI)
 
 ## Current State
-Step 30 COMPLETE. RegisterPage.tsx reviewed, LOW-1 fix (signOut on insert failure)
-applied and re-verified. 126/126 tests PASS. Ready to commit and start Step 31.
+Step 32 COMPLETE. All 3 route guards (ProtectedRoute, AdminRoute, GuestRoute) and
+AppRouter reviewed. All 10 security/correctness checks PASS. 137/137 tests PASS.
+No fixes required. LOW note: ProtectedRoute passes state.from on /login redirect
+but LoginPage doesn't yet consume it for post-login redirect — defer to a future step.
 
 ## Step 30 Resolution
 LOW-1 (orphaned auth user) FIXED: all 3 insert-failure paths now call
@@ -37,6 +39,7 @@ Remaining LOW-2 (student_id space) and LOW-3 (refreshProfile silent fail) deferr
 | 29 | Auth context provider (2 MEDIUM fixes: signUp hang, silent parent) | ✅ |
 | 30 | Real register flow (LOW-1 fix: signOut on insert failure) | ✅ |
 | 31 | Real login flow (MEDIUM-1 fix: reset error message sanitized) | ✅ |
+| 32 | Session management + protected routes (all checks PASS, no fixes) | ✅ |
 
 ## Completed Steps (Phase 1+2 — UI)
 Steps 0-23: Full UI rebuild from mockup (18 pages). All committed and deployed on Vercel.
@@ -160,8 +163,8 @@ None.
   - Supabase Dashboard → Authentication → Providers → Confirm email → ON
 
 ## Next Step
-Step 32 — Session management + protected routes.
-Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
+Step 33 — Projects read queries (connect UI).
+Tool assignment: 🟢 DEEPSEEK V4 Flash only — no Claude Code review needed
 
 ## Session Log
 | # | Date | Step | Duration | Outcome |
@@ -180,3 +183,4 @@ Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 | 12 | 2026-05-15 | 30 fix re-review | ~4 min | LOW-1 verified (3 signOut paths), 126/126 PASS, Step 30 ✅ |
 | 13 | 2026-05-15 | 31 login flow review | ~5 min | 1 MEDIUM: reset error leaks raw Supabase message. 132/132 PASS. Fix prompt ready. |
 | 14 | 2026-05-15 | 31 fix re-review | ~3 min | MEDIUM-1 verified (sanitized error), 132/132 PASS, Step 31 ✅ |
+| 15 | 2026-05-15 | 32 route guards review | ~5 min | All 10 checks PASS, 137/137 PASS, Step 32 ✅ |
