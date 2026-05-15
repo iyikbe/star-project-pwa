@@ -1,14 +1,22 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { CATEGORY_LIST } from '../../lib/constants/categories'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../lib/auth/use-auth'
 
+/**
+ * Generate student ID in format STAR-XXXX (random 4-digit number).
+ * In production, this should check for uniqueness in database.
+ */
 function generateStudentId(): string {
   const num = Math.floor(1000 + Math.random() * 9000)
   return `STAR-${num}`
 }
 
+/**
+ * Generate initials from a full name.
+ * "Lukas Müller" → "LM", "Anna" → "AN"
+ */
 function generateInitials(name: string): string {
   const parts = name.trim().split(/\s+/)
   if (parts.length >= 2) {
@@ -17,6 +25,9 @@ function generateInitials(name: string): string {
   return name.trim().substring(0, 2).toUpperCase()
 }
 
+/**
+ * Map region select value to display string for database.
+ */
 function mapRegion(value: string): string {
   const regionMap: Record<string, string> = {
     'kassel-hessen': 'Kassel, DE',
@@ -31,6 +42,7 @@ export function RegisterPage() {
   const navigate = useNavigate()
   const { refreshProfile } = useAuth()
 
+  // Form fields
   const [guardianName, setGuardianName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -45,6 +57,7 @@ export function RegisterPage() {
   const [consent3, setConsent3] = useState(false)
   const [consentPublic, setConsentPublic] = useState(false)
 
+  // UI state
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
@@ -57,10 +70,9 @@ export function RegisterPage() {
     })
   }
 
+  // Calculate child age from birthdate
   const childAge = birthdate
-    ? Math.floor(
-        (Date.now() - new Date(birthdate).getTime()) / (365.25 * 24 * 60 * 60 * 1000),
-      )
+    ? Math.floor((Date.now() - new Date(birthdate).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
     : null
 
   const canSubmit =
@@ -83,6 +95,7 @@ export function RegisterPage() {
     setErrorMessage(null)
 
     try {
+      // Step 1: Create auth account in Supabase
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email: email.trim(),
         password,
@@ -101,78 +114,78 @@ export function RegisterPage() {
         return
       }
 
-      const { error: profileError } = await supabase.from('profiles').insert({
-        id: userId,
-        guardian_name: guardianName.trim(),
-        guardian_email: email.trim(),
-        region: mapRegion(region),
-        role: 'parent',
-        avatar_initials: generateInitials(guardianName),
-      })
+      // Step 2: Create profile row
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .insert({
+          id: userId,
+          guardian_name: guardianName.trim(),
+          guardian_email: email.trim(),
+          region: mapRegion(region),
+          role: 'parent',
+          avatar_initials: generateInitials(guardianName),
+        })
 
       if (profileError) {
-        await supabase.auth.signOut()
-        setErrorMessage(
-          'Account setup failed. Please try registering again, or contact support if this persists.'
-        )
+        setErrorMessage('Profile creation failed: ' + profileError.message)
         setIsSubmitting(false)
         return
       }
 
+      // Step 3: Create child row
       const firstCategory = Array.from(selectedCategories)[0] ?? null
 
-      const { error: childError } = await supabase.from('children').insert({
-        profile_id: userId,
-        child_name: childName.trim(),
-        child_initials: generateInitials(childName),
-        date_of_birth: birthdate,
-        student_id: generateStudentId(),
-        current_category: firstCategory,
-        current_level: 'tiny',
-        total_stars: 0,
-        projects_completed: 0,
-        about_me: '',
-      })
+      const { error: childError } = await supabase
+        .from('children')
+        .insert({
+          profile_id: userId,
+          child_name: childName.trim(),
+          child_initials: generateInitials(childName),
+          date_of_birth: birthdate,
+          student_id: generateStudentId(),
+          current_category: firstCategory,
+          current_level: 'tiny',
+          total_stars: 0,
+          projects_completed: 0,
+          about_me: '',
+        })
 
       if (childError) {
-        if (
-          childError.message.includes('unique') ||
-          childError.message.includes('duplicate')
-        ) {
-          const { error: retryError } = await supabase.from('children').insert({
-            profile_id: userId,
-            child_name: childName.trim(),
-            child_initials: generateInitials(childName),
-            date_of_birth: birthdate,
-            student_id: generateStudentId(),
-            current_category: firstCategory,
-            current_level: 'tiny',
-            total_stars: 0,
-            projects_completed: 0,
-            about_me: '',
-          })
+        // If student_id collision, try once more with new ID
+        if (childError.message.includes('unique') || childError.message.includes('duplicate')) {
+          const { error: retryError } = await supabase
+            .from('children')
+            .insert({
+              profile_id: userId,
+              child_name: childName.trim(),
+              child_initials: generateInitials(childName),
+              date_of_birth: birthdate,
+              student_id: generateStudentId(),
+              current_category: firstCategory,
+              current_level: 'tiny',
+              total_stars: 0,
+              projects_completed: 0,
+              about_me: '',
+            })
 
           if (retryError) {
-            await supabase.auth.signOut()
-            setErrorMessage(
-              'Account setup failed. Please try registering again, or contact support if this persists.'
-            )
+            setErrorMessage('Child profile creation failed: ' + retryError.message)
             setIsSubmitting(false)
             return
           }
         } else {
-          await supabase.auth.signOut()
-          setErrorMessage(
-            'Account setup failed. Please try registering again, or contact support if this persists.'
-          )
+          setErrorMessage('Child profile creation failed: ' + childError.message)
           setIsSubmitting(false)
           return
         }
       }
 
+      // Step 4: Refresh auth context to load new profile
       await refreshProfile()
+
+      // Step 5: Navigate to account page
       navigate('/account')
-    } catch {
+    } catch (err) {
       setErrorMessage('An unexpected error occurred. Please try again.')
       setIsSubmitting(false)
     }
@@ -186,15 +199,13 @@ export function RegisterPage() {
         </h1>
         <p className="mt-2 text-sm text-sp-text-muted">
           Already have one?{' '}
-          <Link
-            to="/login"
-            className="font-semibold text-sp-coral underline hover:text-sp-coral-hover"
-          >
+          <Link to="/login" className="font-semibold text-sp-coral underline hover:text-sp-coral-hover">
             Log in here
           </Link>
         </p>
       </div>
 
+      {/* ERROR MESSAGE */}
       {errorMessage && (
         <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3">
           <p className="text-sm text-red-700">{errorMessage}</p>
@@ -211,10 +222,7 @@ export function RegisterPage() {
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label
-                htmlFor="guardian-name"
-                className="mb-1 block text-sm font-medium text-sp-text-primary"
-              >
+              <label htmlFor="guardian-name" className="mb-1 block text-sm font-medium text-sp-text-primary">
                 Full name
               </label>
               <input
@@ -228,10 +236,7 @@ export function RegisterPage() {
               />
             </div>
             <div>
-              <label
-                htmlFor="email"
-                className="mb-1 block text-sm font-medium text-sp-text-primary"
-              >
+              <label htmlFor="email" className="mb-1 block text-sm font-medium text-sp-text-primary">
                 Email address
               </label>
               <input
@@ -248,10 +253,7 @@ export function RegisterPage() {
 
           <div className="mt-4 grid gap-4 md:grid-cols-2">
             <div>
-              <label
-                htmlFor="password"
-                className="mb-1 block text-sm font-medium text-sp-text-primary"
-              >
+              <label htmlFor="password" className="mb-1 block text-sm font-medium text-sp-text-primary">
                 Password
               </label>
               <input
@@ -263,15 +265,10 @@ export function RegisterPage() {
                 placeholder="Min. 10 characters"
                 className="w-full rounded-lg border border-sp-border-input bg-white px-3 py-2.5 text-sm outline-none focus:border-sp-primary"
               />
-              <p className="mt-1 text-xs text-sp-text-muted">
-                At least 10 characters with one number
-              </p>
+              <p className="mt-1 text-xs text-sp-text-muted">At least 10 characters with one number</p>
             </div>
             <div>
-              <label
-                htmlFor="region"
-                className="mb-1 block text-sm font-medium text-sp-text-primary"
-              >
+              <label htmlFor="region" className="mb-1 block text-sm font-medium text-sp-text-primary">
                 Region
               </label>
               <select
@@ -298,10 +295,7 @@ export function RegisterPage() {
 
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <label
-                htmlFor="child-name"
-                className="mb-1 block text-sm font-medium text-sp-text-primary"
-              >
+              <label htmlFor="child-name" className="mb-1 block text-sm font-medium text-sp-text-primary">
                 Child&apos;s name{' '}
                 <span className="font-normal text-sp-text-muted">(used on certificates)</span>
               </label>
@@ -316,10 +310,7 @@ export function RegisterPage() {
               />
             </div>
             <div>
-              <label
-                htmlFor="birthdate"
-                className="mb-1 block text-sm font-medium text-sp-text-primary"
-              >
+              <label htmlFor="birthdate" className="mb-1 block text-sm font-medium text-sp-text-primary">
                 Birthdate
               </label>
               <input
@@ -337,18 +328,8 @@ export function RegisterPage() {
             <div className="mt-4 flex items-start gap-2 rounded-lg border border-sp-border-soft bg-sp-bg-card-muted px-4 py-3">
               <span aria-hidden="true">ℹ️</span>
               <p className="text-sm leading-relaxed text-sp-text-primary">
-                Your child is currently{' '}
-                <span className="font-semibold">{childAge} years old</span> — eligible for{' '}
-                {childAge >= 13
-                  ? 'all'
-                  : childAge >= 10
-                    ? 'Tiny, Baby, Junior, and Young'
-                    : childAge >= 8
-                      ? 'Tiny, Baby, and Junior'
-                      : childAge >= 6
-                        ? 'Tiny and Baby'
-                        : 'Tiny'}{' '}
-                level projects.
+                Your child is currently <span className="font-semibold">{childAge} years old</span> — eligible
+                for {childAge >= 13 ? 'all' : childAge >= 10 ? 'Tiny, Baby, Junior, and Young' : childAge >= 8 ? 'Tiny, Baby, and Junior' : childAge >= 6 ? 'Tiny and Baby' : 'Tiny'} level projects.
               </p>
             </div>
           )}
@@ -385,9 +366,7 @@ export function RegisterPage() {
                       ✓
                     </span>
                   )}
-                  <span className="text-3xl" aria-hidden="true">
-                    {cat.emoji}
-                  </span>
+                  <span className="text-3xl" aria-hidden="true">{cat.emoji}</span>
                   <span className="text-sm font-semibold text-sp-primary">{cat.label}</span>
                 </button>
               )
@@ -395,10 +374,8 @@ export function RegisterPage() {
           </div>
 
           <p className="mt-3 text-sm text-sp-text-muted">
-            <span className="font-semibold text-sp-primary">
-              {selectedCategories.size} of 9 selected
-            </span>{' '}
-            · You can change these later.
+            <span className="font-semibold text-sp-primary">{selectedCategories.size} of 9 selected</span>
+            {' · You can change these later.'}
           </p>
         </section>
 
