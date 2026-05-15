@@ -139,7 +139,7 @@ it('anonymous user should not be able to delete from children', async () => {
     // DELETE on non-existent row returns success with 0 affected rows (not an error)
     // This is expected PostgreSQL behavior — RLS blocks actual deletions
     // We verify no DELETE policy exists by confirming the operation affects 0 rows
-    const { data, error, count } = await supabase
+    const { data, error } = await supabase
       .from('children')
       .delete()
       .eq('id', '00000000-0000-0000-0000-000000000000')
