@@ -9,13 +9,11 @@
 ---
 
 ## Goal
-Step 28 — Notifications + Audit Logs + Storage Buckets + Schema Patches
+Step 29 — Auth context provider (real sessions)
 
 ## Current State
-Phase 3 database schema foundation COMPLETE (Steps 24-27C).
-6 migration files committed. 15 tables with RLS. 90+ tests passing.
-4 security audits done (6 CRITICAL issues found and fixed).
-Ready to start Step 28 (last schema step before auth integration).
+Step 28 COMPLETE. 007_notifications_audit_storage.sql fully reviewed and all security fixes applied.
+113 tests passing. Ready to commit migration and start Step 29.
 
 ## Completed Steps (Phase 3 — Backend)
 | Step | Description | Status |
@@ -28,6 +26,7 @@ Ready to start Step 28 (last schema step before auth integration).
 | 27A | Enrollments + members + invitations | ✅ |
 | 27B | Submissions + files (recursion fix: is_submission_team_member) | ✅ |
 | 27C | Payments + late_fees (3 CRITICAL fixes: insert restrictions, fee cap lock) | ✅ |
+| 28 | Notifications + audit_logs + storage + schema patches | ✅ |
 
 ## Completed Steps (Phase 1+2 — UI)
 Steps 0-23: Full UI rebuild from mockup (18 pages). All committed and deployed on Vercel.
@@ -145,7 +144,7 @@ None — all committed.
 None.
 
 ## Next Step
-Step 28 — Notifications + Audit Logs + Storage Buckets + Schema Patches
+Step 29 — Auth context provider (real sessions).
 Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 
 ## Session Log
@@ -157,3 +156,5 @@ Tool assignment: 🟡 DEEPSEEK V4 Pro + CLAUDE CODE (Sonnet, thinking OFF)
 | 4 | 2026-05-15 | 27A enrollments review | ~5 min | All PASS, LOW items noted |
 | 5 | 2026-05-15 | 27B submissions review | ~5 min | CRITICAL: infinite recursion, fixed |
 | 6 | 2026-05-15 | 27C payments audit (Opus) | ~10 min | 3 CRITICAL: insert bypasses, fixed |
+| 7 | 2026-05-15 | 28 notifications+audit review | ~8 min | 2 MEDIUM: SECURITY DEFINER bypass; LOW: regex anchor |
+| 8 | 2026-05-15 | 28 final verification | ~5 min | All 3 fixes confirmed, 113/113 PASS, Step 28 ✅ |
